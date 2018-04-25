@@ -4,8 +4,9 @@
 
     <div class="container">
         <div class="row">
-            <a class="link" href="{{ route('request_funds.create') }}">Create a request</a>
+            <a href="{{ route('request_funds.create') }}" class="btn btn-success">Create a request</a>
         </div>
+        <hr>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -31,7 +32,7 @@
                                             @if($request_fund->approved)
                                                 Approved
                                             @else
-                                                Not approved
+                                                Not yet approved
                                             @endif
                                         </td>
                                         <td>

@@ -47,6 +47,13 @@ class RequestFundsController extends Controller
     public function store(Request $request)
     {
         //
+
+        $this->validate($request,[
+            'particulars' => 'required',
+            'amount' => 'required',
+            'category' => 'required'
+        ]);
+
         $rf = new Request_funds;
         
         $rf->particulars = request('particulars');
