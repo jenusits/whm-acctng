@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //use Illuminate\Http\Response;
 use App\Charts;
+use Auth;
 use DB;
 
 class ChartsController extends Controller
@@ -18,8 +19,7 @@ class ChartsController extends Controller
 
         $charts = Charts::orderby('id','asc')->get();
 
-
-        return view('charts.index',['charts' => $charts]);
+        return view('charts.index', compact('charts'));
     }
 
     /**
@@ -37,9 +37,11 @@ class ChartsController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Charts $chart){
-
+        if (! Auth::check()) {
+            session()->flash('message', 'You must log in first');
+            return redirect('/login');
+        }
         return view('charts.edit',compact('chart'));
-
     }
 
     public function create(){

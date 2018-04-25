@@ -4,16 +4,7 @@
      
      <div class="container">
           <h2>Create an Account</h2><br  />
-          @if($errors->all())
-              <div class="alert alert-danger">
-                  @foreach($errors->all() as $error)
-                      <li>{{$error}}</li>
-                      @endforeach
-              </div>
-          @endif
-          @if(session()->has('message'))
-              <div class="alert alert-success">{{session()->get('message')}}</div>
-          @endif
+          @include('layouts.error-and-messages')
           <form method="post" action="{{route('charts.store')}}">
               @csrf
               <div class="row">

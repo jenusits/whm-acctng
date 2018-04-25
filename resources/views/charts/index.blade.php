@@ -4,7 +4,9 @@
 
 <div class="container">
      <div class="row">
-          <a class="link" href="{{ route('charts.create') }}">Create Chart</a>
+        @if(Auth::check())
+            <a class="link" href="{{ route('charts.create') }}">Create Chart</a>
+        @endif
      </div>
      <div class="row">
           <hr>
@@ -53,7 +55,7 @@
   
                   </div>
                   @if(Auth::guest())
-                      <a href="/blog/public/login" class="btn btn-info"> You need to login to see the list 😜😜 >></a>
+                      <a href="/login" class="btn btn-info"> You need to login to see the list 😜😜 >></a>
                   @endif
               </div>
           </div>

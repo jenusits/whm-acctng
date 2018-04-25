@@ -15,7 +15,8 @@ class RequestFundsController extends Controller
     public function index()
     {
         //
-        return view('request_funds.index');
+        $request_funds = Request_funds::orderby('id','asc')->get();
+        return view('request_funds.index', compact('request_funds'));
     }
 
     /**
@@ -26,7 +27,8 @@ class RequestFundsController extends Controller
     public function create()
     {
         //
-        return view('request_funds.create');
+        $categories = \App\Charts::all();
+        return view('request_funds.create', compact('categories'));
     }
 
     /**
@@ -38,6 +40,7 @@ class RequestFundsController extends Controller
     public function store(Request $request)
     {
         //
+        return redirect()->back();
     }
 
     /**
@@ -61,7 +64,8 @@ class RequestFundsController extends Controller
     public function edit(Request_funds $request_funds)
     {
         //
-        return view('request_funds.create');
+        $categories = \App\Charts::all();
+        return view('request_funds.edit', compact('categories'));
     }
 
     /**
@@ -74,6 +78,7 @@ class RequestFundsController extends Controller
     public function update(Request $request, Request_funds $request_funds)
     {
         //
+        return redirect()->back();
     }
 
     /**
@@ -85,5 +90,6 @@ class RequestFundsController extends Controller
     public function destroy(Request_funds $request_funds)
     {
         //
+        return redirect()->back();
     }
 }
