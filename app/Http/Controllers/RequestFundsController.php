@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Request_funds;
+use App\Charts;
 use Illuminate\Http\Request;
+
+use Auth;
+
 
 class RequestFundsController extends Controller
 {
@@ -16,7 +20,10 @@ class RequestFundsController extends Controller
     {
         //
         $request_funds = Request_funds::orderby('id','asc')->get();
-        return view('request_funds.index', compact('request_funds'));
+        $charts = new Charts;
+        // dd($request_funds);
+        return view('request_funds.index', compact('request_funds', 'charts'));
+        // return view('request_funds.index');
     }
 
     /**
@@ -27,7 +34,7 @@ class RequestFundsController extends Controller
     public function create()
     {
         //
-        $categories = \App\Charts::all();
+        $categories = Charts::all();
         return view('request_funds.create', compact('categories'));
     }
 
@@ -40,6 +47,17 @@ class RequestFundsController extends Controller
     public function store(Request $request)
     {
         //
+        $rf = new Request_funds;
+        
+        $rf->particulars = request('particulars');
+        $rf->amount = request('amount');
+        $rf->category = request('category');
+
+        $rf->author = Auth::id();
+
+        $rf->save();
+        session()->flash('message', 'Request submitted successfully');
+        // Request_funds::create(request(['particulars', 'amount', 'category']));
         return redirect()->back();
     }
 
@@ -52,7 +70,6 @@ class RequestFundsController extends Controller
     public function show(Request_funds $request_funds)
     {
         //
-        return view('request_funds.show');
     }
 
     /**
@@ -64,8 +81,6 @@ class RequestFundsController extends Controller
     public function edit(Request_funds $request_funds)
     {
         //
-        $categories = \App\Charts::all();
-        return view('request_funds.edit', compact('categories'));
     }
 
     /**
@@ -78,7 +93,6 @@ class RequestFundsController extends Controller
     public function update(Request $request, Request_funds $request_funds)
     {
         //
-        return redirect()->back();
     }
 
     /**
@@ -90,6 +104,5 @@ class RequestFundsController extends Controller
     public function destroy(Request_funds $request_funds)
     {
         //
-        return redirect()->back();
     }
 }

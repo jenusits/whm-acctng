@@ -18,17 +18,31 @@
                                     <th>Particulars</th>
                                     <th>Accounts</th>
                                     <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                                 @foreach($request_funds as $key => $request_fund)
                                     <tr>
-                                        <td>{{ $request_funds->id }}</td><td><a href="{{route('request_funds.show', $request_funds->id)}}">{{ $request_funds->account_name }}</a></td>
-                                        <td><a href="{{route('request_funds.edit', $request_funds->id)}}" class="btn btn-warning">Edit</a></td>
+                                        <td>{{ $request_fund->particulars }}</td>
                                         <td>
-                                            <form action="{{route('request_funds.destroy', $request_funds->id)}}" method="post" class="d-inline-block">
+                                            {{-- <a href="{{route('requestd_funds.show', $request_fund->id)}}">{{ $request_fund->account_name }}</a> --}}
+                                            {{ $charts->find($request_fund->id)->account_name }}
+                                        </td>
+                                        <td>
+                                            @if($request_fund->approved)
+                                                Approved
+                                            @else
+                                                Not approved
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{-- <a href="{{route('request_funds.edit', $request_fund->id)}}" class="btn btn-warning">Edit</a> --}}
+                                        </td>
+                                        <td>
+                                            {{-- <form action="{{route('request_funds.destroy', $request_fund->id)}}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')
                                                 <button class="btn btn-danger" type="submit">Delete</button>
-                                            </form>
+                                            </form> --}}
                                         </td>
                                     </tr>
                                 @endforeach

@@ -2,31 +2,47 @@
 
 @section('content')
 
-     <div class="container">
-          <h2>Request a Fund</h2>
-          @include('layouts.error-and-messages')
-          <form method="post" action="{{route('charts.store')}}">
-              @csrf
-               <div class="row">
-                    <div class="form-group col-md-4">
-                         <label for="name">Particulars</label>
-                         <textarea type="text" class="form-control" name="particulars">
-                         </textarea>
-                    </div>
-                    <div class="form-group col-md-4">
-                         <label for="name">Category</label>
-                         <select name="category">
-                              @foreach($categories as $category)
-                                   <option value="{{ $category->id }}">{{ $category->account_name }}</option>
-                              @endforeach
-                         </select>
-                    </div>
-                    <div class="form-group col-md-4" style="margin-top:30px">
-                         <button type="submit" class="btn btn-success">Submit Request</button>
-                    </div>
-                    <div class="col-md-4"></div>
-               </div>
-          </form>
-     </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Request Fund</div>
+                @include('layouts.error-and-messages')
+                <div class="card-body">
+                    <form method="POST" action="/request_funds">
+                        @csrf
+                        <div class="form-group row">
+                            <label for="particulars" class="col-sm-4 col-form-label text-md-right">{{ __('Particulars') }}</label>
+                            <div class="col-md-6">
+                                <textarea type="text" id="particulars" name="particulars"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="amount" class="col-sm-4 col-form-label text-md-right">{{ __('Amount') }}</label>
+                            <div class="col-md-6">
+                                <input type="number" id="amount" name="amount">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="categories" class="col-sm-4 col-form-label text-md-right">{{ __('Particulars') }}</label>
+                            <div class="col-md-6">
+                                <select id="categories" name="category">
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->account_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn">Submit Request</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
