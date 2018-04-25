@@ -14,7 +14,7 @@
                         <div class="form-group row">
                             <label for="particulars" class="col-sm-4 col-form-label text-md-right">{{ __('Particulars') }}</label>
                             <div class="col-md-6">
-                                <textarea type="text" class="form-control" id="particulars" name="particulars"></textarea>
+                                <textarea type="text" rows="10" class="form-control" id="particulars" name="particulars"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">

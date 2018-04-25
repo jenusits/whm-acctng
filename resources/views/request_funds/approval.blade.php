@@ -27,7 +27,7 @@
                             </tr>
                             @foreach($request_funds as $key => $request_fund)
                                 <tr>
-                                    <td>{!! preg_replace('/<br\\s*?\/??>/i', '', $request_fund->particulars) !!}</td>
+                                    <td>{{ preg_replace('/<br\\s*?\/??>/i', '', $request_fund->particulars) }}</td>
                                     <td>
                                         <a href="{{ route('charts.show', $charts->find($request_fund->category)->id) }}">{{ $charts->find($request_fund->category)->account_name }}</a>
                                     </td>

@@ -10,7 +10,7 @@
     </a>
 
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ route('charts') }}">
+        <a class="dropdown-item" href="{{ route('charts.index') }}">
             {{ __('Charts') }}
         </a>
         <a class="dropdown-item" href="{{ route('charts.create') }}">
@@ -25,7 +25,7 @@
     </a>
 
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ route('request_funds') }}">
+        <a class="dropdown-item" href="{{ route('request_funds.index') }}">
             {{ __('Requests') }}
         </a>
         <a class="dropdown-item" href="{{ route('request_funds.create') }}">

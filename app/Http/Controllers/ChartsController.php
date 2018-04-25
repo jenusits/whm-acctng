@@ -66,22 +66,16 @@ class ChartsController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update($id, Request $request){
+    public function update(Request $request, Charts $chart){
 
         $this->validate($request,[
             'account_name' => 'required'
         ]);
 
-        $chart = Charts::find($id);
-        $input = $request->all();
-        // $c->fill($request('account_name'))->save();
-        //$chart->account_name = $request->account_name;
-        $chart->fill($input)->save();
-        // $chart->save();
+        $chart->account_name = $request->account_name;
+        $chart->save();
         session()->flash('message','Account has been updated successfully!');
-        // return redirect()->back();
-        return redirect(route('charts.show', $id));
-        // return redirect('/charts/' . $chart->id . '/edit');
+        return redirect()->back();
     }
 
     public function store(Request $request){
@@ -95,9 +89,8 @@ class ChartsController extends Controller
             'account_name' => $request->account_name
         ]);
 
-        return redirect(route('charts'));
-
-
+        session()->flash('message','Account has been added.');
+        return redirect(route('charts.index'));
     }
 
 

@@ -6,18 +6,7 @@
               <div class="col-md-12 col-md-offset-1">
                   <div class="panel panel-success">
                       <div class="panel-heading">Chart of Accounts</div>
-                      
-                         @if($errors->all())
-                              <div class="alert alert-danger">
-                                   @foreach($errors->all() as $error)
-                                        <li>{{$error}}</li>
-                                   @endforeach
-                              </div>
-                         @endif
-                         @if(session()->has('message'))
-                              <div class="alert alert-success">{{session()->get('message')}}</div>
-                         @endif
-  
+                    @include('layouts.error-and-messages')  
                   @if(Auth::check())
                       <!-- Table -->
                           <table class="table">
