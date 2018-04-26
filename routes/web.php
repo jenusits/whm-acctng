@@ -21,7 +21,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('charts','ChartsController');
 
-Route::resource('request_funds', 'RequestFundsController');
+Route::resource('request_funds', 'RequestFundsController', 
+    [
+        'parameters' => [
+            'create' => 'type'
+        ]
+    ]
+);
+// Route::get('request_funds/mult', 'RequestFundsController@approval')->name('request_funds.approval');
 // Route::get('request_funds/approval', 'RequestFundsController@approval')->name('request_funds.approval');
 // Route::patch('request_funds/{id}/approve', 'RequestFundsController@approve')->name('request_funds.approve');
 

@@ -31,11 +31,15 @@ class RequestFundsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
         $categories = Charts::all();
-        return view('request_funds.create', compact('categories'));
+        // dd(request('multi'));
+        if (null !== request('multi') && request('multi') > 0 )
+            return view('request_funds.multi-create', compact('categories'));
+        else
+            return view('request_funds.create', compact('categories'));
     }
 
     /**
@@ -47,23 +51,32 @@ class RequestFundsController extends Controller
     public function store(Request $request)
     {
         //
+        if (null !== request('multi')) {
+            $rfs = request('request_funds');
+            foreach ($rfs as $key => $rf) {
+                $rfs[$key]['author'] = Auth::id();
+            }
+            Request_funds::insert($rfs);
+            // $rf->each(function ($rfs, $key) {
+            //     $rfs->save();
+            // });
+            session()->flash('message', 'Request submitted successfully');
+            return redirect()->back();
+        }
+
+        $rf = new Request_funds;
         $this->validate($request,[
             'particulars' => 'required',
             'amount' => 'required',
             'category' => 'required'
         ]);
 
-        $rf = new Request_funds;
-        
         $rf->particulars = nl2br(htmlentities(request('particulars'), ENT_QUOTES, 'UTF-8'));//nl2br(request('particulars'));
         $rf->amount = request('amount');
         $rf->category = request('category');
-
         $rf->author = Auth::id();
-
         $rf->save();
         session()->flash('message', 'Request submitted successfully');
-        // Request_funds::create(request(['particulars', 'amount', 'category']));
         return redirect()->back();
     }
 

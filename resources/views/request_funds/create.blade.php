@@ -6,7 +6,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Request Fund</div>
+                <div class="card-header">
+                    Request Fund
+                    <a style="float: right;" class="link" href="{{ route('request_funds.create') }}?multi=1">Submit Multi Particulars</a>
+                </div>
                 @include('layouts.error-and-messages')
                 <div class="card-body">
                     <form method="POST" action="/request_funds">
