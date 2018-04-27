@@ -72,20 +72,28 @@ class RequestFundsController extends Controller
             return redirect(route('request_funds.index'));
         }
 
-        $rf = new Request_funds;
         $this->validate($request,[
             'particulars' => 'required',
             'amount' => 'required',
             'category' => 'required'
         ]);
-
-        $rf->particulars = nl2br(htmlentities(request('particulars'), ENT_QUOTES, 'UTF-8'));//nl2br(request('particulars'));
-        $rf->amount = request('amount');
-        $rf->category = request('category');
+        // $rf->particulars = nl2br(htmlentities(request('particulars'), ENT_QUOTES, 'UTF-8'));//nl2br(request('particulars'));
+        // $rf->amount = request('amount');
+        // $rf->category = request('category');
+        $rf = new Request_funds;
         $rf->author = Auth::id();
         $rf->save();
+        $ref_number = $rf->id;
+        
+        $rfm = new \App\Request_funds_meta;
+        $rfm->particulars = nl2br(htmlentities(request('particulars'), ENT_QUOTES, 'UTF-8'));//nl2br(request('particulars'));
+        $rfm->amount = request('amount');
+        $rfm->category = request('category');
+        $rfm->request_funds_id = $ref_number;
+        $rfm->save();
+
         session()->flash('message', 'Request submitted successfully');
-        return redirect()->back();
+        return redirect(route('request_funds.index'));
     }
 
     /**
@@ -115,7 +123,8 @@ class RequestFundsController extends Controller
     {
         //
         $charts = Charts::all();
-        return view('request_funds.edit', compact('request_fund', 'charts'));
+        $categories = Charts::all();
+        return view('request_funds.edit', compact('request_fund', 'charts', 'categories'));
     }
 
     public function approval(Request_funds $request_fund) {
@@ -136,6 +145,7 @@ class RequestFundsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        // dd(request()->all());
         if (null !== $request->get('approved')) {
             $request_funds = Request_funds::find($id);
             $bool = "approved";
@@ -145,21 +155,26 @@ class RequestFundsController extends Controller
             $request_funds->save();
             session()->flash("message", "Fund request has been $bool.");
         } else {
-            $this->validate($request,[
-                'particulars' => 'required',
-                'amount' => 'required',
-                'category' => 'required'
-            ]);
-
-            $request_funds = Request_funds::find($id);
-
-            $request_funds->particulars = $request->get('particulars');
-            $request_funds->amount = $request->get('amount');
-            $request_funds->category = $request->get('category');
-            $request_funds->save();
+            $ids = [];
+            foreach (request('request_funds') as $key => $rf) {
+                if (isset($rf['id'])) {
+                    array_push($ids, $rf['id']);
+                    $update = \App\Request_funds_meta::find($rf['id']);
+                    $update->particulars = $rf['particulars'];
+                    $update->amount = $rf['amount'];
+                    $update->category = $rf['category'];
+                    $update->save();
+                } else {
+                    unset($rf['id']);
+                    $rf['request_funds_id'] = $id;
+                    \App\Request_funds_meta::insert($rf);
+                }
+            }
+            \App\Request_funds_meta::whereNotIn('id', $ids)->where('request_funds_id', $id)->delete();
             session()->flash('message','Fund request has been updated successfully!');
+            return redirect(route('request_funds.show', $id));
         }
-        return redirect(route('request_funds.show', $request_funds->id));
+        return redirect(route('request_funds.show', $id));
     }
 
     /**
@@ -173,6 +188,10 @@ class RequestFundsController extends Controller
         //
         $request_fund = $request_funds::find($id);
         $request_fund->delete();
+        
+        $particulars = \App\Request_funds_meta::where('request_funds_id', $id);
+        // dd($particulars->get());
+        $particulars->delete();
         return redirect(route('request_funds.index'))->with('message','Fund request has been deleted');
     }
 }

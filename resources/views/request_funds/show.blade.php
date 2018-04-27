@@ -41,9 +41,9 @@
                 @endif
                 <div style="float: right !important">
                     <div class="" style="margin: 20px;">
-                        <div class="panel-heading">Total:</div><input class="form-control" style="border: none; border-bottom: 3px solid #333; background: none; border-radius: 0;" value="{{ $total }}" disabled>
+                        <div class="panel-heading">Total:</div><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $total }}" disabled>
                         <br>
-                        <label>Created by:</label><input class="form-control" style="border: none; border-bottom: 3px solid #333; background: none; border-radius: 0;" value="{{ $author }}" disabled>
+                        <label>Created by:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $author }}" disabled>
                     </div>
                     <div class="" style="margin: 20px;">
                         @if($request_fund->approved)
