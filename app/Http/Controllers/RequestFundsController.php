@@ -166,8 +166,14 @@ class RequestFundsController extends Controller
                     $update->save();
                 } else {
                     unset($rf['id']);
-                    $rf['request_funds_id'] = $id;
-                    \App\Request_funds_meta::insert($rf);
+                    $rfm = new \App\Request_funds_meta;
+                    $rfm->particulars = $rf['particulars'];
+                    $rfm->amount = $rf['amount'];
+                    $rfm->category = $rf['category'];
+                    $rfm['request_funds_id'] = $id;
+                    $rfm->save();
+                    
+                    array_push($ids, $rfm->id);
                 }
             }
             \App\Request_funds_meta::whereNotIn('id', $ids)->where('request_funds_id', $id)->delete();
