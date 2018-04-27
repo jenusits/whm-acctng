@@ -8,8 +8,23 @@ var multi = new Vue({
         submitted: false,
     },
     mounted() {
-        while (i < this.getParameterByName('multi')) {
+        while (i < JSWSI.getParamsByName('multi')) {
             this.addNewRow();
+        }
+    },
+    computed: {
+        errors: function() {
+            for (var key in this.rows) {
+                if (! this.rows[key].particulars) return true
+            }
+            for (var key in this.rows) {
+                if (! this.rows[key].amount) return true
+            }
+            for (var key in this.rows) {
+                if (! this.rows[key].category) return true
+            }
+
+            return false;
         }
     },
     methods: {
@@ -26,24 +41,8 @@ var multi = new Vue({
             i++;
         }, 
         removeRow(id, index) {
-            // console.log(e);
+            console.log(index);
             this.rows.splice(index, 1);
-            // for(var i = 0; i < this.rows.length; i++) {
-            //     var obj = this.rows[i];
-                
-            //     if(e.target.id == obj.id) {
-            //         this.rows.splice(i, 1);
-            //     }
-            // }
-        },
-        getParameterByName (name, url) {
-            if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
     }
 });

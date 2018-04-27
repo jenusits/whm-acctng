@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div id="multi" class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 table-responsive">
@@ -29,13 +28,13 @@
                             <tbody>     
                                 <tr v-for="row, index in rows" style="text-align: center;">
                                     <td style="padding: 20px">
-                                        <textarea type="text" rows="1" class="form-control" id="particulars" v-bind:name="row._particulars"></textarea>
+                                    <textarea type="text" rows="1" class="form-control" id="particulars" v-model="row.particulars" v-bind:name="row._particulars">@{{ index + ' ' + row.id }}</textarea>
                                     </td>
                                     <td style="padding: 20px">
-                                        <input type="number" class="form-control" id="amount" v-bind:name="row._amount">
+                                        <input type="number" class="form-control" id="amount" v-model="row.amount" v-bind:name="row._amount">
                                     </td>
                                     <td style="padding: 20px">
-                                        <select id="categories" class="form-control" v-bind:name="row._category">
+                                        <select id="categories" class="form-control" v-model="row.category" v-bind:name="row._category">
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->account_name }}</option>
                                             @endforeach
@@ -49,7 +48,7 @@
                         </table>
                         <div class="form-group row" style="float: right">
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-success">Submit Request</button>
+                                <button type="submit" v-bind:disabled="errors" class="btn btn-success">Submit Request</button>
                             </div>
                         </div>
                     </form>
@@ -58,7 +57,6 @@
         </div>
     </div>
 </div>
-
-<script src="{{ asset('js/vue.js') }}"></script>
+@include('layouts.vuejs')
 <script src="{{ asset('js/request-funds.js') }}"></script>
 @endsection

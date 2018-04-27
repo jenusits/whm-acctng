@@ -11,6 +11,10 @@ use Auth;
 
 class RequestFundsController extends Controller
 {
+    public function __construct() {
+        // Resrict this controller to Authenticated users only
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -56,6 +60,7 @@ class RequestFundsController extends Controller
             foreach ($rfs as $key => $rf) {
                 $rfs[$key]['author'] = Auth::id();
             }
+            dd(Auth::id());
             Request_funds::insert($rfs);
             // $rf->each(function ($rfs, $key) {
             //     $rfs->save();
