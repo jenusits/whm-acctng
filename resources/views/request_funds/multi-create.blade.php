@@ -7,9 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     Request Fund
-                    <button class="btn btn-success" style="float: right" title="Add new row" @click="addNewRow">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                    <a style="float: right;" class="link" href="{{ route('request_funds.create') }}">Submit a Single Particular</a>
                 </div>
                 @include('layouts.error-and-messages')
                 <div class="card-body">
@@ -41,7 +39,10 @@
                                         </select>
                                     </td>
                                     <td style="padding: 20px">
-                                        <button type="button" class="btn btn-danger" @click="removeRow(row.id, index)" v-bind:id="row.id"><i v-bind:id="row.id" class="fas fa-trash"></i></button>
+                                        <button type="button" class="btn btn-success" @click.prevent="" title="Add new row" @click="addNewRow(index)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" v-if="rows.length > 1" title="Remove this row" @click="removeRow(row.id, index)" v-bind:id="row.id"><i v-bind:id="row.id" class="fas fa-minus"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -57,6 +58,7 @@
         </div>
     </div>
 </div>
+
 @include('layouts.vuejs')
 <script src="{{ asset('js/request-funds.js') }}"></script>
 @endsection

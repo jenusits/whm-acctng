@@ -28,7 +28,7 @@
         <a class="dropdown-item" href="{{ route('request_funds.index') }}">
             {{ __('Requests') }}
         </a>
-        <a class="dropdown-item" href="{{ route('request_funds.create') }}">
+        <a class="dropdown-item" href="{{ route('request_funds.create') }}?multi=5">
             {{ __('Create Request') }}
         </a>
     </div>

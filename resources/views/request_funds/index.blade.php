@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12 col-md-offset-1">
                 @if(Auth::check())
-                    <a href="{{ route('request_funds.create') }}" class="btn btn-success">Create a request</a>
+                    <a href="{{ route('request_funds.create') }}?multi=5" class="btn btn-success">Create a request</a>
                 @endif
             </div>
         </div>
@@ -17,29 +17,35 @@
                     <div class="panel-heading">Requests Created</div>
                     @include('layouts.error-and-messages')
                     @if(Auth::check())
-                        <!-- Table -->
-                        <table class="table table-sm table-transparent table-hover">
+    
+                    <!-- Table -->
+                    <table class="table table-sm table-transparent table-hover">
                             <tr>
-                                <th>Particulars</th>
-                                <th>Accounts</th>
+                                <th>Reference #</th>
+                                <th>Amount</th>
+                                <th>Created</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             @foreach($request_funds as $key => $request_fund)
                                 <tr>
-                                    <td>{!! preg_replace('/<br\\s*?\/??>/i', '', $request_fund->particulars) !!}</td>
                                     <td>
-                                        <a href="{{ route('charts.show', $charts->find($request_fund->category)->id) }}">{{ $charts->find($request_fund->category)->account_name }}</a>
+                                            {{-- {!! preg_replace('/<br\\s*?\/??>/i', '', $request_fund->particulars) !!} --}}
+                                        <a class="link" href="{{ route('request_funds.show', $request_fund->id) }}">#{{ $request_fund->id }}</a>
                                     </td>
+                                    <td>
+                                        ASOIDJOIAS
+                                    </td>
+                                    <td>{{ $request_fund->created_at->diffForHumans() }}</td>
                                     <td>
                                         @if($request_fund->approved)
                                             Approved
                                         @else
-                                            Not yet approved
+                                            Pending
                                         @endif
                                     </td>
                                     <td>
-                                        <a style="margin: 5px; font-size: 10px" href="{{ route('request_funds.show', $request_fund->id) }}" class="btn btn-success"><i class="fas fa-search"></i></a>
+                                        {{-- <a style="margin: 5px; font-size: 10px" href="{{ route('request_funds.show', $request_fund->id) }}" class="btn btn-success"><i class="fas fa-search"></i></a> --}}
                                         <a style="margin: 5px; font-size: 10px" href="{{route('request_funds.edit', $request_fund->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                         <form action="{{route('request_funds.destroy', $request_fund->id)}}" method="post" class="d-inline-block">
                                             @csrf
@@ -60,5 +66,4 @@
             </div>
         </div>
     </div>
-
 @endsection

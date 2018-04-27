@@ -28,8 +28,8 @@ var multi = new Vue({
         }
     },
     methods: {
-        addNewRow() {
-            this.rows.push({
+        addNewRow(index) {
+            var newRow = {
                 id: i,
                 _particulars: 'request_funds[' + i + '][particulars]',
                 _amount: 'request_funds[' + i + '][amount]',
@@ -37,8 +37,15 @@ var multi = new Vue({
                 particulars: '',
                 amount: '',
                 category: '',
-            });
+            };
+            try {
+                this.rows.splice(index + 1, 0, newRow);
+            } catch(e)
+            {
+                console.log(e);
+            }
             i++;
+
         }, 
         removeRow(id, index) {
             console.log(index);

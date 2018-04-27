@@ -25,6 +25,7 @@ class RequestFundsController extends Controller
         //
         $request_funds = Request_funds::orderby('id','desc')->get();
         $charts = new Charts;
+        
         // dd($request_funds);
         return view('request_funds.index', compact('request_funds', 'charts'));
         // return view('request_funds.index');
@@ -56,17 +57,19 @@ class RequestFundsController extends Controller
     {
         //
         if (null !== request('multi')) {
-            $rfs = request('request_funds');
-            foreach ($rfs as $key => $rf) {
-                $rfs[$key]['author'] = Auth::id();
+            $rfs = new Request_funds();
+            $rfs->author = Auth::id();
+            $rfs->save();
+            $ref_number = $rfs->id;
+            // dd($ref_number);
+            $particulars = request('request_funds');
+            foreach ($particulars as $key => $p) {
+                $particulars[$key]['request_funds_id'] = $ref_number;
             }
-            dd(Auth::id());
-            Request_funds::insert($rfs);
-            // $rf->each(function ($rfs, $key) {
-            //     $rfs->save();
-            // });
+
+            \App\Request_funds_meta::insert($particulars);
             session()->flash('message', 'Request submitted successfully');
-            return redirect()->back();
+            return redirect(route('request_funds.index'));
         }
 
         $rf = new Request_funds;
@@ -95,7 +98,11 @@ class RequestFundsController extends Controller
     {
         //
         $charts = new Charts;
-        return view('request_funds.show', compact('request_fund', 'charts'));
+        $rfm = Request_funds::findOrFail($request_fund->id);
+        $particulars = $rfm->particulars()->get();
+        $author = \App\User::find($rfm->author)->name;
+
+        return view('request_funds.show', compact('request_fund', 'charts', 'particulars', 'author'));
     }
 
     /**
