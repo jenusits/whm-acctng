@@ -25,4 +25,8 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function not_allowed() {
+        return view('layouts.not-allowed');
+    }
 }

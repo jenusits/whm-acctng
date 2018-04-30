@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Roles;
+use Illuminate\Http\Request;
+
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+class RolesController extends Controller
+{
+    public function __construct() {
+        // Resrict this controller to Authenticated users only
+        $this->middleware('auth');
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+
+        $roles = Role::all();
+        return view('roles.index', compact('roles'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+        
+        $permissions = Permission::all();
+        return view('roles.create', compact('permissions'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+        // $this->validate($request, [
+        //     'name' => 'required'
+        // ]);
+
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+            
+        Role::create(['name' => $request['name']]);
+
+        session()->flash('message', 'Role was added successfully');
+        return redirect(route('roles.index'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Roles  $roles
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Roles $roles)
+    {
+        //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+            
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Roles  $roles
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Roles $role)
+    {
+        //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+            
+        $permissions = Permission::all();
+        return view('roles.edit', compact('role', 'permissions'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Roles  $roles
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Roles $role)
+    {
+        //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+            
+        $this->validate($request, [
+            'permissions' => 'required'
+        ]);
+        $role->syncPermissions($request['permissions']);
+        session()->flash('message', 'Role was updated');
+        return redirect(route('roles.edit', $role->id));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Roles  $roles
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Roles $roles)
+    {
+        //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+            
+    }
+}

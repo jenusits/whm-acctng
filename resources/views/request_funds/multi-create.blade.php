@@ -11,6 +11,7 @@
                 </div>
                 @include('layouts.error-and-messages')
                 <div class="card-body">
+                @if(sizeof($categories) > 0)
                     <form method="POST" action="/request_funds">
                         @csrf
                         <input type="hidden" name="multi" v-model="rows.length">
@@ -53,6 +54,9 @@
                             </div>
                         </div>
                     </form>
+                @else
+                    <p>You don't have any Chart Accounts. Please create at least one <a href="{{ route('charts.create') }}">here</a>.</p>
+                @endif
                 </div>
             </div>
         </div>
