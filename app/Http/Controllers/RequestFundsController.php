@@ -108,9 +108,9 @@ class RequestFundsController extends Controller
         $charts = new Charts;
         $rfm = Request_funds::findOrFail($request_fund->id);
         $particulars = $rfm->particulars()->get();
-        $author = \App\User::find($rfm->author)->name;
+        $user = \App\User::find($rfm->author);
 
-        return view('request_funds.show', compact('request_fund', 'charts', 'particulars', 'author'));
+        return view('request_funds.show', compact('request_fund', 'charts', 'particulars', 'user'));
     }
 
     /**

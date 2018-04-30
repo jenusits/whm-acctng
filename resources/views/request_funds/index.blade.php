@@ -34,7 +34,12 @@
                                         <a class="link" href="{{ route('request_funds.show', $request_fund->id) }}">#{{ $request_fund->id }}</a>
                                     </td>
                                     <td>
-                                        ASOIDJOIAS
+                                        <?php   
+                                            $amount = DB::table('request_funds')
+                                            ->join('request_funds_metas', 'request_funds.id', '=', 'request_funds_metas.request_funds_id')
+                                            ->sum('request_funds_metas.amount'); 
+                                            echo $amount;
+                                        ?>
                                     </td>
                                     <td>{{ $request_fund->created_at->diffForHumans() }}</td>
                                     <td>

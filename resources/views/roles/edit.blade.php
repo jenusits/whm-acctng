@@ -11,13 +11,13 @@
                 <div class="">
                     <div class="form-group">
                         <label for="name">Role Name</label>
-                        <input type="text" class="form-control" disabled name="account_name" value="{{$role->name}}">
+                        <input type="text" class="form-control" disabled name="name" value="{{ $role->name }}">
                     </div>
                     <div class="form-group">
                         <h3>Permissions</h3>
                         @foreach($permissions as $key => $permission)
                             <div>
-                                @if($role->hasPermissionTo($permission->id))
+                                @if(\App\Checker::is_role_permitted($role->id, $permission->id))
                                     <input type="checkbox" checked class="" name="permissions[]" id="{{ $permission->id }}" value="{{ $permission->id }}">
                                 @else
                                     <input type="checkbox" class="" name="permissions[]" id="{{ $permission->id }}" value="{{ $permission->id }}">

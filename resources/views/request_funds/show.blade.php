@@ -43,32 +43,39 @@
                     <div class="" style="margin: 20px;">
                         <div class="panel-heading">Total:</div><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $total }}" disabled>
                         <br>
-                        <label>Created by:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $author }}" disabled>
+                        <label>Created by:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $user->name }}" disabled>
                     </div>
                     <div class="" style="margin: 20px;">
-                        @if($request_fund->approved)
-                            <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
+                        @if($user->hasPermissionTo('approve request_funds'))
+                            @if($request_fund->approved)
+                                <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
+                                    @csrf
+                                    @method('patch')
+                                    <?php session()->flash('approved', true); ?>
+                                    <input type="hidden" name="approved" value="0">
+                                <button class="btn btn-danger" title="Disapprove request"><i class="fas fa-times"></i></button>
+                                </form>
+                            @else
+                                <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
+                                    @csrf
+                                    @method('patch')
+                                    <?php session()->flash('approved', true); ?>
+                                    <input type="hidden" name="approved" value="1">
+                                    <button class="btn btn-success" title="Approve request"><i class="fas fa-check"></i></button>
+                                </form>
+                            @endif
+                        @endif
+                        
+                        @if($user->hasPermissionTo('update request_funds'))
+                            <a href="{{ route('request_funds.edit', $request_fund->id )}}" class="btn btn-warning">Edit</a>
+                        @endif
+                        @if($user->hasPermissionTo('delete request_funds'))
+                            <form action="{{route('request_funds.destroy', $request_fund->id)}}" method="post" class="d-inline-block">
                                 @csrf
-                                @method('patch')
-                                <?php session()->flash('approved', true); ?>
-                                <input type="hidden" name="approved" value="0">
-                            <button class="btn btn-danger" title="Disapprove request"><i class="fas fa-times"></i></button>
-                            </form>
-                        @else
-                            <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
-                                @csrf
-                                @method('patch')
-                                <?php session()->flash('approved', true); ?>
-                                <input type="hidden" name="approved" value="1">
-                                <button class="btn btn-success" title="Approve request"><i class="fas fa-check"></i></button>
+                                @method('delete')
+                                <button class="btn btn-danger" type="submit">Delete</button>
                             </form>
                         @endif
-                        <a href="{{ route('request_funds.edit', $request_fund->id )}}" class="btn btn-warning">Edit</a>
-                        <form action="{{route('request_funds.destroy', $request_fund->id)}}" method="post" class="d-inline-block">
-                            @csrf
-                            @method('delete')
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                        </form>
                     </div>
                 </div>
             </div>

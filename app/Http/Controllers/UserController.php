@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
+use Spatie\Permission\Models\Role;
+use Auth;
+
 class UserController extends Controller
 {
     public function __construct() {
@@ -30,7 +34,10 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('user.create');
+        $roles = Role::all();
+        $user = \App\User::find(Auth::id());
+        $current_role = $user->roles->pluck('name');
+        return view('user.create', compact('roles', 'user', 'current_role'));
     }
 
     /**
@@ -38,7 +45,7 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function store(Request $request)
     {
         //$user = new App\User;
@@ -47,11 +54,12 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
-        \App\User::create([
+        $user = \App\User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => \Hash::make($request['password']),
         ]);
+        $user->assignRole($request['user_role']);
         
         session()->flash('message', 'User was added successfully');
         return redirect(route('users.index'));

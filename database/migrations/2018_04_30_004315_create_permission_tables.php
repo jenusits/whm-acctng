@@ -80,42 +80,37 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'users']);
         Permission::create(['name' => 'roles']);
         Permission::create(['name' => 'permissions']);
-
         Permission::create(['name' => 'view charts']);
         Permission::create(['name' => 'create charts']);
         Permission::create(['name' => 'update charts']);
         Permission::create(['name' => 'delete charts']);
-
         Permission::create(['name' => 'view request_funds']);
         Permission::create(['name' => 'create request_funds']);
         Permission::create(['name' => 'update request_funds']);
         Permission::create(['name' => 'delete request_funds']);
         Permission::create(['name' => 'approve request_funds']);
+        
+        // $role = Role::create(['name' => 'super-admin']);
+        // $role->syncPermissions(Permission::all());
 
-
-        // create roles and assign created permissions
-        $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo(Permission::all());
-        $role->revokePermissionTo(['roles', 'permissions']);
-
+        // // Create a User and Set it to Admin
+        // $super_admin = \App\User::create([
+        //     'name' => 'superadmin',
+        //     'email' => 'superadmin@test.com',
+        //     'password' => \Hash::make('superadmin'),
+        // ]);
+        // $super_admin->assignRole('super-admin');
         $role = Role::create(['name' => 'super-admin']);
-        $role->givePermissionTo(Permission::all());
-   
-        // Create a User and Set it to Super Admin
-        $user = \App\User::create([
-            'name' => 'super-admin',
-            'email' => 'super@test.com',
-            'password' => \Hash::make('superAdmin'),
-        ]);
-        $user->assignRole('super-admin');
-
         // Create a User and Set it to Admin
-        $user = \App\User::create([
-            'name' => 'admin',
-            'email' => 'admin@test.com',
-            'password' => \Hash::make('admin'),
+        $super_admin = \App\User::create([
+            'name' => 'superadmin',
+            'email' => 'superadmin@test.com',
+            'password' => \Hash::make('superadmin'),
         ]);
-        $user->assignRole('admin');            
+        $user_id = $super_admin->id;
+        $sa = \App\User::find($user_id);
+        $sa->assignRole('super-admin');
+        $role->syncPermissions(Permission::all());
     }
 
     /**
@@ -127,10 +122,10 @@ class CreatePermissionTables extends Migration
     {
         $tableNames = config('permission.table_names');
 
-        Schema::drop($tableNames['permissions']);
+        Schema::drop($tableNames['model_has_permissions']);
         Schema::drop($tableNames['role_has_permissions']);
         Schema::drop($tableNames['model_has_roles']);
-        Schema::drop($tableNames['model_has_permissions']);
         Schema::drop($tableNames['roles']);
+        Schema::drop($tableNames['permissions']);
     }
 }

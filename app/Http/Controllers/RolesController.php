@@ -93,6 +93,7 @@ class RolesController extends Controller
             return \App\Checker::display();
             
         $permissions = Permission::all();
+        // $permitted = \DB::select("SELECT * FROM `permissions` where permissions.id in (select permission_id from role_has_permissions where role_id = $role->id)");
         return view('roles.edit', compact('role', 'permissions'));
     }
 
@@ -112,7 +113,10 @@ class RolesController extends Controller
         $this->validate($request, [
             'permissions' => 'required'
         ]);
+
+        $role = Role::find($role->id);
         $role->syncPermissions($request['permissions']);
+
         session()->flash('message', 'Role was updated');
         return redirect(route('roles.edit', $role->id));
     }
