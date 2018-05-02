@@ -60,7 +60,7 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
-
+                        @if($user->hasPermissionTo('roles'))
                         <div class="form-group row">
                             <label for="user-role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
 
@@ -76,6 +76,7 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

@@ -94,11 +94,21 @@ class UserController extends Controller
     public function edit($id)
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
+        // if(! \App\Checker::is_permitted('roles'))
+        //     return \App\Checker::display();
+
+        $u = \App\User::find(Auth::id());
+        $cr = $u->roles->pluck('name');
+        if (isset($cr[0]))
+            $cr = $cr[0];
+        else
+            $cr = '';
+
+        if ($id != Auth::id() && ! \App\Checker::is_permitted('users'))
             return \App\Checker::display();
 
         $roles = Role::all();
-        $user = \App\User::find($id);
+        $user = \App\User::findOrFail($id);
         $current_role = $user->roles->pluck('name');
         if (isset($current_role[0]))
             $current_role = $current_role[0];

@@ -23,6 +23,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Action</th>
                         </tr>
                         @foreach($users as $key => $user)
@@ -30,6 +31,16 @@
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>
+                                    <?php
+                                        $current_role = $user->roles->pluck('name');
+                                        if (isset($current_role[0]))
+                                            $current_role = $current_role[0];
+                                        else
+                                            $current_role = '';
+                                    ?>
+                                    {{ $current_role }}
+                                </td>
                                 <td>
                                     <a style="margin: 5px; font-size: 10px" href="{{ route('users.edit', $user->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>    
                                 </td>
