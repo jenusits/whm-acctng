@@ -22,6 +22,9 @@ class UserController extends Controller
     public function index()
     {
         //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+
         $users = \App\User::all();
         return view('user.index', compact('users'));
     }
@@ -34,9 +37,12 @@ class UserController extends Controller
     public function create()
     {
         //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+
         $roles = Role::all();
         $user = \App\User::find(Auth::id());
-        $current_role = $user->roles->pluck('name');
+        // $current_role = $user->roles->pluck('name');
         return view('user.create', compact('roles', 'user', 'current_role'));
     }
 
@@ -49,6 +55,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //$user = new App\User;
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -85,6 +94,17 @@ class UserController extends Controller
     public function edit($id)
     {
         //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+
+        $roles = Role::all();
+        $user = \App\User::find($id);
+        $current_role = $user->roles->pluck('name');
+        if (isset($current_role[0]))
+            $current_role = $current_role[0];
+        else
+            $current_role = '';
+        return view('user.edit', compact('roles', 'user', 'current_role'));
     }
 
     /**
@@ -94,9 +114,31 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, \App\User $user)
     {
         //
+        if(! \App\Checker::is_permitted('roles'))
+            return \App\Checker::display();
+        
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->password = \Hash::make($request['password']);
+        $user->save();
+        
+        $roles = Role::all();
+        foreach ($roles as $key => $role) {
+            $user->removeRole($role);
+        }
+
+        $user->assignRole($request['user_role']);
+        
+        session()->flash('message', 'User was updated successfully');
+        return redirect(route('users.index'));
     }
 
     /**

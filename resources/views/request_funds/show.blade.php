@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div id="root"></div>
+<div id="request-fund" class="container">
         <div class="row">
             <div class="col-md-12 col-md-offset-1">
                 <div class="panel panel-success table-responsive">
@@ -70,16 +71,38 @@
                             <a href="{{ route('request_funds.edit', $request_fund->id )}}" class="btn btn-warning">Edit</a>
                         @endif
                         @if($user->hasPermissionTo('delete request_funds'))
-                            <form action="{{route('request_funds.destroy', $request_fund->id)}}" method="post" class="d-inline-block">
+                            <form id="form-{{ $request_fund->id }}" action="{{route('request_funds.destroy', $request_fund->id)}}" method="post" class="d-inline-block">
                                 @csrf
                                 @method('delete')
-                                <button class="btn btn-danger" type="submit">Delete</button>
+                                {{-- <button class="btn btn-danger" type="submit">Delete</button> --}}
+                                <button @click="focusedID = {{ $request_fund->id }}; reference_number = '#' + focusedID;" type="button" class="btn btn-danger" data-toggle="modal" data-target="#app-modal">Delete</button>
                             </form>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
+        <b-modal @close="focusedID = 0" @confirm="deleteRequest" title="Confirm Action">
+            Are you sure you want to delete Request with a reference number of <b>@{{ reference_number }}</b>?
+        </b-modal>
     </div>
+    @include('layouts.vuejs')
+    <script>
+        new Vue({
+            el: '#request-fund',
+            data: {
+                focusedID: 0,
+                reference_number: 0,
+            },
+            methods: {
+                deleteRequest: function() {
+                    var form = document.querySelector('#form-' + this.focusedID)
+                    form.submit();
+                    this.focusedID = 0;
+                }
+            }
+        });
+    </script>
+    
 
 @endsection

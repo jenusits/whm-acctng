@@ -23,7 +23,7 @@ Route::resource('charts','ChartsController');
 
 Route::resource('request_funds', 'RequestFundsController');
 
-Route::resource('users', 'UserController')->except(['show']);
+Route::resource('users', 'UserController');
 
 Route::resource('roles', 'RolesController')->except(['show']);
 

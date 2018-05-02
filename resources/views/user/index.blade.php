@@ -23,12 +23,16 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Action</th>
                         </tr>
                         @foreach($users as $key => $user)
                             <tr>
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>
+                                    <a style="margin: 5px; font-size: 10px" href="{{ route('users.edit', $user->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>    
+                                </td>
                             </tr>
                         @endforeach
                         <tr>

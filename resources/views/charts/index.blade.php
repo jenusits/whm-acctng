@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="container">
+<div id="root"></div>
+<div id="charts" class="container">
     <div class="row">
         <div class="col-md-12 col-md-offset-1">
             @if(Auth::check())
@@ -28,11 +28,12 @@
                             <tr>
                                 <td>{{ $chart->id }}</td><td><a href="{{ route('charts.show', $chart->id) }}">{{ $chart->account_name }}</a></td>
                                 <td>
-                                    <a href="{{route('charts.edit', $chart->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                    <form action="{{route('charts.destroy', $chart->id)}}" method="post" class="d-inline-block">
+                                    <a style="margin: 5px; font-size: 10px" href="{{route('charts.edit', $chart->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                    <form id="form-{{ $chart->id }}" action="{{route('charts.destroy', $chart->id)}}" method="post" class="d-inline-block">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button>
+                                        {{-- <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button> --}}
+                                        <button @click="focusedID = {{ $chart->id }}; chart_name = '{{ $chart->account_name }}';" style="margin: 5px; font-size: 10px" type="button" class="btn btn-danger" data-toggle="modal" data-target="#app-modal"><i class="fas fa-trash"></i></button> 
                                     </form>
                                 </td>
                             </tr>
@@ -47,6 +48,27 @@
                 @endif
         </div>
     </div>
+
+    <b-modal @close="focusedID = 0" @confirm="deleteRequest" title="Confirm Action">
+        Are you sure you want to delete Chart Account <b>@{{ chart_name }}</b>?
+    </b-modal>
 </div>
+@include('layouts.vuejs')
+<script>
+    new Vue({
+        el: '#charts',
+        data: {
+            focusedID: 0,
+            chart_name: '',
+        },
+        methods: {
+            deleteRequest: function() {
+                var form = document.querySelector('#form-' + this.focusedID)
+                form.submit();
+                this.focusedID = 0;
+            }
+        }
+    });
+</script>
 
 @endsection

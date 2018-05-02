@@ -1,6 +1,6 @@
-<a class="dropdown-item" href="#">
+{{-- <a class="dropdown-item" href="#">
     Profile
-</a>
-<a class="dropdown-item" href="#">
+</a> --}}
+<a class="dropdown-item" href="{{ route('users.edit', \Auth::id()) }}">
     Account Setting
 </a>
