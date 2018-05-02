@@ -5,7 +5,7 @@
     @include('layouts.error-and-messages')
 
     <div class="content">
-        <div class="title m-b-md">
+        <div class="title m-b-md card bg-danger text-white">
             You do not have the permission to access this page.
         </div>
     </div>
@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     <style>
-        html, body {
+        body {
             background-color: #fff;
             color: #636b6f;
             font-family: 'Raleway', sans-serif;
@@ -46,7 +46,8 @@
         }
 
         .title {
-            font-size: 50px;
+            padding: 20px;
+            font-size: 30px;
         }
 
         .links > a {

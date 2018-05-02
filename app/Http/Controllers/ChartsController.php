@@ -21,6 +21,8 @@ class ChartsController extends Controller
      */
     public function index()
     {
+        if(! \App\Checker::is_permitted('view charts'))
+            return \App\Checker::display();
 
         $charts = Charts::orderby('id','asc')->get();
 
@@ -33,6 +35,8 @@ class ChartsController extends Controller
      */
     public function show(Charts $chart)
     {
+        if(! \App\Checker::is_permitted('view charts'))
+            return \App\Checker::display();
 
         return view('charts.show', compact('chart'));
     }
@@ -41,7 +45,10 @@ class ChartsController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Charts $chart){
+    public function edit(Charts $chart) {
+        if(! \App\Checker::is_permitted('update charts'))
+            return \App\Checker::display();
+
         if (! Auth::check()) {
             session()->flash('message', 'You must log in first');
             return redirect('/login');
@@ -49,7 +56,9 @@ class ChartsController extends Controller
         return view('charts.edit',compact('chart'));
     }
 
-    public function create(){
+    public function create() {
+        if(! \App\Checker::is_permitted('create charts'))
+            return \App\Checker::display();
 
         return view('charts.create');
     }
@@ -59,7 +68,9 @@ class ChartsController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Charts $chart){
+    public function destroy(Charts $chart) {
+        if(! \App\Checker::is_permitted('delete charts'))
+            return \App\Checker::display();
 
         $chart->delete();
 
@@ -71,7 +82,9 @@ class ChartsController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, Charts $chart){
+    public function update(Request $request, Charts $chart) {
+        if(! \App\Checker::is_permitted('update charts'))
+            return \App\Checker::display();
 
         $this->validate($request,[
             'account_name' => 'required'
@@ -83,7 +96,9 @@ class ChartsController extends Controller
         return redirect()->back();
     }
 
-    public function store(Request $request){
+    public function store(Request $request) {
+        if(! \App\Checker::is_permitted('create charts'))
+            return \App\Checker::display();
 
         $this->validate($request,[
             'account_name' => 'required'

@@ -23,6 +23,9 @@ class RequestFundsController extends Controller
     public function index()
     {
         //
+        if(! \App\Checker::is_permitted('view request_funds'))
+            return \App\Checker::display();
+
         $request_funds = Request_funds::orderby('id','desc')->get();
         $charts = new Charts;
         
@@ -39,6 +42,9 @@ class RequestFundsController extends Controller
     public function create(Request $request)
     {
         //
+        if(! \App\Checker::is_permitted('create request_funds'))
+            return \App\Checker::display();
+
         $categories = Charts::all();
         // dd(request('multi'));
         if (null !== request('multi') && request('multi') > 0 )
@@ -105,12 +111,17 @@ class RequestFundsController extends Controller
     public function show(Request_funds $request_fund)
     {
         //
+        if(! \App\Checker::is_permitted('view request_funds'))
+            return \App\Checker::display();
+
         $charts = new Charts;
         $rfm = Request_funds::findOrFail($request_fund->id);
         $particulars = $rfm->particulars()->get();
         $user = \App\User::find($rfm->author);
 
-        return view('request_funds.show', compact('request_fund', 'charts', 'particulars', 'user'));
+        $current_user = \App\User::find(Auth::id());
+
+        return view('request_funds.show', compact('request_fund', 'charts', 'particulars', 'user', 'current_user'));
     }
 
     /**
@@ -122,6 +133,9 @@ class RequestFundsController extends Controller
     public function edit(Request_funds $request_fund)
     {
         //
+        if(! \App\Checker::is_permitted('update request_funds'))
+            return \App\Checker::display();
+
         $charts = Charts::all();
         $categories = Charts::all();
         return view('request_funds.edit', compact('request_fund', 'charts', 'categories'));
@@ -146,12 +160,17 @@ class RequestFundsController extends Controller
     {
         //
         // dd(request()->all());
+        if(! \App\Checker::is_permitted('update request_funds'))
+            return \App\Checker::display();
+
         if (null !== $request->get('approved')) {
             $request_funds = Request_funds::find($id);
             $bool = "approved";
             if ($request->get('approved') == 0)
                 $bool = "disapproved";
             $request_funds->approved = $request->get('approved');
+            $request_funds->approved_by = Auth::id();
+            $request_funds->approved_on = \Carbon\Carbon::now();
             $request_funds->save();
             session()->flash("message", "Fund request has been $bool.");
         } else {
@@ -192,6 +211,9 @@ class RequestFundsController extends Controller
     public function destroy(Request_funds $request_funds, $id)
     {
         //
+        if(! \App\Checker::is_permitted('delete request_funds'))
+            return \App\Checker::display();
+
         $request_fund = $request_funds::find($id);
         $request_fund->delete();
         

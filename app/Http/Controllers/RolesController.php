@@ -72,7 +72,7 @@ class RolesController extends Controller
      * @param  \App\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function show(Roles $roles)
+    public function show(Role $roles)
     {
         //
         if(! \App\Checker::is_permitted('roles'))
@@ -86,7 +86,7 @@ class RolesController extends Controller
      * @param  \App\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function edit(Roles $role)
+    public function edit(Role $role)
     {
         //
         if(! \App\Checker::is_permitted('roles'))
@@ -104,7 +104,7 @@ class RolesController extends Controller
      * @param  \App\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Roles $role)
+    public function update(Request $request, Role $role)
     {
         //
         if(! \App\Checker::is_permitted('roles'))
@@ -127,7 +127,7 @@ class RolesController extends Controller
      * @param  \App\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Roles $roles)
+    public function destroy(Role $roles)
     {
         //
         if(! \App\Checker::is_permitted('roles'))

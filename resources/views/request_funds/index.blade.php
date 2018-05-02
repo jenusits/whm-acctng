@@ -36,7 +36,7 @@
                                     <td>
                                         <?php   
                                             $amount = DB::table('request_funds')
-                                            ->join('request_funds_metas', 'request_funds.id', '=', 'request_funds_metas.request_funds_id')
+                                            ->join('request_funds_metas', 'request_funds.id', '=', 'request_funds_metas.request_funds_id')->where('request_funds_metas.request_funds_id', '=', $request_fund->id)
                                             ->sum('request_funds_metas.amount'); 
                                             echo $amount;
                                         ?>
@@ -50,14 +50,19 @@
                                         @endif
                                     </td>
                                     <td>
-                                        {{-- <a style="margin: 5px; font-size: 10px" href="{{ route('request_funds.show', $request_fund->id) }}" class="btn btn-success"><i class="fas fa-search"></i></a> --}}
-                                        <a style="margin: 5px; font-size: 10px" href="{{ route('request_funds.edit', $request_fund->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                        <form id="form-{{ $request_fund->id }}" action="{{ route('request_funds.destroy', $request_fund->id) }}" method="post" class="d-inline-block">
-                                            @csrf
-                                            @method('delete')
-                                            {{-- <button style="margin: 5px; font-size: 10px" class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button> --}}
-                                            <button @click="focusedID = {{ $request_fund->id }}; reference_number = '#' + focusedID;" style="margin: 5px; font-size: 10px" type="button" class="btn btn-danger" data-toggle="modal" data-target="#app-modal"><i class="fas fa-trash"></i></button>
-                                        </form>
+                                    {{-- @if(Auth::id() == $request_fund->author || \App\Checker::is_permitted('request_funds')) --}}
+                                        @if(Auth::id() == $request_fund->author || \App\Checker::is_permitted('update request_funds'))
+                                            <a style="margin: 5px; font-size: 10px" href="{{ route('request_funds.edit', $request_fund->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                        @endif
+                                        @if(Auth::id() == $request_fund->author || \App\Checker::is_permitted('delete request_funds'))
+                                            <form id="form-{{ $request_fund->id }}" action="{{ route('request_funds.destroy', $request_fund->id) }}" method="post" class="d-inline-block">
+                                                @csrf
+                                                @method('delete')
+                                                {{-- <button style="margin: 5px; font-size: 10px" class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button> --}}
+                                                <button @click="focusedID = {{ $request_fund->id }}; reference_number = '#' + focusedID;" style="margin: 5px; font-size: 10px" type="button" class="btn btn-danger" data-toggle="modal" data-target="#app-modal"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        @endif
+                                    {{-- @endif --}}
                                     </td>
                                 </tr>
                             @endforeach

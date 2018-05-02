@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
+        if(! \App\Checker::is_permitted('users'))
             return \App\Checker::display();
 
         $users = \App\User::all();
@@ -37,7 +37,7 @@ class UserController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
+        if(! \App\Checker::is_permitted('users'))
             return \App\Checker::display();
 
         $roles = Role::all();
@@ -55,7 +55,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //$user = new App\User;
-        if(! \App\Checker::is_permitted('roles'))
+        if(! \App\Checker::is_permitted('users'))
             return \App\Checker::display();
 
         $this->validate($request, [
@@ -94,7 +94,7 @@ class UserController extends Controller
     public function edit($id)
     {
         //
-        // if(! \App\Checker::is_permitted('roles'))
+        // if(! \App\Checker::is_permitted('users'))
         //     return \App\Checker::display();
 
         $u = \App\User::find(Auth::id());
@@ -107,6 +107,8 @@ class UserController extends Controller
         if ($id != Auth::id() && ! \App\Checker::is_permitted('users'))
             return \App\Checker::display();
 
+        $current_user = $u;
+
         $roles = Role::all();
         $user = \App\User::findOrFail($id);
         $current_role = $user->roles->pluck('name');
@@ -114,7 +116,7 @@ class UserController extends Controller
             $current_role = $current_role[0];
         else
             $current_role = '';
-        return view('user.edit', compact('roles', 'user', 'current_role'));
+        return view('user.edit', compact('roles', 'user', 'current_role', 'current_user'));
     }
 
     /**
@@ -127,7 +129,7 @@ class UserController extends Controller
     public function update(Request $request, \App\User $user)
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
+        if(! \App\Checker::is_permitted('users'))
             return \App\Checker::display();
         
         $this->validate($request, [

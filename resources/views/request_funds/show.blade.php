@@ -40,14 +40,20 @@
                 @if(Auth::guest())
                   <a href="{{ route('login') }}" class="btn btn-info"> You need to login to see the list 😜😜 >></a>
                 @endif
-                <div style="float: right !important">
+                <div class="col-md-4" style="float: right !important;">
                     <div class="" style="margin: 20px;">
                         <div class="panel-heading">Total:</div><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $total }}" disabled>
                         <br>
                         <label>Created by:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $user->name }}" disabled>
+                        <br>
+                        @if($request_fund->approved)
+                            <label>Approved by:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="<?php $apr = \App\User::find($request_fund->approved_by); echo $apr->name; ?>" disabled>
+                            <br>
+                            <label>Approved on:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" type="text" value="<?php $apr_on = Carbon\Carbon::createFromTimeString($request_fund->approved_on); echo $apr_on->toDayDateTimeString() ?>" disabled>
+                        @endif
                     </div>
                     <div class="" style="margin: 20px;">
-                        @if($user->hasPermissionTo('approve request_funds'))
+                        @if($current_user->hasPermissionTo('approve request_funds'))
                             @if($request_fund->approved)
                                 <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
                                     @csrf
@@ -67,10 +73,10 @@
                             @endif
                         @endif
                         
-                        @if($user->hasPermissionTo('update request_funds'))
+                        @if($current_user->hasPermissionTo('update request_funds') || Auth::id() == $request_fund->author)
                             <a href="{{ route('request_funds.edit', $request_fund->id )}}" class="btn btn-warning">Edit</a>
                         @endif
-                        @if($user->hasPermissionTo('delete request_funds'))
+                        @if($current_user->hasPermissionTo('delete request_funds') || Auth::id() == $request_fund->author)
                             <form id="form-{{ $request_fund->id }}" action="{{route('request_funds.destroy', $request_fund->id)}}" method="post" class="d-inline-block">
                                 @csrf
                                 @method('delete')
