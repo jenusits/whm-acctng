@@ -16,7 +16,7 @@ class CreateRequestFundsTable extends Migration
         Schema::create('request_funds', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('author');
-            $table->boolean('approved')->default(false);
+            $table->integer('approved')->default(0);
             $table->integer('approved_by')->nullable();
             $table->dateTime('approved_on')->nullable();
             $table->timestamps();

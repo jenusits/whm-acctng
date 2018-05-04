@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Disbursement\RecordExpenses\JournalEntry;
 
-use App\Request_funds_meta;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class RequestFundsMetaController extends Controller
+class JournalEntryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class RequestFundsMetaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Request_funds_meta  $request_funds_meta
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request_funds_meta $request_funds_meta)
+    public function show($id)
     {
         //
     }
@@ -52,10 +52,10 @@ class RequestFundsMetaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Request_funds_meta  $request_funds_meta
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request_funds_meta $request_funds_meta)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +64,10 @@ class RequestFundsMetaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Request_funds_meta  $request_funds_meta
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Request_funds_meta $request_funds_meta)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +75,10 @@ class RequestFundsMetaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Request_funds_meta  $request_funds_meta
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request_funds_meta $request_funds_meta)
+    public function destroy($id)
     {
         //
     }

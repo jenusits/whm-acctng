@@ -4,9 +4,14 @@
 <div id="root"></div>
     <div id="request-funds" class="container">
         <div class="row">
-            <div class="col-md-12 col-md-offset-1">
+            <div class="col-md-2 col-md-offset-1">
                 @if(Auth::check())
                     <a href="{{ route('request_funds.create') }}?multi=5" class="btn btn-success">Create a request</a>
+                @endif
+            </div>
+            <div class="col-md-2 col-md-offset-1">
+                @if(isset($_GET['pending']) || isset($_GET['notapproved']) || isset($_GET['approved']))
+                    <a class="btn" href="{{ route('request_funds.index') }}">See all requests</a>
                 @endif
             </div>
         </div>
@@ -19,7 +24,8 @@
                     @if(Auth::check())
     
                     <!-- Table -->
-                    <table class="table table-sm table-transparent table-hover">
+                    <table id="requests" class="table table-sm table-transparent table-hover">
+                        <thead>
                             <tr>
                                 <th>Reference #</th>
                                 <th>Amount</th>
@@ -27,7 +33,9 @@
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
+                        </thead>
                             @foreach($request_funds as $key => $request_fund)
+                            <tbody>
                                 <tr>
                                     <td>
                                             {{-- {!! preg_replace('/<br\\s*?\/??>/i', '', $request_fund->particulars) !!} --}}
@@ -43,8 +51,10 @@
                                     </td>
                                     <td>{{ $request_fund->created_at->diffForHumans() }}</td>
                                     <td>
-                                        @if($request_fund->approved)
+                                        @if($request_fund->approved == 1)
                                             Approved
+                                        @elseif($request_fund->approved == 2)
+                                            Not Approved
                                         @else
                                             Pending
                                         @endif
@@ -65,6 +75,7 @@
                                     {{-- @endif --}}
                                     </td>
                                 </tr>
+                            </tbody>
                             @endforeach
                             <tr>
                             </tr>
@@ -81,7 +92,10 @@
         </b-modal>
     </div>
     @include('layouts.vuejs')
+    {{-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"> --}}
     <script>
+        // $('#requests').DataTable();
         new Vue({
             el: '#request-funds',
             data: {

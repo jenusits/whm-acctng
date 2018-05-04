@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Disbursement\RequestFunds;
 
-use App\Request_funds;
-use App\Charts;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 use Auth;
 
+use App\Request_funds;
+use App\Charts;
 
 class RequestFundsController extends Controller
 {
@@ -29,8 +30,15 @@ class RequestFundsController extends Controller
         $request_funds = Request_funds::orderby('id','desc')->get();
         $charts = new Charts;
         
-        // dd($request_funds);
-        return view('request_funds.index', compact('request_funds', 'charts'));
+        if (null !== request('approved'))
+            $request_funds = Request_funds::orderby('id','desc')->where('approved', '=', 1)->get();
+        elseif (null !== request('pending'))
+            $request_funds = Request_funds::orderby('id','desc')->where('approved', '=', 0)->get();
+        elseif (null !== request('notapproved'))
+            $request_funds = Request_funds::orderby('id','desc')->where('approved', '=', 2)->get();
+        
+        // dd($request_funds->get()[0]->approved);
+        return view('disbursement.request_funds.index', compact('request_funds', 'charts'));
         // return view('request_funds.index');
     }
 
@@ -48,9 +56,9 @@ class RequestFundsController extends Controller
         $categories = Charts::all();
         // dd(request('multi'));
         if (null !== request('multi') && request('multi') > 0 )
-            return view('request_funds.multi-create', compact('categories'));
+            return view('disbursement.request_funds.multi-create', compact('categories'));
         else
-            return view('request_funds.create', compact('categories'));
+            return view('disbursement.request_funds.create', compact('categories'));
     }
 
     /**
@@ -121,7 +129,7 @@ class RequestFundsController extends Controller
 
         $current_user = \App\User::find(Auth::id());
 
-        return view('request_funds.show', compact('request_fund', 'charts', 'particulars', 'user', 'current_user'));
+        return view('disbursement.request_funds.show', compact('request_fund', 'charts', 'particulars', 'user', 'current_user'));
     }
 
     /**
@@ -138,13 +146,13 @@ class RequestFundsController extends Controller
 
         $charts = Charts::all();
         $categories = Charts::all();
-        return view('request_funds.edit', compact('request_fund', 'charts', 'categories'));
+        return view('disbursement.request_funds.edit', compact('request_fund', 'charts', 'categories'));
     }
 
     public function approval(Request_funds $request_fund) {
         $request_funds = Request_funds::orderby('id','asc')->get();
         $charts = new Charts;
-        return view('request_funds.approval', compact('request_funds', 'charts'));
+        return view('disbursement.request_funds.approval', compact('request_funds', 'charts'));
     }
 
 

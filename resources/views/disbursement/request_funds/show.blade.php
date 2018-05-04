@@ -46,7 +46,7 @@
                         <br>
                         <label>Created by:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $user->name }}" disabled>
                         <br>
-                        @if($request_fund->approved)
+                        @if($request_fund->approved == 1)
                             <label>Approved by:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="<?php $apr = \App\User::find($request_fund->approved_by); echo $apr->name; ?>" disabled>
                             <br>
                             <label>Approved on:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" type="text" value="<?php $apr_on = Carbon\Carbon::createFromTimeString($request_fund->approved_on); echo $apr_on->toDayDateTimeString() ?>" disabled>
@@ -54,15 +54,7 @@
                     </div>
                     <div class="" style="margin: 20px;">
                         @if($current_user->hasPermissionTo('approve request_funds'))
-                            @if($request_fund->approved)
-                                <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
-                                    @csrf
-                                    @method('patch')
-                                    <?php session()->flash('approved', true); ?>
-                                    <input type="hidden" name="approved" value="0">
-                                <button class="btn btn-danger" title="Disapprove request"><i class="fas fa-times"></i></button>
-                                </form>
-                            @else
+                            {{-- @if($request_fund->approved == 1) --}}
                                 <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
                                     @csrf
                                     @method('patch')
@@ -70,7 +62,15 @@
                                     <input type="hidden" name="approved" value="1">
                                     <button class="btn btn-success" title="Approve request"><i class="fas fa-check"></i></button>
                                 </form>
-                            @endif
+                                <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
+                                    @csrf
+                                    @method('patch')
+                                    <?php session()->flash('approved', true); ?>
+                                    <input type="hidden" name="approved" value="2">
+                                <button class="btn btn-danger" title="Disapprove request"><i class="fas fa-times"></i></button>
+                                </form>
+                            {{-- @else --}}
+                            {{-- @endif --}}
                         @endif
                         
                         @if($current_user->hasPermissionTo('update request_funds') || Auth::id() == $request_fund->author)

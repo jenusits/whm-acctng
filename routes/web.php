@@ -11,8 +11,12 @@
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
+}); */
+
+Route::get('/', function() {
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -21,7 +25,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('charts','ChartsController');
 
-Route::resource('request_funds', 'RequestFundsController');
+Route::resource('request_funds', 'Disbursement\RequestFunds\RequestFundsController');
 
 Route::resource('users', 'UserController');
 
