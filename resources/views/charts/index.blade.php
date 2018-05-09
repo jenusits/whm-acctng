@@ -49,26 +49,9 @@
         </div>
     </div>
 
-    <b-modal @close="focusedID = 0" @confirm="deleteRequest" title="Confirm Action">
+    <b-modal @close="focusedID = 0" @confirm="deleteChart" title="Confirm Action">
         Are you sure you want to delete Chart Account <b>@{{ chart_name }}</b>?
     </b-modal>
 </div>
-@include('layouts.vuejs')
-<script>
-    new Vue({
-        el: '#charts',
-        data: {
-            focusedID: 0,
-            chart_name: '',
-        },
-        methods: {
-            deleteRequest: function() {
-                var form = document.querySelector('#form-' + this.focusedID)
-                form.submit();
-                this.focusedID = 0;
-            }
-        }
-    });
-</script>
 
 @endsection

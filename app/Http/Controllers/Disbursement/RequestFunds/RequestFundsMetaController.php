@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Disbursement\RequestFunds;
 
 use App\Request_funds_meta;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class RequestFundsMetaController extends Controller
 {

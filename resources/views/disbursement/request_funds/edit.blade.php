@@ -1,21 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="root"></div>
 <div id="multi" class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 table-responsive">
             <div class="card">
                 <div class="card-header">
                     Request Fund
-                    <a style="float: right;" class="link" href="{{ route('request_funds.create') }}">Submit a Single Particular</a>
                 </div>
                 @include('layouts.error-and-messages')
                 <div class="card-body">
-                @if(sizeof($categories) > 0)
-                    <form method="POST" action="/request_funds">
+                    <form method="POST" action="{{ route('request_funds.update', $request_fund->id) }}">
                         @csrf
+                        @method('put')
+                        
                         <input type="hidden" name="multi" v-model="rows.length">
+                        <input type="hidden" name="multi-edit" value="{{ $request_fund->id }}">
                         <table class="table table-sm table-transparent table-hover table-center ">
                             <thead>
                                 <tr style="text-align: center;">
@@ -28,7 +28,8 @@
                             <tbody>     
                                 <tr v-for="row, index in rows" style="text-align: center;">
                                     <td style="padding: 20px">
-                                    <textarea type="text" rows="1" class="form-control" id="particulars" v-model="row.particulars" v-bind:name="row._particulars">@{{ index + ' ' + row.id }}</textarea>
+                                        <input type="hidden" v-model="row.id" v-bind:name="row._id">
+                                        <textarea type="text" rows="1" class="form-control" id="particulars" v-model="row.particulars" v-bind:name="row._particulars">@{{ index + ' ' + row.id }}</textarea>
                                     </td>
                                     <td style="padding: 20px">
                                         <input type="number" class="form-control" id="amount" v-model="row.amount" v-bind:name="row._amount">
@@ -51,19 +52,14 @@
                         </table>
                         <div class="form-group row" style="float: right">
                             <div class="col-md-6">
-                                <button type="submit" v-bind:disabled="errors" class="btn btn-success">Submit Request</button>
+                                <button type="submit" v-bind:disabled="errors" class="btn btn-success">Update Request</button>
                             </div>
                         </div>
                     </form>
-                @else
-                    <p>You don't have any Chart Accounts. Please create at least one <a href="{{ route('charts.create') }}">here</a>.</p>
-                @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@include('layouts.vuejs')
-<script src="{{ asset('js/request-funds.js') }}"></script>
 @endsection

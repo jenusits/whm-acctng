@@ -4,31 +4,6 @@
     </a>
 </li>
 
-@if(\App\Checker::is_permitted('users'))
-<li class="nav-item dropdown">
-    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-        Users <span class="caret"></span>
-    </a>
-
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ route('users.index') }}">
-            {{ __('Users') }}
-        </a>
-    @if(\App\Checker::is_permitted('roles'))
-        <a class="dropdown-item" href="{{ route('roles.index') }}">
-            {{ __('Roles') }}
-        </a>
-    @endif
-    
-    @if(\App\Checker::is_permitted('permissions'))
-        <a class="dropdown-item" href="{{ route('permissions.index') }}">
-            {{ __('Permissions') }}
-        </a>
-    @endif
-    </div>
-</li>
-@endif
-
 @if(\App\Checker::is_permitted('view charts'))
 <li class="nav-item dropdown">
     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -70,3 +45,22 @@
     </div>
 </li>
 @endif
+
+{{-- @if(\App\Checker::is_permitted('view settings')) --}}
+<li class="nav-item dropdown">
+    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+        Settings <span class="caret"></span>
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{{ route('users.index') }}">
+            {{ __('Users') }}
+        </a>
+    @if(\App\Checker::is_permitted('roles'))
+        <a class="dropdown-item" href="{{ route('roles.index') }}">
+            {{ __('Roles') }}
+        </a>
+    @endif
+    </div>
+</li>
+{{-- @endif --}}

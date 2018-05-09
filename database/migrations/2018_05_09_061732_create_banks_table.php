@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRequestFundsTable extends Migration
+class CreateBanksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateRequestFundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('request_funds', function (Blueprint $table) {
+        Schema::create('banks', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('author');
-            $table->integer('approved')->default(0);
-            $table->integer('approved_by')->nullable();
-            $table->dateTime('approved_on')->nullable();
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateRequestFundsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('request_funds');
+        Schema::dropIfExists('banks');
     }
 }

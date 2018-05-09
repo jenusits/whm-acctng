@@ -18,6 +18,7 @@ class Model extends Eloquent
         'amount',
         'category',
         'author',
-        'approved'
+        'approved',
+        'name',
     ];
 }

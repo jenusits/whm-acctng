@@ -104,7 +104,6 @@ class ChartsController extends Controller
             'account_name' => 'required'
         ]);
 
-
         Charts::create([
             'account_name' => $request->account_name
         ]);

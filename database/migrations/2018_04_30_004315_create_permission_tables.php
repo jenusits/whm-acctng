@@ -46,12 +46,18 @@ class CreatePermissionTables extends Migration
 
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames) {
             $table->unsignedInteger('role_id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->morphs('model');
 
             $table->foreign('role_id')
                 ->references('id')
                 ->on($tableNames['roles'])
                 ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
 
             $table->primary(['role_id', 'model_id', 'model_type']);
         });
@@ -80,27 +86,28 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'users']);
         Permission::create(['name' => 'roles']);
         Permission::create(['name' => 'permissions']);
+
         Permission::create(['name' => 'view charts']);
         Permission::create(['name' => 'create charts']);
         Permission::create(['name' => 'update charts']);
         Permission::create(['name' => 'delete charts']);
-        // Permission::create(['name' => 'request_funds']);
+
         Permission::create(['name' => 'view request_funds']);
         Permission::create(['name' => 'create request_funds']);
         Permission::create(['name' => 'update request_funds']);
         Permission::create(['name' => 'delete request_funds']);
         Permission::create(['name' => 'approve request_funds']);
         
-        // $role = Role::create(['name' => 'super-admin']);
-        // $role->syncPermissions(Permission::all());
+        Permission::create(['name' => 'view bank']);
+        Permission::create(['name' => 'create bank']);
+        Permission::create(['name' => 'update bank']);
+        Permission::create(['name' => 'delete bank']);
 
-        // // Create a User and Set it to Admin
-        // $super_admin = \App\User::create([
-        //     'name' => 'superadmin',
-        //     'email' => 'superadmin@test.com',
-        //     'password' => \Hash::make('superadmin'),
-        // ]);
-        // $super_admin->assignRole('super-admin');
+        Permission::create(['name' => 'view expenses']);
+        Permission::create(['name' => 'create expenses']);
+        Permission::create(['name' => 'update expenses']);
+        Permission::create(['name' => 'delete expenses']);
+        
         $role = Role::create(['name' => 'super-admin']);
         // Create a User and Set it to Admin
         $super_admin = \App\User::create([
