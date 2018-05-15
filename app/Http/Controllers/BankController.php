@@ -43,12 +43,14 @@ class BankController extends Controller
             return \App\Checker::display();
 
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
+            'balance' => 'required|numeric'
         ]);
 
         // dd($request->description);
         $bank = new Bank;
         $bank->name = $request->name;
+        $bank->balance = $request->balance;
         $bank->description = $request->description;
         $bank->save();
 
@@ -96,10 +98,12 @@ class BankController extends Controller
             return \App\Checker::display();
 
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
+            'balance' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/'
         ]);
 
         $bank->name = $request->name;
+        $bank->balance = $request->balance;
         $bank->description = $request->description;
         $bank->save();
 

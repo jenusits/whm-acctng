@@ -20,6 +20,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="balance" class="col-sm-4 col-form-label text-md-right">{{ __('Balance') }}</label>
+                            <div class="col-md-6">
+                                <input type="number" step="any" class="form-control" id="balance" name="balance">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="description" class="col-sm-4 col-form-label text-md-right">{{ __('Description') }}</label>
                             <div class="col-md-6">
                                 <textarea type="text" rows="5" class="form-control" id="description" name="description"></textarea>

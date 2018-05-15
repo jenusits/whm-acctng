@@ -6,12 +6,7 @@
         <div class="row">
             <div class="col-md-2 col-md-offset-1">
                 @if(Auth::check())
-                    <a href="{{ route('bank.create') }}" class="btn btn-success">Add new Bank</a>
-                @endif
-            </div>
-            <div class="col-md-2 col-md-offset-1">
-                @if(isset($_GET['pending']) || isset($_GET['notapproved']) || isset($_GET['approved']))
-                    <a class="btn" href="{{ route('bank.index') }}">See all requests</a>
+                    <a href="{{ route('payment_method.create') }}" class="btn btn-success">Add new Payment method</a>
                 @endif
             </div>
         </div>
@@ -19,7 +14,7 @@
         <div class="row">
             <div class="col-md-12 col-md-offset-1">
                 <div class="panel panel-success">
-                    <div class="panel-heading">Banks</div>
+                    <div class="panel-heading">Payment Methods</div>
                     @include('layouts.error-and-messages')
                     @if(Auth::check())
     
@@ -29,28 +24,26 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>Balance</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                            @foreach($banks as $key => $bank)
+                            @foreach($payment_methods as $key => $payment_method)
                             <tbody>
                                 <tr>
                                     <td>
-                                        <a class="link" href="{{ route('bank.show', $bank->id) }}">{{ $bank->name }}</a>
+                                        <a class="link" href="{{ route('payment_method.show', $payment_method->id) }}">{{ $payment_method->name }}</a>
                                     </td>
-                                    <td>{{ $bank->description }}</td>
-                                    <td>{{ $bank->balance }}</td>
+                                    <td>{{ $payment_method->description }}</td>
                                     <td>
-                                        @if(\App\Checker::is_permitted('update bank'))
-                                            <a style="margin: 5px; font-size: 10px" href="{{ route('bank.edit', $bank->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                        @if(\App\Checker::is_permitted('update payment_method'))
+                                            <a style="margin: 5px; font-size: 10px" href="{{ route('payment_method.edit', $payment_method->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                         @endif
-                                        @if(\App\Checker::is_permitted('delete bank'))
-                                            <form id="form-{{ $bank->id }}" action="{{ route('bank.destroy', $bank->id) }}" method="post" class="d-inline-block">
+                                        @if(\App\Checker::is_permitted('delete payment_method'))
+                                            <form id="form-{{ $payment_method->id }}" action="{{ route('payment_method.destroy', $payment_method->id) }}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')
                                                 {{-- <button style="margin: 5px; font-size: 10px" class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button> --}}
-                                                <button @click="focusedID = {{ $bank->id }}; chart_name = '{{ $bank->name }}'; reference_number = '#' + focusedID;" style="margin: 5px; font-size: 10px" type="button" class="btn btn-danger" data-toggle="modal" data-target=".app-modal"><i class="fas fa-trash"></i></button>
+                                                <button @click="focusedID = {{ $payment_method->id }}; chart_name = '{{ $payment_method->name }}'; reference_number = '#' + focusedID;" style="margin: 5px; font-size: 10px" type="button" class="btn btn-danger" data-toggle="modal" data-target=".app-modal"><i class="fas fa-trash"></i></button>
                                             </form>
                                         @endif
                                     </td>

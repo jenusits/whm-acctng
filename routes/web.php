@@ -40,6 +40,8 @@ Route::resource('permissions', 'PermissionsController')->except(['show', 'edit']
 Route::resource('expenses', 'ExpensesController');
 
 Route::resource('bank', 'BankController');
+
+Route::resource('payment_method', 'PaymentMethodController');
 // Route::get('request_funds/mult', 'RequestFundsController@approval')->name('request_funds.approval');
 // Route::get('request_funds/approval', 'RequestFundsController@approval')->name('request_funds.approval');
 // Route::patch('request_funds/{id}/approve', 'RequestFundsController@approve')->name('request_funds.approve');

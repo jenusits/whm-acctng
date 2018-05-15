@@ -14,13 +14,22 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import Datepicker from 'vuejs-datepicker';
 
+// User defined
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('b-modal', require('./components/Modal.vue'));
+Vue.component('b-full-modal', require('./components/FullModal.vue'));
 
 var i = 0;
+
+var moment = require('moment');
+
 const app = new Vue({
     el: '#app',
+    components: {
+        Datepicker
+    },
     data: {
         rows: [
         ],
@@ -41,6 +50,13 @@ const app = new Vue({
             }
 
             return false;
+        },
+        expense_amount: function() {
+            var amount = 0;
+            for (var key in this.rows) {
+                amount += this.rows[key].amount * 1;
+            }
+            return Number(amount).toFixed(2);
         }
     },
     mounted() {
@@ -78,7 +94,7 @@ const app = new Vue({
             return $.ajax({
                 type: 'GET',
                 url: '/api/particulars/' + id,
-                success: function(data) {
+                success : function(data) {
                     this.rows = data;
                 }
             });

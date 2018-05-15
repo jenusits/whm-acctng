@@ -19,8 +19,9 @@ class ExpensesController extends Controller
     public function index()
     {
         //
-        $expenses = Expenses::all();
-        return view('disbursement.expenses.index', compact('expenses'));
+        $categories = Charts::all();
+        $banks = \App\Bank::all();
+        return view('disbursement.expenses.expense.create', compact('categories', 'banks'));
     }
 
     /**
@@ -35,17 +36,7 @@ class ExpensesController extends Controller
             return \App\Checker::display();
 
         $categories = Charts::all();
-        $type = "asd";
-        $accounts = [];
-        foreach ($categories as $key => $category) {
-            $accounts[] = (object)[
-                'name' => $category->account_name,
-                'id' => $category->id
-            ];
-        }
-        $accounts = json_encode($accounts);
-        // dd(request('multi'));
-        return view('disbursement.expenses.create', compact('categories', 'type', 'accounts'));
+        return view('disbursement.expenses.expense.create', compact('categories'));
     }
 
     /**

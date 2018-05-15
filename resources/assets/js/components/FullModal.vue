@@ -1,8 +1,8 @@
 <template>
     <!-- The Modal -->
-    <div class="modal fade app-modal" v-bind:id="id">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+    <div class="modal fade app-modal" v-bind:id="id" sytle="padding: 0 !important;">
+        <div class="modal-dialog modal-dialog-centered" style="min-width: 100%; margin: 0;">
+            <div class="modal-content" style="min-height: 100vh;">
                 <!-- Modal Header -->
                 <div class="modal-header">
                 <h4 class="modal-title">{{ title }}</h4>

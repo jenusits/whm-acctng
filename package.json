@@ -20,6 +20,8 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "vuejs-auto-complete": "^0.6.5"
+        "moment": "^2.22.1",
+        "vuejs-auto-complete": "^0.6.5",
+        "vuejs-datepicker": "^1.2.0"
     }
 }

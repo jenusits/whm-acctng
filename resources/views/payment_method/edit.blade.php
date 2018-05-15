@@ -7,29 +7,23 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    Edit Bank
+                    Edit Payment Method
                 </div>
                 @include('layouts.error-and-messages')
                 <div class="card-body">
-                    <form method="POST" action="{{ route('bank.update', $bank->id) }}">
+                    <form method="POST" action="{{ route('payment_method.update', $payment_method->id) }}">
                         @csrf
                         @method('put')
                         <div class="form-group row">
                             <label for="name" class="col-sm-4 col-form-label text-md-right">{{ __('Name') }}</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" value="{{ $bank->name }}" id="name" name="name">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="balance" class="col-sm-4 col-form-label text-md-right">{{ __('Balance') }}</label>
-                            <div class="col-md-6">
-                                <input type="number" step="any" class="form-control" id="balance" name="balance" value="{{ $bank->balance }}">
+                                <input type="text" class="form-control" value="{{ $payment_method->name }}" id="name" name="name">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="description" class="col-sm-4 col-form-label text-md-right">{{ __('Description') }}</label>
                             <div class="col-md-6">
-                                <textarea type="text" rows="5" class="form-control" value="{{ $bank->description }}" id="description" name="description">{{ $bank->description }}</textarea>
+                                <textarea type="text" rows="5" class="form-control" value="{{ $payment_method->description }}" id="description" name="description">{{ $payment_method->description }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row" style="float: right">
