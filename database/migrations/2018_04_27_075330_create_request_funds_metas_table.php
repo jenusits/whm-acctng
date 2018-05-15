@@ -15,6 +15,7 @@ class CreateRequestFundsMetasTable extends Migration
     {
         Schema::create('request_funds_metas', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('rfindex')->nullable();
             $table->integer('request_funds_id');
             $table->text('particulars');
             $table->bigInteger('amount');

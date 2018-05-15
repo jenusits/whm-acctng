@@ -8,6 +8,7 @@
                 <div class="card-header">Edit <b>{{ $user->name }}</b></div>
 
                 <div class="card-body">
+                    @include('layouts.error-and-messages')
                     <form method="POST" action="{{ route('users.update', $user->id) }}">
                         @csrf
                         @method('put')
@@ -38,7 +39,38 @@
                                 @endif
                             </div>
                         </div>
+                        @if($current_user->hasPermissionTo('roles') && Auth::id() != $user->id)
+                        <div class="form-group row">
+                            <label for="user-role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
 
+                            <div class="col-md-6">
+                                <select name="user_role" class="form-control">
+                                    @foreach($roles as $key => $role)
+                                        @if($current_role == $role->name)
+                                            <option selected value="{{ $role->name }}">{{ $role->name }}</option>
+                                        @else
+                                            <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endif
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4 ">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    {{ __('Update User') }}
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </form>
+
+                    <form method="POST" action="{{ route('users.update', $user->id) }}">
+                        @csrf
+                        @method('put')
+                        <br>
+                        <h6>Change Password</h6>
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
@@ -60,28 +92,11 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
-                        @if($current_user->hasPermissionTo('roles') && Auth::id() != $user->id)
-                        <div class="form-group row">
-                            <label for="user-role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
-
-                            <div class="col-md-6">
-                                <select name="user_role" class="form-control">
-                                    @foreach($roles as $key => $role)
-                                        @if($current_role == $role->name)
-                                            <option selected value="{{ $role->name }}">{{ $role->name }}</option>
-                                        @else
-                                            <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @endif
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Update User') }}
+                            <div class="col-md-6 offset-md-4 ">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    {{ __('Update Password') }}
                                 </button>
                             </div>
                         </div>

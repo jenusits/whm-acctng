@@ -45,7 +45,8 @@ const app = new Vue({
     },
     mounted() {
         // var i = 0;
-        var m = this.getParameterByName('multi') || 2;
+        var m = this.getParameterByName('multi') || 5;
+        console.log("M", m);
         var m_e = document.querySelector('#multi form input[name=multi-edit]');
 
         if (m_e) {
@@ -55,22 +56,19 @@ const app = new Vue({
                 s.then(function (data) {
                     return data;
                 }).then(res => {
-                    // this.rows = res
                     for (i; i < res.length; i++) {
                         res[i]._id = 'request_funds[' + i + '][id]';
                         res[i]._particulars = 'request_funds[' + i + '][particulars]';
                         res[i]._amount = 'request_funds[' + i + '][amount]';
                         res[i]._category = 'request_funds[' + i + '][category]';
+                        res[i]._index = 'request_funds[' + i + '][rfindex]';
                     }
                     this.rows = res;
                 });
-                // console.log(s);
-                // this.rows = s;
             }
         } else {
-            while (i < m) {
-                this.addNewRow();
-                i++;
+            for (var d = i; d < m; d++) {
+                this.addNewRow(i);
             }
         }
     },
@@ -96,6 +94,7 @@ const app = new Vue({
                 _particulars: 'request_funds[' + i + '][particulars]',
                 _amount: 'request_funds[' + i + '][amount]',
                 _category: 'request_funds[' + i + '][category]',
+                _index: 'request_funds[' + i + '][rfindex]',
                 particulars: '',
                 amount: '',
                 category: '',
@@ -123,6 +122,16 @@ const app = new Vue({
         },
         deleteChart: function() {
             var form = document.querySelector('#form-' + this.focusedID)
+            form.submit();
+            this.focusedID = 0;
+        },
+        approveRequest: function() {
+            var form = document.querySelector('#form-approve-' + this.focusedID)
+            form.submit();
+            this.focusedID = 0;
+        },
+        disapproveRequest: function() {
+            var form = document.querySelector('#form-disapprove-' + this.focusedID)
             form.submit();
             this.focusedID = 0;
         }

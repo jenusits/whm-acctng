@@ -79,6 +79,7 @@ class RequestFundsController extends Controller
             $particulars = request('request_funds');
             foreach ($particulars as $key => $p) {
                 $particulars[$key]['request_funds_id'] = $ref_number;
+                $particulars[$key]['rfindex'] += 1;
             }
 
             \App\Request_funds_meta::insert($particulars);
@@ -124,7 +125,7 @@ class RequestFundsController extends Controller
 
         $charts = new Charts;
         $rfm = Request_funds::findOrFail($request_fund->id);
-        $particulars = $rfm->particulars()->get();
+        $particulars = $rfm->particulars()->orderby('rfindex', 'asc')->get();
         $user = \App\User::find($rfm->author);
 
         $current_user = \App\User::find(Auth::id());
@@ -183,6 +184,7 @@ class RequestFundsController extends Controller
                 if (isset($rf['id'])) {
                     array_push($ids, $rf['id']);
                     $update = \App\Request_funds_meta::find($rf['id']);
+                    $update->rfindex = $rf['rfindex'];
                     $update->particulars = $rf['particulars'];
                     $update->amount = $rf['amount'];
                     $update->category = $rf['category'];
@@ -190,6 +192,7 @@ class RequestFundsController extends Controller
                 } else {
                     unset($rf['id']);
                     $rfm = new \App\Request_funds_meta;
+                    $rfm->rfindex = $rf['rfindex'];
                     $rfm->particulars = $rf['particulars'];
                     $rfm->amount = $rf['amount'];
                     $rfm->category = $rf['category'];

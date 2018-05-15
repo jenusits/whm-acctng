@@ -46,10 +46,11 @@ class BankController extends Controller
             'name' => 'required'
         ]);
 
-        Bank::create([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        // dd($request->description);
+        $bank = new Bank;
+        $bank->name = $request->name;
+        $bank->description = $request->description;
+        $bank->save();
 
         session()->flash('message','Bank has been added.');
         return redirect(route('bank.index'));

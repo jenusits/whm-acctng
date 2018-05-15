@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 use Spatie\Permission\Models\Role;
@@ -129,28 +130,46 @@ class UserController extends Controller
     public function update(Request $request, \App\User $user)
     {
         //
-        if(! \App\Checker::is_permitted('users'))
+        if(! \App\Checker::is_permitted('users') && $user->id != \Auth::id())
             return \App\Checker::display();
-        
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-        $user->name = $request['name'];
-        $user->email = $request['email'];
-        $user->password = \Hash::make($request['password']);
-        $user->save();
-        
-        $roles = Role::all();
-        foreach ($roles as $key => $role) {
-            $user->removeRole($role);
+
+
+        $fields = [];
+
+        if (isset($request['name']) || isset($request['email'])) {
+            $fields['name'] = 'required|string|max:255';
+            $fields['email'] = [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id)            
+            ];
+            $this->validate($request, $fields);
+            $user->name = $request['name'];
+            $user->email = $request['email'];
+            $user->save();
+            session()->flash('message', 'User was updated successfully');
         }
 
-        $user->assignRole($request['user_role']);
-        
-        session()->flash('message', 'User was updated successfully');
-        return redirect(route('users.index'));
+        if (isset($request['password'])) {
+            $fields['password'] = 'required|string|min:6|confirmed';
+            $this->validate($request, $fields);
+            $user->password = \Hash::make($request['password']);
+            $user->save();
+            session()->flash('message', 'Password was updated successfully');
+        }
+
+        // $current_role = $user->roles->pluck('name');
+        if (isset($request['user_role']) && $user->id != \Auth::id()) {
+            $roles = Role::all();
+            foreach ($roles as $key => $role) {
+                $user->removeRole($role);
+            }
+            $user->assignRole($request['user_role']);
+        }
+
+        return redirect(route('users.edit', $user->id));
     }
 
     /**

@@ -70,19 +70,20 @@
                     <div class="" style="margin: 20px;">
                         @if($current_user->hasPermissionTo('approve request_funds'))
                             {{-- @if($request_fund->approved == 1) --}}
-                                <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
+                                <form id="form-approve-{{ $request_fund->id }}" action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
                                     @csrf
                                     @method('patch')
                                     <?php session()->flash('approved', true); ?>
                                     <input type="hidden" name="approved" value="1">
-                                    <button class="btn btn-success" title="Approve request"><i class="fas fa-check"></i></button>
+                                    <button class="btn btn-success" type="button" @click="focusedID = {{ $request_fund->id }}; reference_number = '#' + focusedID;" data-toggle="modal" data-target="#approve-modal" title="Approve request"><i class="fas fa-check"></i></button>
                                 </form>
-                                <form action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
+                                <form id="form-disapprove-{{ $request_fund->id }}" action="{{ route('request_funds.update', $request_fund->id ) }}" method="post" class="d-inline-block">
                                     @csrf
                                     @method('patch')
                                     <?php session()->flash('approved', true); ?>
                                     <input type="hidden" name="approved" value="2">
-                                <button class="btn btn-danger" title="Disapprove request"><i class="fas fa-times"></i></button>
+                                    <button class="btn btn-danger" type="button" @click="focusedID = {{ $request_fund->id }}; reference_number = '#' + focusedID;" data-toggle="modal" data-target="#disapprove-modal" title="Approve request"><i class="fas fa-times"></i></button>
+                                {{-- <button class="btn btn-danger" title="Disapprove request"><i class="fas fa-times"></i></button> --}}
                                 </form>
                             {{-- @else --}}
                             {{-- @endif --}}
@@ -103,8 +104,14 @@
                 </div>
             </div>
         </div>
-        <b-modal @close="focusedID = 0" @confirm="deleteRequest" title="Confirm Action">
+        <b-modal @close="focusedID = 0" @confirm="deleteRequest" id="app-modal" title="Confirm Action">
             Are you sure you want to delete Request with a reference number of <b>@{{ reference_number }}</b>?
+        </b-modal>
+        <b-modal @close="focusedID = 0" @confirm="approveRequest" id="approve-modal" title="Confirm Action">
+            Approve request <b>@{{ reference_number }}</b>?
+        </b-modal>
+        <b-modal @close="focusedID = 0" @confirm="disapproveRequest" id="disapprove-modal" title="Confirm Action">
+            Reject request <b>@{{ reference_number }}</b>?
         </b-modal>
     </div>
     

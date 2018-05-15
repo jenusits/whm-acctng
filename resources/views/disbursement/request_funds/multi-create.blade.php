@@ -27,6 +27,7 @@
                             </thead>
                             <tbody>     
                                 <tr v-for="row, index in rows" style="text-align: center;">
+                                    <input type="hidden" v-bind:name="row._index" v-model="index">
                                     <td style="padding: 20px">
                                     <textarea type="text" rows="1" class="form-control" id="particulars" v-model="row.particulars" v-bind:name="row._particulars">@{{ index + ' ' + row.id }}</textarea>
                                     </td>

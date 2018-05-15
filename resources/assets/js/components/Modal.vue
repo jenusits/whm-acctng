@@ -1,6 +1,6 @@
 <template>
     <!-- The Modal -->
-    <div class="modal fade app-modal" id="app-modal">
+    <div class="modal fade app-modal" v-bind:id="id">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -30,7 +30,8 @@ module.exports = {
         }
     },
     props: [
-        'title'
+        'title',
+        'id'
     ],
 }
 </script>

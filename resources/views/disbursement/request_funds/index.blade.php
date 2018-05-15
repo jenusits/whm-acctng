@@ -87,7 +87,7 @@
                     @endif
             </div>
         </div>
-        <b-modal ref="requestfunds" @close="focusedID = 0" focusedID="focusedID" @confirm="deleteRequest" title="Confirm Action">
+        <b-modal id="app-modal" ref="requestfunds" @close="focusedID = 0" focusedID="focusedID" @confirm="deleteRequest" title="Confirm Action">
             Are you sure you want to delete Request with a reference number of <b>@{{ reference_number }}</b>?
         </b-modal>
     </div>

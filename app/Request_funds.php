@@ -6,7 +6,7 @@ class Request_funds extends Model
 {
     //
     public function particulars() {
-        return $this->hasMany(Request_funds_meta::class);
+        return $this->hasMany(Request_funds_meta::class)->orderBy('rfindex');
     }
 
     public static function getPendingRequests() {
