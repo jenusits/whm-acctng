@@ -22,8 +22,26 @@
                     @endif
                     </div>
                 </div>
-                <a class="card-footer text-white clearfix small z-1" href="{{ route('request_funds.index') }}?pending=1">
+                <a class="card-footer text-white clearfix small z-1" href="{{ route('request_funds.index') }}">
                     <span class="float-left">View Requests</span>
+                    <span class="float-right">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-danger o-hidden h-100">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fas fa-money-bill-alt"></i>
+                    </div>
+                    <div class="mr-5" style="">
+                        Expenses
+                    </div>
+                </div>
+                <a class="card-footer text-white clearfix small z-1" href="{{ route('expenses.index') }}">
+                    <span class="float-left">View Expenses</span>
                     <span class="float-right">
                         <i class="fa fa-angle-right"></i>
                     </span>
@@ -52,7 +70,7 @@
             <div class="card text-white bg-success o-hidden h-100">
                 <div class="card-body">
                     <div class="card-body-icon">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="fas fa-university"></i>
                     </div>
                     <div class="mr-5" style="">
                         Bank
@@ -66,32 +84,26 @@
                 </a>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-danger o-hidden h-100">
+            <div class="card text-white bg-info o-hidden h-100">
                 <div class="card-body">
                     <div class="card-body-icon">
-                        <i class="fas fa-life-ring"></i>
+                        <i class="fas fa-credit-card"></i>
                     </div>
                     <div class="mr-5" style="">
-                        Expenses
+                        Payment Methods
                     </div>
                 </div>
-                <a class="card-footer text-white clearfix small z-1" href="{{ route('expenses.index') }}">
-                    <span class="float-left">View Module</span>
+                <a class="card-footer text-white clearfix small z-1" href="{{ route('payment_method.index') }}">
+                    <span class="float-left">View Payment Methods</span>
                     <span class="float-right">
                         <i class="fa fa-angle-right"></i>
                     </span>
                 </a>
             </div>
         </div>
-    </div>
-    <div class="row">
-            <div class="col-xl-3 col-sm-6 mb-3">
-                <a class="btn btn-info btn-block" href="{{ route('payment_method.index') }}">Payment Methods</a>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-3">
-                <a class="btn btn-info btn-block" href="{{ route('expenses.index') }}">Expenses</a>
-            </div>
     </div>
 </div>
 @endsection

@@ -26,9 +26,19 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('charts','ChartsController');
 
 Route::resource('request_funds', 'Disbursement\RequestFunds\RequestFundsController');
-Route::get('api/particulars/{id}', function($id) {
-    $p = App\Request_funds::find($id);
-    return response()->json($p->particulars);    
+
+Route::get('api/particulars/{type}/{id}', function($type = 'request_funds', $id) {
+    if ($type == 'request_funds')
+        $p = App\Request_funds::find($id);
+    else if ($type == 'expenses')
+        $p = App\Expenses::find($id);
+    else
+        $p = null;
+
+    if (null !== $p)
+        return response()->json($p->particulars);    
+    else
+        return response()->json(false);
 });
 
 Route::resource('users', 'UserController');

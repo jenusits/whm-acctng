@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+use App\PaymentMethod;
+
 class CreatePaymentMethodsTable extends Migration
 {
     /**
@@ -16,9 +18,14 @@ class CreatePaymentMethodsTable extends Migration
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
+
+        PaymentMethod::create([ 'name' => 'Credit Card' ]);
+        PaymentMethod::create([ 'name' => 'Debit Card' ]);
+        PaymentMethod::create([ 'name' => 'Cheque' ]);
+        PaymentMethod::create([ 'name' => 'Cash' ]);
     }
 
     /**

@@ -15,11 +15,15 @@ class CreateExpensesTable extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('date');
-            $table->integer('category');
             $table->integer('author');
-            $table->integer('status');
-            $table->string('type');
+            $table->integer('bank_credit_account');
+            $table->dateTime('payment_date');
+            $table->integer('payment_method');
+            $table->text('memo')->nullable();
+            $table->text('attachment')->nullable();
+            $table->integer('approved')->default(0);
+            $table->integer('approved_by')->nullable();
+            $table->dateTime('approved_on')->nullable();
             $table->timestamps();
         });
     }

@@ -107,6 +107,7 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'create expenses']);
         Permission::create(['name' => 'update expenses']);
         Permission::create(['name' => 'delete expenses']);
+        Permission::create(['name' => 'approve expenses']);
 
         Permission::create(['name' => 'view payment_method']);
         Permission::create(['name' => 'create payment_method']);

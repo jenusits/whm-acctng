@@ -15,9 +15,11 @@ class CreateExpensesMetasTable extends Migration
     {
         Schema::create('expenses_metas', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('expenses_id');
-            $table->string('meta_key');
-            $table->text('meta_value')->nullable();
+            $table->integer('rfindex')->nullable();
+            $table->integer('expenses_id');
+            $table->text('particulars');
+            $table->bigInteger('amount');
+            $table->integer('category');
             $table->timestamps();
         });
     }

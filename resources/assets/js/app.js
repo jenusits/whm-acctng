@@ -66,7 +66,11 @@ const app = new Vue({
         var m_e = document.querySelector('#multi form input[name=multi-edit]');
 
         if (m_e) {
-            var s = this.edit_multi(m_e.value);
+            var form_type = 'request_funds';
+            if (document.querySelector('form input[name=form-type]'))
+                form_type = document.querySelector('form input[name=form-type]').value;
+
+            var s = this.edit_multi(m_e.value, form_type);
             if (s) {
                 var n;
                 s.then(function (data) {
@@ -89,11 +93,11 @@ const app = new Vue({
         }
     },
     methods: {
-        edit_multi(id) {
+        edit_multi(id, type = 'request_funds') {
             var rows;
             return $.ajax({
                 type: 'GET',
-                url: '/api/particulars/' + id,
+                url: '/api/particulars/' + type + '/' + id,
                 success : function(data) {
                     this.rows = data;
                 }

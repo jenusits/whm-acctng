@@ -14,17 +14,24 @@
                 </div>
                 @include('layouts.error-and-messages')
                 <div class="card-body">
-                @if(sizeof($categories) > 0)
-                    <form method="POST" action="/expenses">
+                    <form method="POST" action="{{ route('expenses.update', $expense->id) }}">
                         @csrf
+                        @method('put')
                         <input type="hidden" name="multi" v-model="rows.length">
+                        
+                        <input type="hidden" name="form-type" value="expenses">
+                        <input type="hidden" name="multi-edit" value="{{ $expense->id }}">
 
                         <div class="form-group row">
                             <label for="banks" class="col-md-3 col-form-label text-md-right">{{ __('Bank/Credit Account') }}</label>
                             <div class="col-md-2">
                                 <select id="banks" name="bank_credit_account" class="form-control">
                                     @foreach ($banks as $bank)
-                                        <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                        @if($expense->bank_credit_account == $bank->id)
+                                            <option value="{{ $bank->id }}" selected>{{ $bank->name }}</option>
+                                        @else
+                                            <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -32,14 +39,21 @@
                         <div class="form-group row">
                             <label for="payment-date" class="col-md-3 col-form-label text-md-right">{{ __('Payment Date') }}</label>
                             <div class="col-md-2">
-                                <datepicker input-class="form-control" name="payment_date" id="payment-date" v-bind:value="'{{ date('d M Y') }}'"></datepicker>
+                            <?php
+                                $pd = \Carbon\Carbon::parse($expense->payment_date)->format('d M Y');
+                            ?>
+                                <datepicker input-class="form-control" name="payment_date" id="payment-date" v-bind:value="'{{ $pd }}'"></datepicker>
                             </div>
                             
                             <label for="payment-method" class="col-md-3 col-form-label text-md-right">{{ __('Payment Method') }}</label>
                             <div class="col-md-2">
                                 <select id="payment-method" name="payment_method" class="form-control">
                                     @foreach ($payment_methods as $payment_method)
+                                    @if($expense->payment_method == $payment_method->id)
+                                        <option value="{{ $payment_method->id }}" selected>{{ $payment_method->name }}</option>
+                                    @else
                                         <option value="{{ $payment_method->id }}">{{ $payment_method->name }}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -57,24 +71,25 @@
                             <tbody>     
                                 <tr v-for="row, index in rows" style="text-align: center;">
                                     <input type="hidden" v-bind:name="row._index" v-model="index">
-                                    <td style="padding: 5px 20px">
-                                    <textarea type="text" rows="1" class="form-control" id="particulars" v-model="row.particulars" v-bind:name="row._particulars">@{{ index + ' ' + row.id }}</textarea>
+                                    <td style="padding: 20px">
+                                        <input type="hidden" v-model="row.id" v-bind:name="row._id">
+                                        <textarea type="text" rows="1" class="form-control" id="particulars" v-model="row.particulars" v-bind:name="row._particulars">@{{ index + ' ' + row.id }}</textarea>
                                     </td>
-                                    <td style="padding: 5px 20px">
-                                        <input type="number" step="any" class="form-control" id="amount" v-model="row.amount" v-bind:name="row._amount">
+                                    <td style="padding: 20px">
+                                        <input type="number" class="form-control" id="amount" v-model="row.amount" v-bind:name="row._amount">
                                     </td>
-                                    <td style="padding: 5px 20px">
+                                    <td style="padding: 20px">
                                         <select id="categories" class="form-control" v-model="row.category" v-bind:name="row._category">
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->account_name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td style="padding: 10px 20px">
-                                        <button type="button" class="btn btn-success btn-sm" @click.prevent="" title="Add new row" @click="addNewRow(index)">
+                                    <td style="padding: 20px">
+                                        <button type="button" class="btn btn-success" @click.prevent="" title="Add new row" @click="addNewRow(index)">
                                             <i class="fas fa-plus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger btn-sm" v-if="rows.length > 1" title="Remove this row" @click="removeRow(row.id, index)" v-bind:id="row.id"><i v-bind:id="row.id" class="fas fa-minus"></i></button>
+                                        <button type="button" class="btn btn-danger" v-if="rows.length > 1" title="Remove this row" @click="removeRow(row.id, index)" v-bind:id="row.id"><i v-bind:id="row.id" class="fas fa-minus"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -84,18 +99,15 @@
                                 <label for="memo" class="">{{ __('Memo') }}</label>
                             </div>
                             <div>
-                                <textarea style="width: 20%" type="text" rows="3" class="form-control" name="memo" id="memo"></textarea>
+                                <textarea style="width: 20%" type="text" rows="3" class="form-control" name="memo" id="memo">{{ $expense->memo }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row" style="float: right">
                             <div class="col-md-6">
-                                <button type="submit" v-bind:disabled="errors" class="btn btn-success">Save Expense</button>
+                                <button type="submit" v-bind:disabled="errors" class="btn btn-success">Update Expense</button>
                             </div>
                         </div>
                     </form>
-                @else
-                    <p>You don't have any Chart Accounts. Please create at least one <a href="{{ route('charts.create') }}">here</a>.</p>
-                @endif
                 </div>
             </div>
         </div>
