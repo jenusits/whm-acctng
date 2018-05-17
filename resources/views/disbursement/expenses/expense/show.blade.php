@@ -77,6 +77,16 @@
                 @if(Auth::guest())
                   <a href="{{ route('login') }}" class="btn btn-info"> You need to login to see the list 😜😜 >></a>
                 @endif
+                <div class="row">
+                    <div class="col-md-12">
+                        Attachments
+                        @foreach($attachments as $key => $attachment)
+                        <div style="margin: 5px 45px">
+                            <img src="{{ asset('uploads/attachments/' . $attachment->filename) }}" class="rounded">
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
                 <div class="col-md-4" style="float: right !important;">
                     <div class="" style="margin: 20px;">
                         <div class="panel-heading">Total:</div><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $total }}" disabled>

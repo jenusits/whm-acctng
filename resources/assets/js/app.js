@@ -36,6 +36,7 @@ const app = new Vue({
         focusedID: 0,
         reference_number: 0,
         chart_name: '',
+        inputFiles: [],
     },
     computed: {
         errors: function() {
@@ -62,7 +63,6 @@ const app = new Vue({
     mounted() {
         // var i = 0;
         var m = this.getParameterByName('multi') || 5;
-        console.log("M", m);
         var m_e = document.querySelector('#multi form input[name=multi-edit]');
 
         if (m_e) {
@@ -128,7 +128,6 @@ const app = new Vue({
             i++;
         }, 
         removeRow(id, index) {
-            console.log(index);
             this.rows.splice(index, 1);
         },
         getParameterByName (name, url) {
@@ -154,6 +153,24 @@ const app = new Vue({
             var form = document.querySelector('#form-disapprove-' + this.focusedID)
             form.submit();
             this.focusedID = 0;
+        },
+        inputFileChange: function(el) {
+            var files = el.target.files;
+            var nfiles = Array.from(files);
+            this.inputFiles = nfiles;
+        },
+        removeFile(index) {
+            var newFileList = Array.from(this.inputFiles);
+            newFileList.splice(index, 1);
+            this.inputFiles = newFileList;
+        },
+        isValidFileExtension(file) {
+            var extension = file.substr((file.lastIndexOf('.') +1));
+            if (!/(pdf|zip|doc|docx|xlsx|xls|jpeg|png|jpg|gif)$/ig.test(extension)) {
+                alert("Invalid file type: " + extension + ".");
+                return false;
+            } else
+                return true;
         }
     },
 });

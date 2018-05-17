@@ -26,6 +26,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('charts','ChartsController');
 
 Route::resource('request_funds', 'Disbursement\RequestFunds\RequestFundsController');
+Route::resource('expenses', 'Disbursement\ExpensesController');
 
 Route::get('api/particulars/{type}/{id}', function($type = 'request_funds', $id) {
     if ($type == 'request_funds')
@@ -46,8 +47,6 @@ Route::resource('users', 'UserController');
 Route::resource('roles', 'RolesController')->except(['show']);
 
 Route::resource('permissions', 'PermissionsController')->except(['show', 'edit']);
-
-Route::resource('expenses', 'ExpensesController');
 
 Route::resource('bank', 'BankController');
 

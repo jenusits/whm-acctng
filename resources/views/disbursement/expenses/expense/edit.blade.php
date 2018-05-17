@@ -98,8 +98,8 @@
                             <div>
                                 <label for="memo" class="">{{ __('Memo') }}</label>
                             </div>
-                            <div>
-                                <textarea style="width: 20%" type="text" rows="3" class="form-control" name="memo" id="memo">{{ $expense->memo }}</textarea>
+                            <div class="col-md-5">
+                                <textarea type="text" rows="3" class="form-control" name="memo" id="memo">{{ $expense->memo }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row" style="float: right">

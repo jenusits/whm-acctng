@@ -9,6 +9,10 @@ class Expenses extends Model
         return $this->hasMany(ExpensesMeta::class)->orderBy('rfindex');
     }
 
+    public function attachments() {
+        return $this->hasMany(Attachments::class, 'reference_id');
+    }
+
     public function expensesMeta() {
         return $this->hasMany(ExpensesMeta::class);
     }

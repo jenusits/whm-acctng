@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Disbursement;
 
 use App\Expenses;
 use Illuminate\Http\Request;
@@ -66,8 +66,15 @@ class ExpensesController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate($request, [
+            'attachments.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        $files = request()->has('attachments') ? request('attachments') : false;
+
         if(! \App\Checker::is_permitted('create expenses'))
             return \App\Checker::display();
+
         $expense = new Expenses();
         $expense->author = Auth::id();
         $expense->bank_credit_account = request('bank_credit_account');
@@ -84,8 +91,19 @@ class ExpensesController extends Controller
             $particulars[$key]['expenses_id'] = $ref_number;
             $particulars[$key]['rfindex'] += 1;
         }
-
         \App\ExpensesMeta::insert($particulars);
+
+        if ($files) {
+            foreach($files as $key => $file) {
+                $file_name = \Storage::disk('attachments')->put('expenses/' . $ref_number, $file);
+                $att = new \App\Attachments;
+                $att->filename = $file_name;
+                $att->attached_to = 'expenses';
+                $att->reference_id = $ref_number;
+                $att->save();
+            }
+        }
+
         session()->flash('message', 'Expense was saved');
         return redirect(route('expenses.index'));
     }
@@ -108,8 +126,9 @@ class ExpensesController extends Controller
         $user = \App\User::find($expm->author);
 
         $current_user = \App\User::find(Auth::id());
+        $attachments = $expm->attachments()->orderby('id', 'desc')->get();
 
-        return view('disbursement.expenses.expense.show', compact('expense', 'charts', 'particulars', 'user', 'current_user'));
+        return view('disbursement.expenses.expense.show', compact('expense', 'charts', 'particulars', 'user', 'current_user', 'attachments'));
     }
 
     /**

@@ -15,7 +15,7 @@
                 @include('layouts.error-and-messages')
                 <div class="card-body">
                 @if(sizeof($categories) > 0)
-                    <form method="POST" action="/expenses">
+                    <form method="POST" action="/expenses" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="multi" v-model="rows.length">
 
@@ -83,8 +83,21 @@
                             <div>
                                 <label for="memo" class="">{{ __('Memo') }}</label>
                             </div>
+                            <div class="col-md-5">
+                                <textarea type="text" rows="3" class="form-control" name="memo" id="memo"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <label for="attachments" class="btn btn-info">{{ __('Add Attachment') }}</label>
+                                <div class="alert alert-secondary border-secondary" v-if="inputFiles.length > 0">
+                                    <div v-for="file, index in inputFiles">
+                                        @{{ file.name }}
+                                    </div>
+                                </div>
+                            </div>
                             <div>
-                                <textarea style="width: 20%" type="text" rows="3" class="form-control" name="memo" id="memo"></textarea>
+                                <input type="file" style="display: none;" v-on:change="inputFileChange" multiple id="attachments" name="attachments[]" class="btn btn-info">
                             </div>
                         </div>
                         <div class="form-group row" style="float: right">
