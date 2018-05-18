@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class BankController extends Controller
 {
+    public function __construct() {
+        // Resrict this controller to Authenticated users only
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +19,9 @@ class BankController extends Controller
     public function index()
     {
         //
+        if(! \App\Checker::is_permitted('view bank'))
+            return \App\Checker::display();
+
         $banks = Bank::all();
         return view('bank.index', compact('banks'));
     }

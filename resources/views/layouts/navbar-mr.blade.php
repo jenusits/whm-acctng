@@ -46,16 +46,18 @@
 </li>
 @endif
 
-{{-- @if(\App\Checker::is_permitted('view settings')) --}}
+@if(\App\Checker::is_permitted('view settings'))
 <li class="nav-item dropdown">
     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
         Settings <span class="caret"></span>
     </a>
 
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">   
+    @if(\App\Checker::is_permitted('users'))
         <a class="dropdown-item" href="{{ route('users.index') }}">
             {{ __('Users') }}
         </a>
+    @endif
     @if(\App\Checker::is_permitted('roles'))
         <a class="dropdown-item" href="{{ route('roles.index') }}">
             {{ __('Roles') }}
@@ -63,4 +65,4 @@
     @endif
     </div>
 </li>
-{{-- @endif --}}
+@endif

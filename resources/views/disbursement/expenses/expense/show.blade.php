@@ -82,7 +82,8 @@
                         Attachments
                         @foreach($attachments as $key => $attachment)
                         <div style="margin: 5px 45px">
-                            <img src="{{ asset('uploads/attachments/' . $attachment->filename) }}" class="rounded">
+                            <p><a href="{{ asset('uploads/attachments/' . $attachment->filename) }}" target="_blank">{{ $attachment->original_filename }}</a></p>
+                            {{-- <img src="{{ asset('uploads/attachments/' . $attachment->filename) }}" class="rounded"> --}}
                         </div>
                         @endforeach
                     </div>

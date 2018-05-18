@@ -98,6 +98,7 @@ class ExpensesController extends Controller
                 $file_name = \Storage::disk('attachments')->put('expenses/' . $ref_number, $file);
                 $att = new \App\Attachments;
                 $att->filename = $file_name;
+                $att->original_filename = $file->getClientOriginalName();
                 $att->attached_to = 'expenses';
                 $att->reference_id = $ref_number;
                 $att->save();
@@ -231,6 +232,12 @@ class ExpensesController extends Controller
         
         $particulars = \App\ExpensesMeta::where('expenses_id', $id);
         $particulars->delete();
+
+        $attachments = \App\Attachments::where('reference_id', $id)->where('attached_to', '=', 'expenses')->get();
+        foreach ($attachments as $key => $attachment) {
+            if (file_exists(public_path('uploads/attachments/' . $attachment->filename)))
+                unlink(public_path('uploads/attachments/' . $attachment->filename));
+        }
         return redirect(route('expenses.index'))->with('message','Expense has been deleted');
     }
 }
