@@ -10,7 +10,8 @@ class Expenses extends Model
     }
 
     public function attachments() {
-        return $this->hasMany(Attachments::class, 'reference_id');
+        $attachments = $this->hasMany(Attachments::class, 'reference_id');
+        return $attachments->where('attached_to', '=', 'expenses');
     }
 
     public function expensesMeta() {

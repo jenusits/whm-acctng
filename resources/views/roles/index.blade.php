@@ -20,7 +20,7 @@
                     <!-- Table -->
                     <table class="table table-sm table-transparent table-hover">
                         <tr>
-                            <th>Email</th>
+                            <th>ID</th>
                             <th>Role Name</th>
                         </tr>
                         @foreach($roles as $key => $role)

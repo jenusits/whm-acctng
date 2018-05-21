@@ -10427,3 +10427,8 @@ a.text-dark:focus {
   transform: rotate(15deg);
 }
 
+.table th,
+.table td {
+  vertical-align: middle !important;
+}
+

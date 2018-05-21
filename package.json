@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "moment": "^2.22.1",
+        "npm": "^6.0.1",
         "vuejs-auto-complete": "^0.6.5",
         "vuejs-datepicker": "^1.2.0"
     }

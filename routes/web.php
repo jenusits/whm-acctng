@@ -28,7 +28,7 @@ Route::resource('charts','ChartsController');
 Route::resource('request_funds', 'Disbursement\RequestFunds\RequestFundsController');
 Route::resource('expenses', 'Disbursement\ExpensesController');
 
-Route::get('api/particulars/{type}/{id}', function($type = 'request_funds', $id) {
+Route::get('/api/particulars/{type}/{id}', function($type = 'request_funds', $id) {
     if ($type == 'request_funds')
         $p = App\Request_funds::find($id);
     else if ($type == 'expenses')
@@ -43,15 +43,12 @@ Route::get('api/particulars/{type}/{id}', function($type = 'request_funds', $id)
 });
 
 Route::resource('users', 'UserController');
-
 Route::resource('roles', 'RolesController')->except(['show']);
-
 Route::resource('permissions', 'PermissionsController')->except(['show', 'edit']);
-
 Route::resource('bank', 'BankController');
-
 Route::resource('payment_method', 'PaymentMethodController');
-// Route::get('request_funds/mult', 'RequestFundsController@approval')->name('request_funds.approval');
-// Route::get('request_funds/approval', 'RequestFundsController@approval')->name('request_funds.approval');
-// Route::patch('request_funds/{id}/approve', 'RequestFundsController@approve')->name('request_funds.approve');
+
+Route::get('/api/banks/{id}', function($id) {
+    return \App\Bank::findOrFail($id);
+});
 

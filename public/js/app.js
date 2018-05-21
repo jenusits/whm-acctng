@@ -30552,6 +30552,17 @@ var app = new Vue({
     }
 });
 
+jQuery(document).ready(function () {
+    jQuery('select#banks').on('change', function (e) {
+        var bank_id = e.target.value;
+        var selector = jQuery(this).parent();
+        selector.find('small').remove();
+        jQuery.get('/api/banks/' + bank_id, function (data) {
+            if (data) selector.append('<small><strong>Balance: ' + data.balance + '</strong></small>');
+        });
+    }).trigger('change');
+});
+
 /***/ }),
 /* 139 */
 /***/ (function(module, exports, __webpack_require__) {
