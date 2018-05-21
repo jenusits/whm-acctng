@@ -54,7 +54,8 @@ class ExpensesController extends Controller
         $categories = Charts::all();
         $banks = \App\Bank::all();
         $payment_methods = \App\PaymentMethod::all();
-        return view('disbursement.expenses.expense.create', compact('categories', 'banks', 'payment_methods'));
+        $payees = \App\Payee::all();
+        return view('disbursement.expenses.expense.create', compact('categories', 'banks', 'payment_methods', 'payees'));
     }
 
     /**
@@ -77,6 +78,7 @@ class ExpensesController extends Controller
 
         $expense = new Expenses();
         $expense->author = Auth::id();
+        $expense->payee = request('payee');
         $expense->bank_credit_account = request('bank_credit_account');
         $expense->payment_date = \Carbon\Carbon::parse(request('payment_date'))->format('Y-m-d H:i:s');
         $expense->payment_method = request('payment_method');
@@ -148,8 +150,9 @@ class ExpensesController extends Controller
         $categories = Charts::all();
         $banks = \App\Bank::all();
         $payment_methods = \App\PaymentMethod::all();
+        $payees = \App\Payee::all();
 
-        return view('disbursement.expenses.expense.edit', compact('expense', 'charts', 'categories', 'banks', 'payment_methods'));
+        return view('disbursement.expenses.expense.edit', compact('expense', 'charts', 'categories', 'banks', 'payment_methods', 'payees'));
     }
 
     /**
@@ -179,6 +182,7 @@ class ExpensesController extends Controller
         } else {
             $ids = [];
             $expenses = Expenses::find($id);
+            $expenses->payee = request('payee');
             $expenses->bank_credit_account = request('bank_credit_account');
             $expenses->payment_method = request('payment_method');
             $expenses->payment_date = \Carbon\Carbon::parse(request('payment_date'))->format('Y-m-d H:i:s');//request('payment_date');

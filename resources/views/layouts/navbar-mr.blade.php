@@ -25,7 +25,7 @@
 </li>
 @endif
 
-@if(\App\Checker::is_permitted('view request_funds'))
+{{-- @if(\App\Checker::is_permitted('view request_funds'))
 <li class="nav-item dropdown">
     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
         Request Funds <span class="caret"></span>
@@ -44,7 +44,7 @@
     @endif
     </div>
 </li>
-@endif
+@endif --}}
 
 @if(\App\Checker::is_permitted('view settings'))
 <li class="nav-item dropdown">

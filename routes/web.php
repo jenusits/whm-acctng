@@ -25,7 +25,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('charts','ChartsController');
 
-Route::resource('request_funds', 'Disbursement\RequestFunds\RequestFundsController');
+// Route::resource('request_funds', 'Disbursement\RequestFunds\RequestFundsController');
 Route::resource('expenses', 'Disbursement\ExpensesController');
 
 Route::get('/api/particulars/{type}/{id}', function($type = 'request_funds', $id) {
@@ -50,5 +50,13 @@ Route::resource('payment_method', 'PaymentMethodController');
 
 Route::get('/api/banks/{id}', function($id) {
     return \App\Bank::findOrFail($id);
+});
+
+Route::resource('payee', 'PayeeController');
+
+Route::get('samp/{id}', function($id) {
+    $expense = \App\Expenses::findOrFail($id);
+    $particulars = $expense->particulars;
+    return view('layouts.vouchers.voucher', compact('expense', 'particulars'));
 });
 

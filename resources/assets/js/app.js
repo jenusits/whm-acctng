@@ -185,4 +185,7 @@ jQuery(document).ready(function() {
                 selector.append('<small><strong>Balance: ' + data.balance + '</strong></small>');
         }); 
     }).trigger('change');
+    jQuery('button.close').click(function() {
+        jQuery(this).parent().fadeOut();
+    });
 });

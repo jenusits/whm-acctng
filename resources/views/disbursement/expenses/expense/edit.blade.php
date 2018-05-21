@@ -23,6 +23,16 @@
                         <input type="hidden" name="multi-edit" value="{{ $expense->id }}">
 
                         <div class="form-group row">
+                            <label for="payee" class="col-md-3 col-form-label text-md-right">{{ __('Payee') }}</label>
+                            <div class="col-md-2">
+                                <select id="payee" name="payee" class="form-control">
+                                    @foreach ($payees as $payee)
+                                        <option value="{{ $payee->id }}">{{ $payee->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="banks" class="col-md-3 col-form-label text-md-right">{{ __('Bank/Credit Account') }}</label>
                             <div class="col-md-2">
                                 <select id="banks" name="bank_credit_account" class="form-control">
@@ -71,25 +81,25 @@
                             <tbody>     
                                 <tr v-for="row, index in rows" style="text-align: center;">
                                     <input type="hidden" v-bind:name="row._index" v-model="index">
-                                    <td style="padding: 20px">
+                                    <td style="">
                                         <input type="hidden" v-model="row.id" v-bind:name="row._id">
                                         <textarea type="text" rows="1" class="form-control" id="particulars" v-model="row.particulars" v-bind:name="row._particulars">@{{ index + ' ' + row.id }}</textarea>
                                     </td>
-                                    <td style="padding: 20px">
+                                    <td style="">
                                         <input type="number" class="form-control" id="amount" v-model="row.amount" v-bind:name="row._amount">
                                     </td>
-                                    <td style="padding: 20px">
+                                    <td style="">
                                         <select id="categories" class="form-control" v-model="row.category" v-bind:name="row._category">
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->account_name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td style="padding: 20px">
-                                        <button type="button" class="btn btn-success" @click.prevent="" title="Add new row" @click="addNewRow(index)">
+                                    <td style="">
+                                        <button type="button" class="btn btn-success btn-sm" @click.prevent="" title="Add new row" @click="addNewRow(index)">
                                             <i class="fas fa-plus"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger" v-if="rows.length > 1" title="Remove this row" @click="removeRow(row.id, index)" v-bind:id="row.id"><i v-bind:id="row.id" class="fas fa-minus"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm" v-if="rows.length > 1" title="Remove this row" @click="removeRow(row.id, index)" v-bind:id="row.id"><i v-bind:id="row.id" class="fas fa-minus"></i></button>
                                     </td>
                                 </tr>
                             </tbody>

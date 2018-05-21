@@ -3,33 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-primary o-hidden h-100">
-                <div class="card-body">
-                    <div class="card-body-icon">
-                        <i class="fas fa-paper-plane"></i>
-                    </div>
-                    <div class="mr-5" style="">
-                    <?php
-                        $pendingRequestsCount = \App\Request_funds::getPendingRequests();
-                        $pendingRequestsCount = $pendingRequestsCount->count();
-                        $prc = $pendingRequestsCount;
-                    ?>
-                    @if($prc > 0)
-                        <strong>{{ $prc }} New @if($prc > 1) Requests!@else Request! @endif</strong>
-                    @else
-                        There are no Pending Requests!
-                    @endif
-                    </div>
-                </div>
-                <a class="card-footer text-white clearfix small z-1" href="{{ route('request_funds.index') }}">
-                    <span class="float-left">View Requests</span>
-                    <span class="float-right">
-                        <i class="fa fa-angle-right"></i>
-                    </span>
-                </a>
-            </div>
-        </div>
+       
         <div class="col-xl-3 col-sm-6 mb-3">
             <div class="card text-white bg-danger o-hidden h-100">
                 <div class="card-body">
@@ -78,6 +52,25 @@
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="{{ route('bank.index') }}">
                     <span class="float-left">View Module</span>
+                    <span class="float-right">
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+               
+        <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-primary o-hidden h-100">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="mr-5" style="">
+                        Payee
+                    </div>
+                </div>
+                <a class="card-footer text-white clearfix small z-1" href="{{ route('payee.index') }}">
+                    <span class="float-left">View Payee</span>
                     <span class="float-right">
                         <i class="fa fa-angle-right"></i>
                     </span>

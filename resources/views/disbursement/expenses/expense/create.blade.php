@@ -20,6 +20,16 @@
                         <input type="hidden" name="multi" v-model="rows.length">
 
                         <div class="form-group row">
+                            <label for="payee" class="col-md-3 col-form-label text-md-right">{{ __('Payee') }}</label>
+                            <div class="col-md-2">
+                                <select id="payee" name="payee" class="form-control">
+                                    @foreach ($payees as $payee)
+                                        <option value="{{ $payee->id }}">{{ $payee->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="banks" class="col-md-3 col-form-label text-md-right">{{ __('Bank/Credit Account') }}</label>
                             <div class="col-md-2">
                                 <select id="banks" name="bank_credit_account" class="form-control">

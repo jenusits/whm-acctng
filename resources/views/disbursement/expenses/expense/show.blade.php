@@ -33,6 +33,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
+                        Payee: <b>{{ \App\Payee::find($expense->payee)->name }}</b>
+                    </div>
+                    <div class="col-md-3">
                         Bank Account: <b>{{ \App\Bank::find($expense->bank_credit_account)->name }}</b>
                     </div>
                     <div class="col-md-3">
@@ -88,7 +91,7 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="col-md-4" style="float: right !important;">
+                <div class="col-md-5 col-sd-3" style="float: right !important;">
                     <div class="" style="margin: 20px;">
                         <div class="panel-heading">Total:</div><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $total }}" disabled>
                         <br>
