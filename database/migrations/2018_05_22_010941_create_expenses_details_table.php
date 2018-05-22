@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExpensesMetasTable extends Migration
+class CreateExpensesDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateExpensesMetasTable extends Migration
      */
     public function up()
     {
-        Schema::create('expenses_metas', function (Blueprint $table) {
+        Schema::create('expenses_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('reference_id');
-            $table->text('meta_key');
-            $table->text('meta_value');
+            $table->integer('rfindex')->nullable();
+            $table->integer('expenses_id');
+            $table->text('particulars');
+            $table->bigInteger('amount');
+            $table->integer('category');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateExpensesMetasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('expenses_metas');
+        Schema::dropIfExists('expenses_details');
     }
 }

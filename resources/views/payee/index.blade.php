@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="root"></div>
-    <div id="request-funds" class="container">
+    <div id="request-funds" >
         <div class="row">
             <div class="col-md-2 col-md-offset-1">
                 @if(Auth::check())

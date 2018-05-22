@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-     <div class="container">
+     <div >
           <h2>Edit an Account</h2><br  />
           @include('layouts.error-and-messages')
           <form method="POST" action="{{route('charts.update', $chart->id)}}">

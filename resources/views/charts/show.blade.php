@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="root"></div>
-    <div id="chart" class="container">
+    <div id="chart" >
         <div class="row">
             <div class="col-md-12 col-md-offset-1">
                 <div class="panel panel-success">

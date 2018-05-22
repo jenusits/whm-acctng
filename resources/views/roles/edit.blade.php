@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div >
         <h2>Edit Permissions to this Role</h2><br  />
         @include('layouts.error-and-messages')
         @if(sizeof($permissions) > 1)

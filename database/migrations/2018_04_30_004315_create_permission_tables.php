@@ -119,6 +119,18 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'create payee']);
         Permission::create(['name' => 'update payee']);
         Permission::create(['name' => 'delete payee']);
+
+        Permission::create(['name' => 'view bill']);
+        Permission::create(['name' => 'create bill']);
+        Permission::create(['name' => 'update bill']);
+        Permission::create(['name' => 'delete bill']);
+        Permission::create(['name' => 'approve bill']);
+
+        Permission::create(['name' => 'view check']);
+        Permission::create(['name' => 'create check']);
+        Permission::create(['name' => 'update check']);
+        Permission::create(['name' => 'delete check']);
+        Permission::create(['name' => 'approve check']);
         
         $role = Role::create(['name' => 'super-admin']);
         // Create a User and Set it to Admin

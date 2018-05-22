@@ -2,7 +2,7 @@
 
 @section('content')
      
-     <div class="container">
+     <div >
           <h2>Create a Role</h2><br  />
           @include('layouts.error-and-messages')
           <form method="post" action="{{route('roles.store')}}">

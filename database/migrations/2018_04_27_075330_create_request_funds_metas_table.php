@@ -13,15 +13,15 @@ class CreateRequestFundsMetasTable extends Migration
      */
     public function up()
     {
-        Schema::create('request_funds_metas', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('rfindex')->nullable();
-            $table->integer('request_funds_id');
-            $table->text('particulars');
-            $table->bigInteger('amount');
-            $table->integer('category');
-            $table->timestamps();
-        });
+        // Schema::create('request_funds_metas', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->integer('rfindex')->nullable();
+        //     $table->integer('request_funds_id');
+        //     $table->text('particulars');
+        //     $table->bigInteger('amount');
+        //     $table->integer('category');
+        //     $table->timestamps();
+        // });
     }
 
     /**

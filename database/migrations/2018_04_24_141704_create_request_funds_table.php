@@ -13,14 +13,14 @@ class CreateRequestFundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('request_funds', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('author');
-            $table->integer('approved')->default(0);
-            $table->integer('approved_by')->nullable();
-            $table->dateTime('approved_on')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('request_funds', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->integer('author');
+        //     $table->integer('approved')->default(0);
+        //     $table->integer('approved_by')->nullable();
+        //     $table->dateTime('approved_on')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

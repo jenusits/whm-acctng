@@ -16,11 +16,7 @@ class CreateExpensesTable extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('author');
-            $table->integer('bank_credit_account');
-            $table->dateTime('payment_date');
-            $table->integer('payment_method');
             $table->text('memo')->nullable();
-            $table->text('attachment')->nullable();
             $table->integer('approved')->default(0);
             $table->integer('approved_by')->nullable();
             $table->dateTime('approved_on')->nullable();
@@ -28,7 +24,7 @@ class CreateExpensesTable extends Migration
         });
     }
 
-    /**
+    /**`
      * Reverse the migrations.
      *
      * @return void

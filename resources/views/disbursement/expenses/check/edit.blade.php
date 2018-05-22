@@ -14,7 +14,7 @@
                 </div>
                 @include('layouts.error-and-messages')
                 <div class="card-body">
-                    <form method="POST" action="{{ route('expenses.update', $expense->id) }}">
+                    <form method="POST" action="{{ route('check.update', $expense->id) }}">
                         @csrf
                         @method('put')
                         <input type="hidden" name="multi" v-model="rows.length">
@@ -51,25 +51,17 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="mailing_address" class="col-md-3 col-form-label text-md-right">{{ __('Mailing Address') }}</label>
+                            <div class="col-md-2">
+                                <textarea name="mailing_address" id="mailing_address" maxlength="2000" style="resize: none;" rows="4" class="form-control">{{ $expense_meta['mailing_address'] }}</textarea>
+                            </div>
+
                             <label for="payment-date" class="col-md-3 col-form-label text-md-right">{{ __('Payment Date') }}</label>
                             <div class="col-md-2">
                             <?php
                                 $pd = \Carbon\Carbon::parse($expense_meta['payment_date'])->format('d M Y');
                             ?>
                                 <datepicker input-class="form-control" name="payment_date" id="payment-date" v-bind:value="'{{ $pd }}'"></datepicker>
-                            </div>
-                            
-                            <label for="payment-method" class="col-md-3 col-form-label text-md-right">{{ __('Payment Method') }}</label>
-                            <div class="col-md-2">
-                                <select id="payment-method" name="payment_method" class="form-control">
-                                    @foreach ($payment_methods as $payment_method)
-                                    @if($expense_meta['payment_method'] == $payment_method->id)
-                                        <option value="{{ $payment_method->id }}" selected>{{ $payment_method->name }}</option>
-                                    @else
-                                        <option value="{{ $payment_method->id }}">{{ $payment_method->name }}</option>
-                                    @endif
-                                    @endforeach
-                                </select>
                             </div>
                         </div>
                         
@@ -118,7 +110,7 @@
                         </div>
                         <div class="form-group row" style="float: right">
                             <div class="col-md-6">
-                                <button type="submit" v-bind:disabled="errors" class="btn btn-success">Update Expense</button>
+                                <button type="submit" v-bind:disabled="errors" class="btn btn-success">Update Cheque</button>
                             </div>
                         </div>
                     </form>

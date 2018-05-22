@@ -29,9 +29,10 @@ Route::resource('charts','ChartsController');
 Route::resource('expenses', 'Disbursement\ExpensesController');
 
 Route::get('/api/particulars/{type}/{id}', function($type = 'request_funds', $id) {
-    if ($type == 'request_funds')
+    /* if ($type == 'request_funds')
         $p = App\Request_funds::find($id);
-    else if ($type == 'expenses')
+    else */ 
+    if ($type == 'expenses')
         $p = App\Expenses::find($id);
     else
         $p = null;
@@ -59,4 +60,7 @@ Route::get('samp/{id}', function($id) {
     $particulars = $expense->particulars;
     return view('layouts.vouchers.voucher', compact('expense', 'particulars'));
 });
+
+Route::resource('check', 'Disbursement\CheckController');
+Route::resource('bill', 'Disbursement\BillController');
 

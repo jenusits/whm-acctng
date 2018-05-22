@@ -2,7 +2,7 @@
 
 @section('content')
      
-     <div class="container">
+     <div >
           <h2>Create an Account</h2><br  />
           @include('layouts.error-and-messages')
           <form method="post" action="{{route('charts.store')}}">

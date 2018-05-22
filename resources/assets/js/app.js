@@ -176,6 +176,11 @@ const app = new Vue({
 });
 
 jQuery(document).ready(function() {
+    jQuery("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
     jQuery('select#banks').on('change', function(e) {
         var bank_id = e.target.value;
         var selector = jQuery(this).parent();

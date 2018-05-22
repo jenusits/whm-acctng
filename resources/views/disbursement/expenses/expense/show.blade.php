@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="root"></div>
-<div id="request-fund" class="container">
+<div id="request-fund" >
     @include('layouts.error-and-messages')
         <div class="row">
             <div class="col-md-12 col-md-offset-1">
@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-md-3">
                     <?php
-                        $pd = \Carbon\Carbon::parse($expense->payment_date)->toFormattedDateString();
+                        $pd = \Carbon\Carbon::parse($expense_meta['payment_date'])->toFormattedDateString();
                     ?>
                         Payment Date: <b>{{ $pd }}</b>
                     </div>
@@ -33,13 +33,13 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        Payee: <b>{{ \App\Payee::find($expense->payee)->name }}</b>
+                        Payee: <b>{{ \App\Payee::find($expense_meta['payee'])->name }}</b>
                     </div>
                     <div class="col-md-3">
-                        Bank Account: <b>{{ \App\Bank::find($expense->bank_credit_account)->name }}</b>
+                        Bank Account: <b>{{ \App\Bank::find($expense_meta['bank_credit_account'])->name }}</b>
                     </div>
                     <div class="col-md-3">
-                        Payment Method: <b>{{ \App\PaymentMethod::find($expense->payment_method)->name }}</b>
+                        Payment Method: <b>{{ \App\PaymentMethod::find($expense_meta['payment_method'])->name }}</b>
                     </div>
                 </div>
                 <div class="panel panel-success table-responsive">

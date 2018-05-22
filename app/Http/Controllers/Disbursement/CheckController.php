@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Disbursement;
 
-use App\Expenses;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
 use App\Request_funds;
 use App\Charts;
+use App\Expenses;
 
-class ExpensesController extends Controller
+class CheckController extends Controller
 {
     public function __construct() {
         // Resrict this controller to Authenticated users only
@@ -24,20 +24,11 @@ class ExpensesController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('view expenses'))
+        if(! \App\Checker::is_permitted('view check'))
             return \App\Checker::display();
 
-        $expenses = Expenses::orderby('id','desc')->get();
-
-        if (null !== request('approved'))
-            $expenses = Expenses::orderby('id','desc')->where('approved', '=', 1)->get();
-        elseif (null !== request('pending'))
-            $expenses = Expenses::orderby('id','desc')->where('approved', '=', 0)->get();
-        elseif (null !== request('notapproved'))
-            $expenses = Expenses::orderby('id','desc')->where('approved', '=', 2)->get();
-        
-        $categories = Charts::all();
-        return view('disbursement.expenses.expense.index', compact('expenses', 'categories'));
+        $expenses = \App\Expenses::getExpenses('check');
+        return view('disbursement.expenses.check.index', compact('expenses'));
     }
 
     /**
@@ -48,14 +39,13 @@ class ExpensesController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('create request_funds'))
+        if(! \App\Checker::is_permitted('create bill'))
             return \App\Checker::display();
 
-        $categories = Charts::all();
+        $categories = \App\Charts::all();
         $banks = \App\Bank::all();
-        $payment_methods = \App\PaymentMethod::all();
         $payees = \App\Payee::all();
-        return view('disbursement.expenses.expense.create', compact('categories', 'banks', 'payment_methods', 'payees'));
+        return view('disbursement.expenses.check.create', compact('categories', 'banks', 'payment_methods', 'payees'));
     }
 
     /**
@@ -73,11 +63,11 @@ class ExpensesController extends Controller
 
         $files = request()->has('attachments') ? request('attachments') : false;
 
-        if(! \App\Checker::is_permitted('create expenses'))
+        if(! \App\Checker::is_permitted('create bill'))
             return \App\Checker::display();
 
-        $expense = new Expenses();
-        $expense->author = Auth::id();
+        $expense = new \App\Expenses();
+        $expense->author = \Auth::id();
         $expense->memo = request('memo');
         $expense->save();
         $ref_number = $expense->id;
@@ -90,11 +80,12 @@ class ExpensesController extends Controller
         }
         \App\ExpensesDetails::insert($particulars);
 
-        $metas['bank_credit_account'] = request('bank_credit_account');
         $metas['payment_date'] = \Carbon\Carbon::parse(request('payment_date'))->format('Y-m-d H:i:s');
-        $metas['payment_method'] = request('payment_method');
+        $metas['mailing_address'] = request('mailing_address');
+        $metas['bank_credit_account'] = request('bank_credit_account');
         $metas['payee'] = request('payee');
-        $metas['type'] = 'expense';
+        $metas['type'] = 'check';
+
         foreach ($metas as $key => $meta) {
             $expenses_meta = new \App\ExpensesMeta;
             $expenses_meta->reference_id = $ref_number;
@@ -115,73 +106,73 @@ class ExpensesController extends Controller
             }
         }
 
-        session()->flash('message', 'Expense was saved');
+        session()->flash('message', 'Cheque was saved');
         return redirect(route('expenses.index'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Expenses  $expenses
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Expenses $expense)
+    public function show($id)
     {
         //
-        if(! \App\Checker::is_permitted('view expenses'))
+        if(! \App\Checker::is_permitted('view check'))
             return \App\Checker::display();
 
         $charts = new Charts;
-        $expm = Expenses::findOrFail($expense->id);
-        $particulars = $expm->particulars()->orderby('rfindex', 'asc')->get();
-        $user = \App\User::find($expm->author);
+        $expense = Expenses::findOrFail($id);
+        $particulars = $expense->particulars()->orderby('rfindex', 'asc')->get();
+        $user = \App\User::find($expense->author);
 
         $current_user = \App\User::find(Auth::id());
-        $attachments = $expm->attachments()->orderby('id', 'desc')->get();
-        $expense_meta = $expm->getExpenseMeta();
+        $attachments = $expense->attachments()->orderby('id', 'desc')->get();
+        $expense_meta = $expense->getExpenseMeta();
         
-        if ($expense->getExpenseMeta('type') != 'expense')
+        if ($expense->getExpenseMeta('type') != 'check')
             abort(404);
 
-        return view('disbursement.expenses.expense.show', compact('expense', 'charts', 'particulars', 'user', 'current_user', 'attachments', 'expense_meta'));
+        return view('disbursement.expenses.check.show', compact('expense', 'charts', 'particulars', 'user', 'current_user', 'attachments', 'expense_meta'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Expenses  $expenses
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Expenses $expense)
+    public function edit($id)
     {
         //
-        if(! \App\Checker::is_permitted('update expenses'))
+        if(! \App\Checker::is_permitted('update check'))
             return \App\Checker::display();
 
         $charts = Charts::all();
         $categories = Charts::all();
         $banks = \App\Bank::all();
-        $payment_methods = \App\PaymentMethod::all();
         $payees = \App\Payee::all();
+        $expense = Expenses::findOrFail($id);
         $expense_meta = $expense->getExpenseMeta();
 
-        if ($expense->getExpenseMeta('type') != 'expense')
+        if ($expense->getExpenseMeta('type') != 'check')
             abort(404);
 
-        return view('disbursement.expenses.expense.edit', compact('expense', 'charts', 'categories', 'banks', 'payment_methods', 'payees', 'expense_meta'));
+        return view('disbursement.expenses.check.edit', compact('expense', 'charts', 'categories', 'banks', 'payment_methods', 'payees', 'expense_meta'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Expenses  $expenses
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Expenses $expenses, $id)
+    public function update(Request $request, $id)
     {
         //
-        if(! \App\Checker::is_permitted('update expenses'))
+        if(! \App\Checker::is_permitted('update check'))
             return \App\Checker::display();
 
         if (null !== $request->get('approved')) {
@@ -194,20 +185,21 @@ class ExpensesController extends Controller
             $expenses->approved_by = Auth::id();
             $expenses->approved_on = \Carbon\Carbon::now();
             $expenses->save();
-            session()->flash("message", "Expense has been $bool.");
+            session()->flash("message", "Cheque has been $bool.");
         } else {
             $ids = [];
             $expenses = Expenses::find($id);
             $expenses->memo = request('memo');
             $expenses->save();
 
-            $metas['payee'] = request('payee');
-            $metas['bank_credit_account'] = request('bank_credit_account');
-            $metas['payment_method'] = request('payment_method');
             $metas['payment_date'] = \Carbon\Carbon::parse(request('payment_date'))->format('Y-m-d H:i:s');
+            $metas['mailing_address'] = request('mailing_address');
+            $metas['bank_credit_account'] = request('bank_credit_account');
+            $metas['payee'] = request('payee');
+            $metas['type'] = 'check';
             
             foreach ($metas as $key => $meta) {
-                $expenses_meta = \App\ExpensesMeta::where('reference_id', '=', $expenses->id)->where('meta_key', '=', $key)->first();
+                $expenses_meta = \App\ExpensesMeta::where('reference_id', '=', $id)->where('meta_key', '=', $key)->first();
                 $expenses_meta->meta_value = json_encode($meta);
                 $expenses_meta->save();
             }
@@ -236,25 +228,25 @@ class ExpensesController extends Controller
                 }
             }
             \App\ExpensesDetails::whereNotIn('id', $ids)->where('expenses_id', $id)->delete();
-            session()->flash('message','Expense has been updated successfully!');
-            return redirect(route('expenses.show', $id));
+            session()->flash('message','Cheque has been updated successfully!');
+            return redirect(route('check.show', $id));
         }
-        return redirect(route('expenses.show', $id));
+        return redirect(route('check.show', $id));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Expenses  $expenses
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Expenses $expenses, $id)
+    public function destroy($id)
     {
         //
-        if(! \App\Checker::is_permitted('delete expenses'))
+        if(! \App\Checker::is_permitted('delete check'))
             return \App\Checker::display();
 
-        $expense = $expenses::find($id);
+        $expense = Expenses::find($id);
         $expense->delete();
         
         $expense_meta = \App\ExpensesMeta::where('reference_id', $id);
@@ -268,6 +260,6 @@ class ExpensesController extends Controller
             if (file_exists(public_path('uploads/attachments/' . $attachment->filename)))
                 unlink(public_path('uploads/attachments/' . $attachment->filename));
         }
-        return redirect(route('expenses.index'))->with('message','Expense has been deleted');
+        return redirect(route('expenses.index'))->with('message','Cheque has been deleted');
     }
 }
