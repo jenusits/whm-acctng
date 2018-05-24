@@ -18,8 +18,14 @@ class Expenses extends Model
         return $this->hasMany(ExpensesMeta::class);
     }
     
-    public static function getExpenses($type = 'expenses') {
-        return self::where('type', '=', $type);
+    public static function getExpenses($type = 'expense') {
+        $expenses = [];
+        $e = self::all();
+        foreach ($e as $key => $value) {
+            if ($value->getExpenseMeta('type') == $type)
+                $expenses[] = $value;
+        }
+        return $expenses;
     }
 
     public  function getExpenseMeta($meta_key = '') {

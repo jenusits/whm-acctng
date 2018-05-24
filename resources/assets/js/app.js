@@ -175,10 +175,19 @@ const app = new Vue({
     },
 });
 
+jQuery(function () {
+    jQuery('[data-toggle="tooltip"]').tooltip()
+})
+
 jQuery(document).ready(function() {
     jQuery("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
+    });
+
+    jQuery.each( jQuery('.nav-item.dropdown a.nav-link.dropdown-parent'), function( key, value ) {
+        if (jQuery(this).parent().find('.show').length > 0)
+            jQuery(this).attr('aria-expanded', 'true');
     });
 
     jQuery('select#banks').on('change', function(e) {
@@ -193,4 +202,5 @@ jQuery(document).ready(function() {
     jQuery('button.close').click(function() {
         jQuery(this).parent().fadeOut();
     });
+
 });

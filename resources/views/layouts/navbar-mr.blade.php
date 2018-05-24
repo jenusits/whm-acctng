@@ -1,59 +1,99 @@
+<?php
+    $route = \Route::currentRouteName();
+    // $module = explode('.', \Route::currentRouteName())[0];
+    // $view = explode('.', \Route::currentRouteName())[1];
+    function strposa($haystack, $needle, $offset = 0) {
+        if(!is_array($needle)) $needle = array($needle);
+        foreach($needle as $query) {
+            if(strpos($haystack, $query, $offset) !== false) return true; // stop on first true result
+        }
+        return false;
+    }
+    function check_current($v) {
+        $route = \Route::currentRouteName();
+        return $route == $v;
+    }
+?>
 <li class="nav-item">
-    <a id="navbarDropdown" class="nav-link" href="{{ route('home') }}" role="button">
+    <a class="nav-link @if(check_current('home')) bg-secondary text-white @endif" href="{{ route('home') }}" role="button">
         Dashboard
     </a>
 </li>
 
+{{-- Expenses --}}
 @if(\App\Checker::is_permitted('view expenses'))
 <li class="nav-item dropdown">
-    <a class="nav-link text-light" data-toggle="collapse" href="#expenses-menu-item" role="button" aria-expanded="false" aria-controls="expenses-menu-item">
-        Expenses <i class="fa fa-caret-down"></i>
+    
+    <a class="nav-link @if(check_current('expenses.index')) bg-secondary text-white @endif" href="{{ route('expenses.index') }}" role="button">
+        Expenses
+        <div class="float-right caret-down-icon">
+            <span class="badge badge-warning badge-pill pending-expenses" title="{{ \DB::table('expenses')->where('approved', '=', '0')->count() }} Pending" data-toggle="tooltip" data-placement="left">
+                {{ \DB::table('expenses')->where('approved', '=', '0')->count() > 0 ? \DB::table('expenses')->where('approved', '=', '0')->count() : '' }}
+            </span>
+        </div>
     </a>
+    {{-- <a class="nav-link dropdown-parent" href="{{ route('expenses.index') }}" data-toggle="collapse" href="#expenses-menu-item" role="button" aria-expanded="false" aria-controls="expenses-menu-item">
+        Expenses <div class="float-right caret-down-icon"><span class="badge badge-warning badge-pill">14</span><i class="fa fa-caret-down"></i></div>
+    </a> --}}
 
-    <div class="collapse bg-secondary" id="expenses-menu-item" aria-labelledby="navbarDropdown">
-    @if(\App\Checker::is_permitted('view charts'))
-        <a class="dropdown-item text-light" href="{{ route('expenses.index') }}">
+    {{-- @if(strposa($route, ['bill', 'expenses', 'check']))
+        <div class="collapse bg-secondary show" id="expenses-menu-item" aria-labelledby="navbarDropdown">
+    @else
+        <div class="collapse bg-secondary" id="expenses-menu-item" aria-labelledby="navbarDropdown">
+    @endif
+    @if(\App\Checker::is_permitted('view expenses'))
+        <a class="dropdown-item text-light @if(check_current('expenses.index')) active @endif" href="{{ route('expenses.index') }}">
             {{ __('Expenses') }}
         </a>
     @endif
-    @if(\App\Checker::is_permitted('view charts'))
-        <a class="dropdown-item text-light" href="{{ route('bill.create') }}">
+    @if(\App\Checker::is_permitted('view bill'))
+        <a class="dropdown-item text-light @if(check_current('bill.create')) active @endif" href="{{ route('bill.create') }}">
             {{ __('Create Bill') }}
         </a>
     @endif
-    @if(\App\Checker::is_permitted('view charts'))
-        <a class="dropdown-item text-light" href="{{ route('expenses.create') }}">
+    @if(\App\Checker::is_permitted('view expenses'))
+        <a class="dropdown-item text-light @if(check_current('expenses.create')) active @endif" href="{{ route('expenses.create') }}">
             {{ __('Create Expense') }}
         </a>
     @endif
-    @if(\App\Checker::is_permitted('create charts'))
-        <a class="dropdown-item text-light" href="{{ route('check.create') }}">
+    @if(\App\Checker::is_permitted('create check'))
+        <a class="dropdown-item text-light @if(check_current('check.create')) active @endif" href="{{ route('check.create') }}">
             {{ __('Create Cheque') }}
         </a>
     @endif
-    </div>
+    </div> --}}
 </li>
 @endif
 
+{{-- Pay Bills --}}
 @if(\App\Checker::is_permitted('view charts'))
 <li class="nav-item dropdown">
-    {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-        Charts <span class="caret"></span>
-    </a> --}}
-    <a class="nav-link text-light" data-toggle="collapse" href="#charts-menu-item" role="button" aria-expanded="false" aria-controls="charts-menu-item">
-        Charts <i class="fa fa-caret-down"></i>
+    <a class="nav-link @if(check_current('pay-bills.index')) bg-secondary text-white @endif" href="{{ route('pay-bills.index') }}" role="button">
+        Pay Bills
     </a>
-  
+</li>
+@endif
 
-    <div class="collapse bg-secondary" id="charts-menu-item" aria-labelledby="navbarDropdown">
+{{-- Charts --}}
+@if(\App\Checker::is_permitted('view charts'))
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#charts-menu-item" role="button" aria-expanded="false" aria-controls="charts-menu-item">
+        Charts <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
+    </a>
+    
+    @if(strposa($route, ['charts']))
+        <div class="collapse bg-secondary show" id="charts-menu-item" aria-labelledby="navbarDropdown">
+    @else
+        <div class="collapse bg-secondary" id="charts-menu-item" aria-labelledby="navbarDropdown">
+    @endif
     @if(\App\Checker::is_permitted('view charts'))
     
-        <a class="dropdown-item text-light" href="{{ route('charts.index') }}">
+        <a class="dropdown-item text-light @if(check_current('charts.index')) active @endif" href="{{ route('charts.index') }}">
             {{ __('Charts') }}
         </a>
     @endif
     @if(\App\Checker::is_permitted('create charts'))
-        <a class="dropdown-item text-light" href="{{ route('charts.create') }}">
+        <a class="dropdown-item text-light @if(check_current('charts.create')) active @endif" href="{{ route('charts.create') }}">
             {{ __('Create Chart') }}
         </a>
     @endif
@@ -61,22 +101,26 @@
 </li>
 @endif
 
+{{-- Payee --}}
 @if(\App\Checker::is_permitted('view bank'))
 <li class="nav-item dropdown">
-    <a class="nav-link text-light" data-toggle="collapse" href="#bank-menu-item" role="button" aria-expanded="false" aria-controls="bank-menu-item">
-        Banks <i class="fa fa-caret-down"></i>
+    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#bank-menu-item" role="button" aria-expanded="false" aria-controls="bank-menu-item">
+        Banks <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
-  
 
-    <div class="collapse bg-secondary" id="bank-menu-item" aria-labelledby="navbarDropdown">
+    @if(strposa($route, ['bank']))
+        <div class="collapse bg-secondary show" id="bank-menu-item" aria-labelledby="navbarDropdown">
+    @else
+        <div class="collapse bg-secondary" id="bank-menu-item" aria-labelledby="navbarDropdown">
+    @endif
     @if(\App\Checker::is_permitted('view bank'))
     
-        <a class="dropdown-item text-light" href="{{ route('bank.index') }}">
+        <a class="dropdown-item text-light @if(check_current('bank.index')) active @endif" href="{{ route('bank.index') }}">
             {{ __('Banks') }}
         </a>
     @endif
     @if(\App\Checker::is_permitted('create bank'))
-        <a class="dropdown-item text-light" href="{{ route('bank.create') }}">
+        <a class="dropdown-item text-light @if(check_current('bank.create')) active @endif" href="{{ route('bank.create') }}">
             {{ __('Add Bank') }}
         </a>
     @endif
@@ -84,22 +128,25 @@
 </li>
 @endif
 
+{{-- Payee  --}}
 @if(\App\Checker::is_permitted('view payee'))
 <li class="nav-item dropdown">
-    <a class="nav-link text-light" data-toggle="collapse" href="#payee-menu-item" role="button" aria-expanded="false" aria-controls="payee-menu-item">
-        Payees <i class="fa fa-caret-down"></i>
+    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#payee-menu-item" role="button" aria-expanded="false" aria-controls="payee-menu-item">
+        Payees <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
-  
 
-    <div class="collapse bg-secondary" id="payee-menu-item" aria-labelledby="navbarDropdown">
+    @if(strposa($route, ['payee']))
+        <div class="collapse bg-secondary show" id="payee-menu-item" aria-labelledby="navbarDropdown">
+    @else
+        <div class="collapse bg-secondary" id="payee-menu-item" aria-labelledby="navbarDropdown">
+    @endif
     @if(\App\Checker::is_permitted('view payee'))
-    
-        <a class="dropdown-item text-light" href="{{ route('payee.index') }}">
+        <a class="dropdown-item text-light @if(check_current('payee.index')) active @endif" href="{{ route('payee.index') }}">
             {{ __('Payees') }}
         </a>
     @endif
     @if(\App\Checker::is_permitted('create payee'))
-        <a class="dropdown-item text-light" href="{{ route('payee.create') }}">
+        <a class="dropdown-item text-light @if(check_current('payee.create')) active @endif" href="{{ route('payee.create') }}">
             {{ __('Add Payee') }}
         </a>
     @endif
@@ -107,22 +154,24 @@
 </li>
 @endif
 
+{{-- Payment Method  --}}
 @if(\App\Checker::is_permitted('view payment_method'))
 <li class="nav-item dropdown">
-    <a class="nav-link text-light" data-toggle="collapse" href="#payment_method-menu-item" role="button" aria-expanded="false" aria-controls="payment_method-menu-item">
-        Payment Method <i class="fa fa-caret-down"></i>
+    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#payment_method-menu-item" role="button" aria-expanded="false" aria-controls="payment_method-menu-item">
+        Payment Method <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
-  
-
-    <div class="collapse bg-secondary" id="payment_method-menu-item" aria-labelledby="navbarDropdown">
+    @if(strposa($route, ['payment_method']))
+        <div class="collapse bg-secondary show" id="payment_method-menu-item" aria-labelledby="navbarDropdown">
+    @else
+        <div class="collapse bg-secondary" id="payment_method-menu-item" aria-labelledby="navbarDropdown">
+    @endif
     @if(\App\Checker::is_permitted('view payment_method'))
-    
-        <a class="dropdown-item text-light" href="{{ route('payment_method.index') }}">
+        <a class="dropdown-item text-light @if(check_current('payment_method.index')) active @endif" href="{{ route('payment_method.index') }}">
             {{ __('Payment Methods') }}
         </a>
     @endif
     @if(\App\Checker::is_permitted('create payment_method'))
-        <a class="dropdown-item text-light" href="{{ route('payment_method.create') }}">
+        <a class="dropdown-item text-light @if(check_current('payment_method.create')) active @endif" href="{{ route('payment_method.create') }}">
             {{ __('Add Payment Method') }}
         </a>
     @endif
@@ -130,20 +179,26 @@
 </li>
 @endif
 
+<div class="dropdown-divider border-secondary"></div>
+{{-- Settings --}}
 @if(\App\Checker::is_permitted('view settings'))
 <li class="nav-item dropdown">
-    <a class="nav-link text-light" data-toggle="collapse" href="#settings-menu-item" role="button" aria-expanded="false" aria-controls="settings-menu-item">
-        Settings <i class="fa fa-caret-down"></i>
+    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#settings-menu-item" role="button" aria-expanded="false" aria-controls="settings-menu-item">
+        Settings <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
 
-    <div class="collapse bg-secondary" id="settings-menu-item" aria-labelledby="navbarDropdown">   
+    @if(strposa($route, ['users', 'roles']))
+        <div class="collapse bg-secondary show" id="settings-menu-item" aria-labelledby="navbarDropdown">
+    @else
+        <div class="collapse bg-secondary" id="settings-menu-item" aria-labelledby="navbarDropdown">
+    @endif  
     @if(\App\Checker::is_permitted('users'))
-        <a class="dropdown-item text-light" href="{{ route('users.index') }}">
+        <a class="dropdown-item text-light @if(check_current('users.index')) active @endif" href="{{ route('users.index') }}">
             {{ __('Users') }}
         </a>
     @endif
     @if(\App\Checker::is_permitted('roles'))
-        <a class="dropdown-item text-light" href="{{ route('roles.index') }}">
+        <a class="dropdown-item text-light @if(check_current('roles.index')) active @endif" href="{{ route('roles.index') }}">
             {{ __('Roles') }}
         </a>
     @endif

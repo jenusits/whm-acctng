@@ -10449,16 +10449,16 @@ body {
 }
 
 #wrapper.toggled {
-  padding-left: 250px;
+  padding-left: 200px;
 }
 
 #sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  left: 250px;
+  left: 200px;
   width: 0;
   height: 100%;
-  margin-left: -250px;
+  margin-left: -200px;
   overflow-y: auto;
   background: #000;
   -webkit-transition: all 0.5s ease;
@@ -10485,14 +10485,14 @@ body {
 .sidebar-nav {
   position: absolute;
   top: 0;
-  width: 200px;
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .sidebar-nav li {
-  text-indent: 20px;
   line-height: 25px;
 }
 
@@ -10554,5 +10554,19 @@ body {
     position: relative;
     margin-right: 0;
   }
+}
+
+.collapsed .caret-down-icon {
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+}
+
+a[aria-expanded=true] .caret-down-icon {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+a[aria-expanded=true].dropdown-parent {
+  color: #fff !important;
 }
 

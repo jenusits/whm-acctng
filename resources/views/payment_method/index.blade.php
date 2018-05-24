@@ -31,7 +31,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <a class="link" href="{{ route('payment_method.show', $payment_method->id) }}">{{ $payment_method->name }}</a>
+                                        <a class="link" href="{{ route('payment_method.edit', $payment_method->id) }}">{{ $payment_method->name }}</a>
                                     </td>
                                     <td>{{ $payment_method->description }}</td>
                                     <td>

@@ -12,9 +12,15 @@
                     </div>
                     <div class="col-md-3">
                     <?php
-                        $pd = \Carbon\Carbon::parse($expense_meta['payment_date'])->toFormattedDateString();
+                        $bd = \Carbon\Carbon::parse($expense_meta['bill_date'])->toFormattedDateString();
                     ?>
-                        Payment Date: <b>{{ $pd }}</b>
+                        Bill Date: <b>{{ $bd }}</b>
+                    </div>
+                    <div class="col-md-3">
+                    <?php
+                        $dd = \Carbon\Carbon::parse($expense_meta['due_date'])->toFormattedDateString();
+                    ?>
+                        Due Date: <b>{{ $dd }}</b>
                     </div>
                     <div class="col-md-3">
                         Status: <b>
@@ -27,19 +33,13 @@
                             @endif
                         </b>
                     </div>
-                    <div class="col-md-3">
-                        Created: <b>{{ $expense->created_at->toFormattedDateString() }}</b>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        Payee: <b>{{ \App\Payee::find($expense_meta['payee'])->name }}</b>
+                        Supplier: <b>{{ \App\Payee::find($expense_meta['supplier'])->name }}</b>
                     </div>
                     <div class="col-md-3">
-                        Bank Account: <b>{{ \App\Bank::find($expense_meta['bank_credit_account'])->name }}</b>
-                    </div>
-                    <div class="col-md-3">
-                        Payment Method: <b>{{ \App\PaymentMethod::find($expense_meta['payment_method'])->name }}</b>
+                        Created: <b>{{ $expense->created_at->toFormattedDateString() }}</b>
                     </div>
                 </div>
                 <div class="panel panel-success table-responsive">
@@ -104,9 +104,9 @@
                         @endif
                     </div>
                     <div class="" style="margin: 20px;">
-                        @if($current_user->hasPermissionTo('approve expenses'))
+                        @if($current_user->hasPermissionTo('approve bill'))
                             {{-- @if($expense->approved == 1) --}}
-                                <form id="form-approve-{{ $expense->id }}" action="{{ route('expenses.update', $expense->id ) }}" method="post" class="d-inline-block">
+                                <form id="form-approve-{{ $expense->id }}" action="{{ route('bill.update', $expense->id ) }}" method="post" class="d-inline-block">
                                     @csrf
                                     @method('patch')
                                     <?php session()->flash('approved', true); ?>
@@ -116,7 +116,7 @@
                                         <button class="btn btn-success" type="button" @click="focusedID = {{ $expense->id }}; reference_number = '#' + focusedID;" data-toggle="modal" data-target="#approve-modal" title="Approve request"><i class="fas fa-check"></i></button>
                                     </span>
                                 </form>
-                                <form id="form-disapprove-{{ $expense->id }}" action="{{ route('expenses.update', $expense->id ) }}" method="post" class="d-inline-block">
+                                <form id="form-disapprove-{{ $expense->id }}" action="{{ route('bill.update', $expense->id ) }}" method="post" class="d-inline-block">
                                     @csrf
                                     @method('patch')
                                     <?php session()->flash('approved', true); ?>
@@ -131,11 +131,11 @@
                             {{-- @endif --}}
                         @endif
                         
-                        @if($current_user->hasPermissionTo('update expenses') || Auth::id() == $expense->author)
-                            <a href="{{ route('expenses.edit', $expense->id )}}" class="btn btn-warning">Edit</a>
+                        @if($current_user->hasPermissionTo('update bill') || Auth::id() == $expense->author)
+                            <a href="{{ route('bill.edit', $expense->id )}}" class="btn btn-warning">Edit</a>
                         @endif
-                        @if($current_user->hasPermissionTo('delete expenses') || Auth::id() == $expense->author)
-                            <form id="form-{{ $expense->id }}" action="{{route('expenses.destroy', $expense->id)}}" method="post" class="d-inline-block">
+                        @if($current_user->hasPermissionTo('delete bill') || Auth::id() == $expense->author)
+                            <form id="form-{{ $expense->id }}" action="{{route('bill.destroy', $expense->id)}}" method="post" class="d-inline-block">
                                 @csrf
                                 @method('delete')
                                 {{-- <button class="btn btn-danger" type="submit">Delete</button> --}}

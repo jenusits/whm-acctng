@@ -37,7 +37,6 @@
                         <thead>
                             <tr>
                                 <th>Reference #</th>
-                                <th>Type</th>
                                 <th>Amount</th>
                                 <th>Created</th>
                                 <th>Status</th>
@@ -48,13 +47,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <?php
-                                            $type = $expense->getExpenseMeta('type') == 'expense' ? 'expenses' : $expense->getExpenseMeta('type');
-                                        ?>
-                                        <a class="link" href="{{ route($type . '.show', $expense->id) }}">#{{ $expense->id }}</a>
-                                    </td>
-                                    <td>
-                                        {{ ucfirst($expense->getExpenseMeta('type')) }}
+                                        <a class="link" href="{{ route('bill.show', $expense->id) }}">#{{ $expense->id }}</a>
                                     </td>
                                     <td>
                                         <?php   
@@ -76,17 +69,14 @@
                                     </td>
                                     <td>
                                     {{-- @if(Auth::id() == $expense->author || \App\Checker::is_permitted('expenses')) --}}
-                                        @if($expense->getExpenseMeta('type') == 'expense')
-                                            <a style="margin: 5px; font-size: 10px"  class="btn btn-secondary btn-sm"><i class="fas fa-print"></i></a>
+                                        @if($expense->approved == 1 &&  $expense->getExpenseMeta('type') == 'bill')
+                                            <a style="margin: 5px; font-size: 10px" href="{{ route('pay-bills.edit', $expense->id) }}" class="btn btn-success btn-sm">Pay Bill</a>
                                         @endif
-                                        @if($expense->approved == 1 && $expense->getExpenseMeta('type') == 'bill')
-                                            <a style="margin: 5px; font-size: 10px" href="{{ route($type . '.edit', $expense->id) }}" class="btn btn-success btn-sm">Pay Bill</a>
+                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('update bill'))
+                                            <a style="margin: 5px; font-size: 10px" href="{{ route('bill.edit', $expense->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                         @endif
-                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('update expenses'))
-                                            <a style="margin: 5px; font-size: 10px" href="{{ route($type . '.edit', $expense->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                        @endif
-                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('delete expenses'))
-                                            <form id="form-{{ $expense->id }}" action="{{ route($type . '.destroy', $expense->id) }}" method="post" class="d-inline-block">
+                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('delete bill'))
+                                            <form id="form-{{ $expense->id }}" action="{{ route('bill.destroy', $expense->id) }}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')
                                                 {{-- <button style="margin: 5px; font-size: 10px" class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button> --}}

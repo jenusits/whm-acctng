@@ -63,4 +63,5 @@ Route::get('samp/{id}', function($id) {
 
 Route::resource('check', 'Disbursement\CheckController');
 Route::resource('bill', 'Disbursement\BillController');
+Route::resource('pay-bills', 'Disbursement\PayBillController');
 
