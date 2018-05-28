@@ -93,11 +93,11 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'update charts']);
         Permission::create(['name' => 'delete charts']);
 
-        Permission::create(['name' => 'view request_funds']);
+        /* Permission::create(['name' => 'view request_funds']);
         Permission::create(['name' => 'create request_funds']);
         Permission::create(['name' => 'update request_funds']);
         Permission::create(['name' => 'delete request_funds']);
-        Permission::create(['name' => 'approve request_funds']);
+        Permission::create(['name' => 'approve request_funds']); */
         
         Permission::create(['name' => 'view bank']);
         Permission::create(['name' => 'create bank']);

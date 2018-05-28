@@ -74,6 +74,7 @@ class BankController extends Controller
     public function show(Bank $bank)
     {
         //
+        return redirect(route('bank.edit', $bank->id));
     }
 
     /**

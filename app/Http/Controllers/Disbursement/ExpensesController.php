@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Auth;
-use App\Request_funds;
+// use App\Request_funds;
 use App\Charts;
 
 class ExpensesController extends Controller
@@ -48,7 +48,7 @@ class ExpensesController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('create request_funds'))
+        if(! \App\Checker::is_permitted('create expenses'))
             return \App\Checker::display();
 
         $categories = Charts::all();

@@ -33,6 +33,9 @@
                         <a class="container text-center nav-link" href="{{ url('/home') }}">
                             {{ config('app.name', 'Laravel') }}
                         </a>
+                        <div id="close-menu-container" style="position: absolute; top: 0; right: 0;">
+                            <button class="btn text-white" style="background: transparent" id="close-menu"><i class="fa fa-times"></i></button>
+                        </div>
                     </li>
                     
                     @auth
@@ -48,7 +51,7 @@
                         <a href="#menu-toggle" class="btn text-dark btn-lg" id="menu-toggle"><i class="fa fa-bars"></i></a>
                     @endauth
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto col-md-2">
                         <!-- Authentication Links -->
                         @guest
                             {{ __("") }}

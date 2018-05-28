@@ -47,10 +47,10 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <a class="link" href="{{ route('expenses.show', $expense->id) }}">#{{ $expense->id }}</a>
+                                        <a class="link" href="{{ route('expenses.edit', $expense->id) }}">#{{ $expense->id }}</a>
                                     </td>
                                     <td>
-                                        <?php   
+                                        <?php
                                             $amount = DB::table('expenses')
                                             ->join('expenses_details', 'expenses.id', '=', 'expenses_details.expenses_id')->where('expenses_details.expenses_id', '=', $expense->id)
                                             ->sum('expenses_details.amount'); 

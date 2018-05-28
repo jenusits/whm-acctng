@@ -5,6 +5,10 @@ namespace App;
 class Expenses extends Model
 {
     //
+    public function user() {
+        return $this->belongsTo(User::class, 'author', 'id');
+    }
+
     public function particulars() {
         return $this->hasMany(ExpensesDetails::class)->orderBy('rfindex');
     }

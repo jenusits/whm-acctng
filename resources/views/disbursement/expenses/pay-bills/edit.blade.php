@@ -17,7 +17,7 @@
                 @if(sizeof($categories) > 0)
                     <form method="POST" action="{{ route('bill.update', $expense->id) }}" enctype="multipart/form-data">
                         @csrf
-                        @method('put');
+                        @method('put')
                         <input type="hidden" name="multi" v-model="rows.length">
 
                         <input type="hidden" name="form-type" value="expenses">

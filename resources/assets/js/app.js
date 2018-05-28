@@ -179,6 +179,10 @@ jQuery(function () {
     jQuery('[data-toggle="tooltip"]').tooltip()
 })
 
+jQuery('#close-menu').click(function() {
+    jQuery('#wrapper').toggleClass('toggled');
+});
+
 jQuery(document).ready(function() {
     jQuery("#menu-toggle").click(function(e) {
         e.preventDefault();

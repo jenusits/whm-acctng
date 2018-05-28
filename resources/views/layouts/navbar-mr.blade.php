@@ -179,9 +179,9 @@
 </li>
 @endif
 
-<div class="dropdown-divider border-secondary"></div>
 {{-- Settings --}}
 @if(\App\Checker::is_permitted('view settings'))
+<div class="dropdown-divider border-secondary"></div>
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-parent" data-toggle="collapse" href="#settings-menu-item" role="button" aria-expanded="false" aria-controls="settings-menu-item">
         Settings <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
