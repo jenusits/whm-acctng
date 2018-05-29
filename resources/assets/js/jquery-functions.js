@@ -1,3 +1,5 @@
+
+
 jQuery(function () {
     jQuery('[data-toggle="tooltip"]').tooltip();
 })
@@ -15,6 +17,16 @@ jQuery(document).ready(function() {
     jQuery.each( jQuery('.nav-item.dropdown a.nav-link.dropdown-parent'), function( key, value ) {
         if (jQuery(this).parent().find('.show').length > 0)
             jQuery(this).attr('aria-expanded', 'true');
+    });
+
+    jQuery('li a[role=button]').click(function() {
+        if (jQuery(this).attr('aria-expanded') == 'false') {
+            jQuery(this).attr('aria-expanded', 'true');
+            jQuery(this).parent().find('div[aria-labelledby=navbarDropdown]').toggleClass('show');
+        } else {
+            jQuery(this).attr('aria-expanded', 'false');
+            jQuery(this).parent().find('div[aria-labelledby=navbarDropdown]').toggleClass('show');
+        }
     });
 
     jQuery('select#banks').on('change', function(e) {

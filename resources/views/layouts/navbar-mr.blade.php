@@ -32,7 +32,7 @@
             </span>
         </div>
     </a>
-    {{-- <a class="nav-link dropdown-parent" href="{{ route('expenses.index') }}" data-toggle="collapse" href="#expenses-menu-item" role="button" aria-expanded="false" aria-controls="expenses-menu-item">
+    {{-- <a class="nav-link dropdown-parent" href="{{ route('expenses.index') }}" href="#expenses-menu-item" role="button" aria-expanded="false" aria-controls="expenses-menu-item">
         Expenses <div class="float-right caret-down-icon"><span class="badge badge-warning badge-pill">14</span><i class="fa fa-caret-down"></i></div>
     </a> --}}
 
@@ -77,7 +77,7 @@
 {{-- Charts --}}
 @if(\App\Checker::is_permitted('view charts'))
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#charts-menu-item" role="button" aria-expanded="false" aria-controls="charts-menu-item">
+    <a class="nav-link dropdown-parent" {{-- data-toggle="collapse" --}} href="#charts-menu-item" role="button" aria-expanded="false" aria-controls="charts-menu-item">
         Charts <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
     
@@ -104,7 +104,7 @@
 {{-- Payee --}}
 @if(\App\Checker::is_permitted('view bank'))
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#bank-menu-item" role="button" aria-expanded="false" aria-controls="bank-menu-item">
+    <a class="nav-link dropdown-parent" {{-- data-toggle="collapse" --}} href="#bank-menu-item" role="button" aria-expanded="false" aria-controls="bank-menu-item">
         Banks <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
 
@@ -131,7 +131,7 @@
 {{-- Payee  --}}
 @if(\App\Checker::is_permitted('view payee'))
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#payee-menu-item" role="button" aria-expanded="false" aria-controls="payee-menu-item">
+    <a class="nav-link dropdown-parent" {{-- data-toggle="collapse" --}} href="#payee-menu-item" role="button" aria-expanded="false" aria-controls="payee-menu-item">
         Payees <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
 
@@ -157,7 +157,7 @@
 {{-- Payment Method  --}}
 @if(\App\Checker::is_permitted('view payment_method'))
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#payment_method-menu-item" role="button" aria-expanded="false" aria-controls="payment_method-menu-item">
+    <a class="nav-link dropdown-parent" {{-- data-toggle="collapse" --}} href="#payment_method-menu-item" role="button" aria-expanded="false" aria-controls="payment_method-menu-item">
         Payment Method <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
     @if(strposa($route, ['payment_method']))
@@ -183,7 +183,7 @@
 @if(\App\Checker::is_permitted('view settings'))
 <div class="dropdown-divider border-secondary"></div>
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-parent" data-toggle="collapse" href="#settings-menu-item" role="button" aria-expanded="false" aria-controls="settings-menu-item">
+    <a class="nav-link dropdown-parent" {{-- data-toggle="collapse" --}} href="#settings-menu-item" role="button" aria-expanded="false" aria-controls="settings-menu-item">
         Settings <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
 

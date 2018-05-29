@@ -54,7 +54,7 @@
   width: 0;
   height: 100%;
   overflow-y: auto;
-  background: #000;
+  background: #D41654;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -97,13 +97,13 @@
 .sidebar-nav li a {
   display: block;
   text-decoration: none;
-  color: #999999;
+  color: #fff;
 }
 
 .sidebar-nav li a:hover {
   text-decoration: none;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.2);
+  color: #000 !important;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .sidebar-nav li a:active, .sidebar-nav li a:focus {
@@ -176,6 +176,20 @@ button.close {
   position: initial;
 }
 
+.sidebar-nav .bg-secondary {
+  background: rgba(272, 78, 137, 0.5) !important;
+}
+
+.sidebar-nav .nav-link:hover {
+  background: rgba(255, 255, 255, 0.5) !important;
+  color: #fff !important;
+}
+
+.sidebar-nav .dropdown-item.active {
+  // background: rgba(255, 255, 255, 0.5);
+  background: #FFC551 !important;
+  color: #fff !important;
+}
 
 // PRINT
 
