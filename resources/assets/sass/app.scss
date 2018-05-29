@@ -175,3 +175,11 @@ a[aria-expanded=true].dropdown-parent {
 button.close {
   position: initial;
 }
+
+
+// PRINT
+
+@media print {
+  @page { margin: 0; }
+  body { margin: 1.6cm; }
+}

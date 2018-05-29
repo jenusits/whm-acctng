@@ -262,4 +262,24 @@ class CheckController extends Controller
         }
         return redirect(route('expenses.index'))->with('message','Cheque has been deleted');
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * Displays a page to print
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function print($id) {
+
+        if(! \App\Checker::is_permitted('print check'))
+            return \App\Checker::display();
+
+        $check = \App\Expenses::findOrFail($id);
+        $expense = $check;
+        $particulars = $expense->particulars;
+
+        return view('layouts.vouchers.check-voucher', compact('expense', 'particulars'));
+    }
 }

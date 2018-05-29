@@ -62,6 +62,12 @@ Route::get('samp/{id}', function($id) {
 });
 
 Route::resource('check', 'Disbursement\CheckController');
+    Route::get('check/print/{id}', 'Disbursement\CheckController@print');
+
 Route::resource('bill', 'Disbursement\BillController');
 Route::resource('pay-bills', 'Disbursement\PayBillController');
+
+Route::get('settings', 'SettingsController@edit')->name('settings.index');
+Route::put('settings', 'SettingsController@update')->name('settings.update');
+
 

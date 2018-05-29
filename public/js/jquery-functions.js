@@ -60,43 +60,82 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 178);
+/******/ 	return __webpack_require__(__webpack_require__.s = 176);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 178:
+/***/ 176:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(179);
+module.exports = __webpack_require__(177);
 
 
 /***/ }),
 
-/***/ 179:
+/***/ 177:
 /***/ (function(module, exports) {
 
-window.JWSI = {
-    getParamsByName: function getParamsByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    },
-    printDiv: function printDiv(divName) {
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
+jQuery(function () {
+    jQuery('[data-toggle="tooltip"]').tooltip();
+});
 
-        document.body.innerHTML = printContents;
+jQuery('#close-menu').click(function () {
+    jQuery('#wrapper').toggleClass('toggled');
+});
 
-        window.print();
+jQuery(document).ready(function () {
+    jQuery("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
 
-        document.body.innerHTML = originalContents;
-    }
-};
+    jQuery.each(jQuery('.nav-item.dropdown a.nav-link.dropdown-parent'), function (key, value) {
+        if (jQuery(this).parent().find('.show').length > 0) jQuery(this).attr('aria-expanded', 'true');
+    });
+
+    jQuery('select#banks').on('change', function (e) {
+        var bank_id = e.target.value;
+        var selector = jQuery(this).parent();
+        selector.find('small').remove();
+        jQuery.get('/api/banks/' + bank_id, function (data) {
+            if (data) selector.append('<small><strong>Balance: ' + data.balance + '</strong></small>');
+        });
+    }).trigger('change');
+    jQuery('button.close').click(function () {
+        jQuery(this).parent().fadeOut();
+    });
+
+    // Handles Print
+    printModule();
+});
+
+// Handles Print
+function printModule() {
+    jQuery('.btn-print-modal').click(function () {
+        var type = jQuery(this).attr('expense-type');
+        var id = jQuery(this).attr('expense-id');
+
+        jQuery.get('/' + type + '/print/' + id, function (data) {
+            if (data) {
+                jQuery('#printer .modal-body').html(data);
+                jQuery('#printer').modal('toggle');
+
+                jQuery('#printer .btn-print-cancel').click(function () {
+                    jQuery('#printer .btn-print').unbind();
+                    jQuery('#printer').modal('toggle');
+                });
+
+                jQuery('#printer .btn-print').click(function () {
+                    jQuery('#print-element').printThis({
+                        importStyle: true
+                    });
+                    // window.JWSI.printDiv('print-element');
+                });
+            }
+        });
+    });
+}
 
 /***/ })
 

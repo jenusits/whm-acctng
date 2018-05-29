@@ -111,7 +111,7 @@
                                     @method('patch')
                                     <?php session()->flash('approved', true); ?>
                                     <input type="hidden" name="approved" value="1">
-                                    <span data-toggle="tooltip" data-html="true" title="Approve Request">
+                                    <span data-toggle="tooltip" data-html="true" title="Approve Bill">
                                         <button class="btn btn-success" type="button" @click="focusedID = {{ $expense->id }}; reference_number = '#' + focusedID;" data-toggle="modal" data-target="#approve-modal" title="Approve request"><i class="fas fa-check"></i></button>
                                     </span>
                                 </form>
@@ -120,7 +120,7 @@
                                     @method('patch')
                                     <?php session()->flash('approved', true); ?>
                                     <input type="hidden" name="approved" value="2">
-                                    <span data-toggle="tooltip" data-html="true" title="Reject Request">
+                                    <span data-toggle="tooltip" data-html="true" title="Reject Bill">
                                         <button class="btn btn-danger" type="button" @click="focusedID = {{ $expense->id }}; reference_number = '#' + focusedID;" data-toggle="modal" data-target="#disapprove-modal"><i class="fas fa-times"></i></button>
                                     </span>
                                 {{-- <button class="btn btn-danger" title="Disapprove request"><i class="fas fa-times"></i></button> --}}

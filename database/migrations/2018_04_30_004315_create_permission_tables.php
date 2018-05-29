@@ -86,12 +86,17 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'users']);
         Permission::create(['name' => 'roles']);
         Permission::create(['name' => 'permissions']);
+        
         Permission::create(['name' => 'view settings']);
+        // Permission::create(['name' => 'create settings']);
+        Permission::create(['name' => 'update settings']);
+        // Permission::create(['name' => 'delete settings']);
 
         Permission::create(['name' => 'view charts']);
         Permission::create(['name' => 'create charts']);
         Permission::create(['name' => 'update charts']);
         Permission::create(['name' => 'delete charts']);
+        Permission::create(['name' => 'print charts']);
 
         /* Permission::create(['name' => 'view request_funds']);
         Permission::create(['name' => 'create request_funds']);
@@ -109,6 +114,8 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'update expenses']);
         Permission::create(['name' => 'delete expenses']);
         Permission::create(['name' => 'approve expenses']);
+        Permission::create(['name' => 'print expense']);
+        Permission::create(['name' => 'print expenses']);
 
         Permission::create(['name' => 'view payment_method']);
         Permission::create(['name' => 'create payment_method']);
@@ -119,18 +126,22 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'create payee']);
         Permission::create(['name' => 'update payee']);
         Permission::create(['name' => 'delete payee']);
+        Permission::create(['name' => 'print payee']);
 
         Permission::create(['name' => 'view bill']);
         Permission::create(['name' => 'create bill']);
         Permission::create(['name' => 'update bill']);
         Permission::create(['name' => 'delete bill']);
         Permission::create(['name' => 'approve bill']);
+        Permission::create(['name' => 'print bill']);
 
         Permission::create(['name' => 'view check']);
         Permission::create(['name' => 'create check']);
         Permission::create(['name' => 'update check']);
         Permission::create(['name' => 'delete check']);
         Permission::create(['name' => 'approve check']);
+        Permission::create(['name' => 'print check']);
+        
         
         $role = Role::create(['name' => 'super-admin']);
         // Create a User and Set it to Admin

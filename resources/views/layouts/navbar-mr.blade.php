@@ -187,11 +187,16 @@
         Settings <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
     </a>
 
-    @if(strposa($route, ['users', 'roles']))
+    @if(strposa($route, ['users', 'roles', 'settings']))
         <div class="collapse bg-secondary show" id="settings-menu-item" aria-labelledby="navbarDropdown">
     @else
         <div class="collapse bg-secondary" id="settings-menu-item" aria-labelledby="navbarDropdown">
     @endif  
+    @if(\App\Checker::is_permitted('view settings'))
+        <a class="dropdown-item text-light @if(check_current('settings.index')) active @endif" href="{{ route('settings.index') }}">
+            {{ __('General') }}
+        </a>
+    @endif
     @if(\App\Checker::is_permitted('users'))
         <a class="dropdown-item text-light @if(check_current('users.index')) active @endif" href="{{ route('users.index') }}">
             {{ __('Users') }}

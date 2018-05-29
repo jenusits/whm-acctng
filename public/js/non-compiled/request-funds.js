@@ -8,7 +8,7 @@ var multi = new Vue({
         submitted: false,
     },
     mounted() {
-        while (i < JSWSI.getParamsByName('multi')) {
+        while (i < JWSI.getParamsByName('multi')) {
             this.addNewRow();
         }
     },

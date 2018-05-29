@@ -13,10 +13,10 @@ class CreatePayBillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pay_bills', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-        });
+        // Schema::create('pay_bills', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->timestamps();
+        // });
     }
 
     /**

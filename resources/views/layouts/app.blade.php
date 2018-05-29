@@ -90,5 +90,6 @@
 
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/jwsi.js') }}"></script>
+    <script src="{{ asset('js/jquery-functions.js') }}"></script>
 </body>
 </html>

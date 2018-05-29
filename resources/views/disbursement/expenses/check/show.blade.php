@@ -66,6 +66,7 @@
                         </table>
                     @endif
                 </div>
+                @if($expense->memo != '')
                 <div class="row">
                     <div class="col-md-12">
                         Memo:
@@ -74,9 +75,11 @@
                         </p>
                     </div>
                 </div>
+                @endif
                 @if(Auth::guest())
                   <a href="{{ route('login') }}" class="btn btn-info"> You need to login to see the list 😜😜 >></a>
                 @endif
+                @if(sizeof($attachments) > 0)
                 <div class="row">
                     <div class="col-md-12">
                         Attachments
@@ -88,6 +91,7 @@
                         @endforeach
                     </div>
                 </div>
+                @endif
                 <div class="col-md-5 col-sd-3" style="float: right !important;">
                     <div class="" style="margin: 20px;">
                         <div class="panel-heading">Total:</div><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="{{ $total }}" disabled>
@@ -98,10 +102,18 @@
                             <label>Approved by:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="<?php $apr = \App\User::find($expense->approved_by); echo $apr->name; ?>" disabled>
                             <br>
                             <label>Approved on:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" type="text" value="<?php $apr_on = Carbon\Carbon::createFromTimeString($expense->approved_on); echo $apr_on->toDayDateTimeString() ?>" disabled>
+                            
+                            @if($current_user->hasPermissionTo('print check'))
+                                <div class="mt-3">
+                                    <span data-toggle="tooltip" data-html="true" title="Print Check">
+                                        <button class="btn btn-success form-control btn-print-modal" expense-type="{{ $expense->getExpenseMeta('type') }}" expense-id="{{ $expense->id }}" type="button" title="Print Check"><i class="fas fa-print"></i> Print Check</button>
+                                    </span>
+                                </div>
+                            @endif
                         @endif
                     </div>
                     <div class="" style="margin: 20px;">
-                        @if($current_user->hasPermissionTo('approve expenses'))
+                        @if($current_user->hasPermissionTo('approve check'))
                             {{-- @if($expense->approved == 1) --}}
                                 <form id="form-approve-{{ $expense->id }}" action="{{ route('check.update', $expense->id ) }}" method="post" class="d-inline-block">
                                     @csrf
@@ -119,7 +131,7 @@
                                     <?php session()->flash('approved', true); ?>
                                     <input type="hidden" name="approved" value="2">
                                     
-                                    <span data-toggle="tooltip" data-html="true" title="Approve Request">
+                                    <span data-toggle="tooltip" data-html="true" title="Reject Request">
                                         <button class="btn btn-danger" type="button" @click="focusedID = {{ $expense->id }}; reference_number = '#' + focusedID;" data-toggle="modal" data-target="#disapprove-modal" title="Approve request"><i class="fas fa-times"></i></button>
                                     </span>
                                 {{-- <button class="btn btn-danger" title="Disapprove request"><i class="fas fa-times"></i></button> --}}
@@ -128,10 +140,10 @@
                             {{-- @endif --}}
                         @endif
                         
-                        @if($current_user->hasPermissionTo('update expenses') || Auth::id() == $expense->author)
+                        @if($current_user->hasPermissionTo('update check') || Auth::id() == $expense->author)
                             <a href="{{ route('check.edit', $expense->id )}}" class="btn btn-warning">Edit</a>
                         @endif
-                        @if($current_user->hasPermissionTo('delete expenses') || Auth::id() == $expense->author)
+                        @if($current_user->hasPermissionTo('delete check') || Auth::id() == $expense->author)
                             <form id="form-{{ $expense->id }}" action="{{route('check.destroy', $expense->id)}}" method="post" class="d-inline-block">
                                 @csrf
                                 @method('delete')
@@ -144,15 +156,37 @@
             </div>
         </div>
         <b-modal @close="focusedID = 0" @confirm="deleteRequest" id="app-modal" title="Confirm Action">
-            Are you sure you want to delete Request with a reference number of <b>@{{ reference_number }}</b>?
+            Are you sure you want to delete Check with a reference number of <b>@{{ reference_number }}</b>?
         </b-modal>
         <b-modal @close="focusedID = 0" @confirm="approveRequest" id="approve-modal" title="Confirm Action">
-            Approve request <b>@{{ reference_number }}</b>?
+            Approve Check <b>@{{ reference_number }}</b>?
         </b-modal>
         <b-modal @close="focusedID = 0" @confirm="disapproveRequest" id="disapprove-modal" title="Confirm Action">
-            Reject request <b>@{{ reference_number }}</b>?
+            Reject Check <b>@{{ reference_number }}</b>?
         </b-modal>
     </div>
     
+    <!-- The PRINT Modal -->
+    <div id="printer" class="modal fade app-modal" sytle="padding: 0 !important;">
+        <div class="modal-dialog modal-dialog-centered" style="min-width: 100%; margin: 0;">
+            <div class="modal-content" style="min-height: 100vh;">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title">PRINT</h4>
+                </div>
+        
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                </div>
+        
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-print">Print</button>
+                    <button type="button" class="btn btn-danger btn-print-cancel">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection

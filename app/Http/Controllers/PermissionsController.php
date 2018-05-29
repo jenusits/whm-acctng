@@ -62,6 +62,9 @@ class PermissionsController extends Controller
 
         Permission::create(['name' => $request['name']]);
 
+        $role = Role::find(1); // Sync New Permissions to Super Admin
+        $role->syncPermissions(Permission::all());
+
         session()->flash('message', 'Permission was added successfully');
         return redirect(route('permissions.index'));
     }
