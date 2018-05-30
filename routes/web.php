@@ -16,6 +16,7 @@
 }); */
 
 Route::get('/', function() {
+    return redirect('login');
     return view('auth.login');
 });
 
@@ -27,6 +28,7 @@ Route::resource('charts','ChartsController');
 
 // Route::resource('request_funds', 'Disbursement\RequestFunds\RequestFundsController');
 Route::resource('expenses', 'Disbursement\ExpensesController');
+    Route::get('expenses/print/{id}', 'Disbursement\ExpensesController@print');
 
 Route::get('/api/particulars/{type}/{id}', function($type = 'request_funds', $id) {
     /* if ($type == 'request_funds')

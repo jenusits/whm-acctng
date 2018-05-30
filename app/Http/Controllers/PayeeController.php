@@ -19,8 +19,8 @@ class PayeeController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('view payee'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view payee'))
+            return \PermissionChecker::display();
 
         $payees = \App\Payee::all();
         return view('payee.index', compact('payees'));
@@ -34,8 +34,8 @@ class PayeeController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('create payee'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create payee'))
+            return \PermissionChecker::display();
 
         return view('payee.create');
     }
@@ -50,8 +50,8 @@ class PayeeController extends Controller
     public function store(Request $request)
     {
         //
-        if(! \App\Checker::is_permitted('create payee'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create payee'))
+            return \PermissionChecker::display();
 
         $this->validate($request, [
             'name' => 'required',
@@ -76,8 +76,8 @@ class PayeeController extends Controller
     public function show(Payee $payee)
     {
         //
-        if(! \App\Checker::is_permitted('view payee'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view payee'))
+            return \PermissionChecker::display();
         
         return view('payee.show', compact('payee'));
     }
@@ -91,8 +91,8 @@ class PayeeController extends Controller
     public function edit(Payee $payee)
     {
         //
-        if(! \App\Checker::is_permitted('update payee'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update payee'))
+            return \PermissionChecker::display();
         
         return view('payee.edit', compact('payee'));
     }
@@ -107,8 +107,8 @@ class PayeeController extends Controller
     public function update(Request $request, Payee $payee)
     {
         //
-        if(! \App\Checker::is_permitted('update payee'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update payee'))
+            return \PermissionChecker::display();
         
         $this->validate($request, [
             'name' => 'required',
@@ -132,8 +132,8 @@ class PayeeController extends Controller
     public function destroy(Payee $payee)
     {
         //
-        if(! \App\Checker::is_permitted('delete payee'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('delete payee'))
+            return \PermissionChecker::display();
 
             
         $payee->delete();

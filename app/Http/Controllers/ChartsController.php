@@ -21,8 +21,8 @@ class ChartsController extends Controller
      */
     public function index()
     {
-        if(! \App\Checker::is_permitted('view charts'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view charts'))
+            return \PermissionChecker::display();
 
         $charts = Charts::orderby('id','asc')->get();
 
@@ -35,8 +35,8 @@ class ChartsController extends Controller
      */
     public function show(Charts $chart)
     {
-        if(! \App\Checker::is_permitted('view charts'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view charts'))
+            return \PermissionChecker::display();
 
         return view('charts.show', compact('chart'));
     }
@@ -46,8 +46,8 @@ class ChartsController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Charts $chart) {
-        if(! \App\Checker::is_permitted('update charts'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update charts'))
+            return \PermissionChecker::display();
 
         if (! Auth::check()) {
             session()->flash('message', 'You must log in first');
@@ -57,8 +57,8 @@ class ChartsController extends Controller
     }
 
     public function create() {
-        if(! \App\Checker::is_permitted('create charts'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create charts'))
+            return \PermissionChecker::display();
 
         return view('charts.create');
     }
@@ -69,8 +69,8 @@ class ChartsController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Charts $chart) {
-        if(! \App\Checker::is_permitted('delete charts'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('delete charts'))
+            return \PermissionChecker::display();
 
         $chart->delete();
 
@@ -83,8 +83,8 @@ class ChartsController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, Charts $chart) {
-        if(! \App\Checker::is_permitted('update charts'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update charts'))
+            return \PermissionChecker::display();
 
         $this->validate($request,[
             'account_name' => 'required'
@@ -97,8 +97,8 @@ class ChartsController extends Controller
     }
 
     public function store(Request $request) {
-        if(! \App\Checker::is_permitted('create charts'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create charts'))
+            return \PermissionChecker::display();
 
         $this->validate($request,[
             'account_name' => 'required'

@@ -24,8 +24,8 @@ class RequestFundsController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('view request_funds'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view request_funds'))
+            return \PermissionChecker::display();
 
         $request_funds = Request_funds::orderby('id','desc')->get();
         $charts = new Charts;
@@ -50,8 +50,8 @@ class RequestFundsController extends Controller
     public function create(Request $request)
     {
         //
-        if(! \App\Checker::is_permitted('create request_funds'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create request_funds'))
+            return \PermissionChecker::display();
 
         $categories = Charts::all();
         // dd(request('multi'));
@@ -120,8 +120,8 @@ class RequestFundsController extends Controller
     public function show(Request_funds $request_fund)
     {
         //
-        if(! \App\Checker::is_permitted('view request_funds'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view request_funds'))
+            return \PermissionChecker::display();
 
         $charts = new Charts;
         $rfm = Request_funds::findOrFail($request_fund->id);
@@ -142,8 +142,8 @@ class RequestFundsController extends Controller
     public function edit(Request_funds $request_fund)
     {
         //
-        if(! \App\Checker::is_permitted('update request_funds'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update request_funds'))
+            return \PermissionChecker::display();
 
         $charts = Charts::all();
         $categories = Charts::all();
@@ -164,8 +164,8 @@ class RequestFundsController extends Controller
     {
         //
         // dd(request()->all());
-        if(! \App\Checker::is_permitted('update request_funds'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update request_funds'))
+            return \PermissionChecker::display();
 
         if (null !== $request->get('approved')) {
             $request_funds = Request_funds::find($id);
@@ -218,8 +218,8 @@ class RequestFundsController extends Controller
     public function destroy(Request_funds $request_funds, $id)
     {
         //
-        if(! \App\Checker::is_permitted('delete request_funds'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('delete request_funds'))
+            return \PermissionChecker::display();
 
         $request_fund = $request_funds::find($id);
         $request_fund->delete();

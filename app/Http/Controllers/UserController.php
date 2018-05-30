@@ -23,8 +23,8 @@ class UserController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('users'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('users'))
+            return \PermissionChecker::display();
 
         $users = \App\User::all();
         return view('user.index', compact('users'));
@@ -38,8 +38,8 @@ class UserController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('users'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('users'))
+            return \PermissionChecker::display();
 
         $roles = Role::all();
         $user = \App\User::find(Auth::id());
@@ -56,8 +56,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //$user = new App\User;
-        if(! \App\Checker::is_permitted('users'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('users'))
+            return \PermissionChecker::display();
 
         $this->validate($request, [
             'name' => 'required|string|max:255',
@@ -95,8 +95,8 @@ class UserController extends Controller
     public function edit($id)
     {
         //
-        // if(! \App\Checker::is_permitted('users'))
-        //     return \App\Checker::display();
+        // if(! \PermissionChecker::is_permitted('users'))
+        //     return \PermissionChecker::display();
 
         $u = \App\User::find(Auth::id());
         $cr = $u->roles->pluck('name');
@@ -105,8 +105,8 @@ class UserController extends Controller
         else
             $cr = '';
 
-        if ($id != Auth::id() && ! \App\Checker::is_permitted('users'))
-            return \App\Checker::display();
+        if ($id != Auth::id() && ! \PermissionChecker::is_permitted('users'))
+            return \PermissionChecker::display();
 
         $current_user = $u;
 
@@ -130,8 +130,8 @@ class UserController extends Controller
     public function update(Request $request, \App\User $user)
     {
         //
-        if(! \App\Checker::is_permitted('users') && $user->id != \Auth::id())
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('users') && $user->id != \Auth::id())
+            return \PermissionChecker::display();
 
 
         $fields = [];

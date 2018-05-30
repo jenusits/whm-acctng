@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-2 col-md-offset-1">
                 <div class="btn-group float-left">
-                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-success dropdown-toggle" type="button"  aria-haspopup="true" aria-expanded="false">
                         New Transaction
                     </button>
                     <div class="dropdown-menu">
@@ -68,11 +68,11 @@
                                         @endif
                                     </td>
                                     <td>
-                                    {{-- @if(Auth::id() == $expense->author || \App\Checker::is_permitted('expenses')) --}}
-                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('update expenses'))
+                                    {{-- @if(Auth::id() == $expense->author || \PermissionChecker::is_permitted('expenses')) --}}
+                                        @if(Auth::id() == $expense->author || \PermissionChecker::is_permitted('update expenses'))
                                             <a style="margin: 5px; font-size: 10px" href="{{ route('expenses.edit', $expense->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                         @endif
-                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('delete expenses'))
+                                        @if(Auth::id() == $expense->author || \PermissionChecker::is_permitted('delete expenses'))
                                             <form id="form-{{ $expense->id }}" action="{{ route('expenses.destroy', $expense->id) }}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')

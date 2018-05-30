@@ -35,10 +35,10 @@
                                     </td>
                                     <td>{{ $payment_method->description }}</td>
                                     <td>
-                                        @if(\App\Checker::is_permitted('update payment_method'))
+                                        @if(\PermissionChecker::is_permitted('update payment_method'))
                                             <a style="margin: 5px; font-size: 10px" href="{{ route('payment_method.edit', $payment_method->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                         @endif
-                                        @if(\App\Checker::is_permitted('delete payment_method'))
+                                        @if(\PermissionChecker::is_permitted('delete payment_method'))
                                             <form id="form-{{ $payment_method->id }}" action="{{ route('payment_method.destroy', $payment_method->id) }}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')

@@ -214,6 +214,7 @@ return [
 
         //Added
         'Setting' => 'anlutro\LaravelSettings\Facade',
+        'PermissionChecker' => '\App\Services\PermissionChecker',
     ],
 
 ];

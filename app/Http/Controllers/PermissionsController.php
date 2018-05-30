@@ -24,8 +24,8 @@ class PermissionsController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('permissions'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('permissions'))
+            return \PermissionChecker::display();
 
         $permissions = Permission::all();
         return view('permissions.index', compact('permissions'));
@@ -39,8 +39,8 @@ class PermissionsController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('permissions'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('permissions'))
+            return \PermissionChecker::display();
         return view('permissions.create');
     }
 
@@ -53,8 +53,8 @@ class PermissionsController extends Controller
     public function store(Request $request)
     {
         //
-        if(! \App\Checker::is_permitted('permissions'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('permissions'))
+            return \PermissionChecker::display();
 
         $this->validate($request, [
             'name' => 'required'
@@ -78,8 +78,8 @@ class PermissionsController extends Controller
     public function show(Permissions $permissions)
     {
         //
-        if(! \App\Checker::is_permitted('permissions'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('permissions'))
+            return \PermissionChecker::display();
     }
 
     /**
@@ -91,8 +91,8 @@ class PermissionsController extends Controller
     public function edit(Permissions $permissions)
     {
         //
-        if(! \App\Checker::is_permitted('permissions'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('permissions'))
+            return \PermissionChecker::display();
     }
 
     /**
@@ -105,8 +105,8 @@ class PermissionsController extends Controller
     public function update(Request $request, Permissions $permissions)
     {
         //
-        if(! \App\Checker::is_permitted('permissions'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('permissions'))
+            return \PermissionChecker::display();
     }
 
     /**
@@ -118,7 +118,7 @@ class PermissionsController extends Controller
     public function destroy(Permissions $permissions)
     {
         //
-        if(! \App\Checker::is_permitted('permissions'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('permissions'))
+            return \PermissionChecker::display();
     }
 }

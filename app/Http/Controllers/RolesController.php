@@ -22,8 +22,8 @@ class RolesController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('roles'))
+            return \PermissionChecker::display();
 
         $roles = Role::all();
         return view('roles.index', compact('roles'));
@@ -37,8 +37,8 @@ class RolesController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('roles'))
+            return \PermissionChecker::display();
         
         $permissions = Permission::all();
         return view('roles.create', compact('permissions'));
@@ -57,8 +57,8 @@ class RolesController extends Controller
         //     'name' => 'required'
         // ]);
 
-        if(! \App\Checker::is_permitted('roles'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('roles'))
+            return \PermissionChecker::display();
             
         Role::create(['name' => $request['name']]);
 
@@ -75,8 +75,8 @@ class RolesController extends Controller
     public function show(Role $roles)
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('roles'))
+            return \PermissionChecker::display();
             
     }
 
@@ -89,8 +89,8 @@ class RolesController extends Controller
     public function edit(Role $role)
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('roles'))
+            return \PermissionChecker::display();
             
         $permissions = Permission::all();
         // $permitted = \DB::select("SELECT * FROM `permissions` where permissions.id in (select permission_id from role_has_permissions where role_id = $role->id)");
@@ -107,8 +107,8 @@ class RolesController extends Controller
     public function update(Request $request, Role $role)
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('roles'))
+            return \PermissionChecker::display();
             
         $this->validate($request, [
             'permissions' => 'required'
@@ -130,8 +130,8 @@ class RolesController extends Controller
     public function destroy(Role $roles)
     {
         //
-        if(! \App\Checker::is_permitted('roles'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('roles'))
+            return \PermissionChecker::display();
             
     }
 }

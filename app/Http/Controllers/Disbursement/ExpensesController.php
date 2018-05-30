@@ -24,8 +24,8 @@ class ExpensesController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('view expenses'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view expenses'))
+            return \PermissionChecker::display();
 
         $expenses = Expenses::orderby('id','desc')->get();
 
@@ -48,8 +48,8 @@ class ExpensesController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('create expenses'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create expenses'))
+            return \PermissionChecker::display();
 
         $categories = Charts::all();
         $banks = \App\Bank::all();
@@ -73,8 +73,8 @@ class ExpensesController extends Controller
 
         $files = request()->has('attachments') ? request('attachments') : false;
 
-        if(! \App\Checker::is_permitted('create expenses'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create expenses'))
+            return \PermissionChecker::display();
 
         $expense = new Expenses();
         $expense->author = Auth::id();
@@ -128,8 +128,8 @@ class ExpensesController extends Controller
     public function show(Expenses $expense)
     {
         //
-        if(! \App\Checker::is_permitted('view expenses'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view expenses'))
+            return \PermissionChecker::display();
 
         $charts = new Charts;
         $expm = Expenses::findOrFail($expense->id);
@@ -155,8 +155,8 @@ class ExpensesController extends Controller
     public function edit(Expenses $expense)
     {
         //
-        if(! \App\Checker::is_permitted('update expenses'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update expenses'))
+            return \PermissionChecker::display();
 
         $charts = Charts::all();
         $categories = Charts::all();
@@ -181,8 +181,8 @@ class ExpensesController extends Controller
     public function update(Request $request, Expenses $expenses, $id)
     {
         //
-        if(! \App\Checker::is_permitted('update expenses'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update expenses'))
+            return \PermissionChecker::display();
 
         if (null !== $request->get('approved')) {
             $expenses = Expenses::find($id);
@@ -251,8 +251,8 @@ class ExpensesController extends Controller
     public function destroy(Expenses $expenses, $id)
     {
         //
-        if(! \App\Checker::is_permitted('delete expenses'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('delete expenses'))
+            return \PermissionChecker::display();
 
         $expense = $expenses::find($id);
         $expense->delete();
@@ -269,5 +269,28 @@ class ExpensesController extends Controller
                 unlink(public_path('uploads/attachments/' . $attachment->filename));
         }
         return redirect(route('expenses.index'))->with('message','Expense has been deleted');
+    }
+
+    
+    /**
+     * Display the specified resource.
+     *
+     * Displays a page to print
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function print($id) {
+
+        if(! \PermissionChecker::is_permitted('print expense'))
+            return \PermissionChecker::display();
+
+        $expense = \App\Expenses::findOrFail($id);
+        $particulars = $expense->particulars;
+
+        if ($expense->getExpenseMeta('type') != 'expense')
+            abort(404);
+
+        return view('layouts.vouchers.expense-voucher', compact('expense', 'particulars'));
     }
 }

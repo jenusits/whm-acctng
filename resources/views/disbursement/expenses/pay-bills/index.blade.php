@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-2 col-md-offset-1">
                 <div class="btn-group float-left">
-                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-success dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">
                         New Transaction
                     </button>
                     <div class="dropdown-menu">
@@ -68,14 +68,14 @@
                                         @endif
                                     </td>
                                     <td>
-                                    {{-- @if(Auth::id() == $expense->author || \App\Checker::is_permitted('expenses')) --}}
+                                    {{-- @if(Auth::id() == $expense->author || \PermissionChecker::is_permitted('expenses')) --}}
                                         @if($expense->approved == 1 &&  $expense->getExpenseMeta('type') == 'bill')
                                             <a style="margin: 5px; font-size: 10px" href="{{ route('pay-bills.edit', $expense->id) }}" class="btn btn-success btn-sm">Pay Bill</a>
                                         @endif
-                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('update bill'))
+                                        @if(Auth::id() == $expense->author || \PermissionChecker::is_permitted('update bill'))
                                             <a style="margin: 5px; font-size: 10px" href="{{ route('bill.edit', $expense->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                         @endif
-                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('delete bill'))
+                                        @if(Auth::id() == $expense->author || \PermissionChecker::is_permitted('delete bill'))
                                             <form id="form-{{ $expense->id }}" action="{{ route('bill.destroy', $expense->id) }}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')

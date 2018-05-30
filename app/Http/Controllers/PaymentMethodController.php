@@ -19,8 +19,8 @@ class PaymentMethodController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('view payment_method'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view payment_method'))
+            return \PermissionChecker::display();
 
         $payment_methods = PaymentMethod::all();
         return view('payment_method.index', compact('payment_methods'));
@@ -34,8 +34,8 @@ class PaymentMethodController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('create payment_method'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create payment_method'))
+            return \PermissionChecker::display();
 
         return view('payment_method.create');
     }
@@ -49,8 +49,8 @@ class PaymentMethodController extends Controller
     public function store(Request $request)
     {
         //
-        if(! \App\Checker::is_permitted('create payment_method'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create payment_method'))
+            return \PermissionChecker::display();
 
         $this->validate($request, [
             'name' => 'required'
@@ -86,8 +86,8 @@ class PaymentMethodController extends Controller
     public function edit(PaymentMethod $paymentMethod)
     {
         //
-        if(! \App\Checker::is_permitted('update payment_method'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update payment_method'))
+            return \PermissionChecker::display();
 
         $payment_method = $paymentMethod;
         return view('payment_method.edit', compact('payment_method'));
@@ -103,8 +103,8 @@ class PaymentMethodController extends Controller
     public function update(Request $request, PaymentMethod $paymentMethod)
     {
         //
-        if(! \App\Checker::is_permitted('create payment_method'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create payment_method'))
+            return \PermissionChecker::display();
 
         $this->validate($request, [
             'name' => 'required'
@@ -127,8 +127,8 @@ class PaymentMethodController extends Controller
     public function destroy(PaymentMethod $paymentMethod)
     {
         //
-        if(! \App\Checker::is_permitted('delete payment_method'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('delete payment_method'))
+            return \PermissionChecker::display();
 
         $paymentMethod->delete();
 

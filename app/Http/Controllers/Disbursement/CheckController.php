@@ -24,8 +24,8 @@ class CheckController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('view check'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view check'))
+            return \PermissionChecker::display();
 
         $expenses = \App\Expenses::getExpenses('check');
         return view('disbursement.expenses.check.index', compact('expenses'));
@@ -39,8 +39,8 @@ class CheckController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('create bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create bill'))
+            return \PermissionChecker::display();
 
         $categories = \App\Charts::all();
         $banks = \App\Bank::all();
@@ -63,8 +63,8 @@ class CheckController extends Controller
 
         $files = request()->has('attachments') ? request('attachments') : false;
 
-        if(! \App\Checker::is_permitted('create bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create bill'))
+            return \PermissionChecker::display();
 
         $expense = new \App\Expenses();
         $expense->author = \Auth::id();
@@ -119,8 +119,8 @@ class CheckController extends Controller
     public function show($id)
     {
         //
-        if(! \App\Checker::is_permitted('view check'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view check'))
+            return \PermissionChecker::display();
 
         $charts = new Charts;
         $expense = Expenses::findOrFail($id);
@@ -146,8 +146,8 @@ class CheckController extends Controller
     public function edit($id)
     {
         //
-        if(! \App\Checker::is_permitted('update check'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update check'))
+            return \PermissionChecker::display();
 
         $charts = Charts::all();
         $categories = Charts::all();
@@ -172,8 +172,8 @@ class CheckController extends Controller
     public function update(Request $request, $id)
     {
         //
-        if(! \App\Checker::is_permitted('update check'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update check'))
+            return \PermissionChecker::display();
 
         if (null !== $request->get('approved')) {
             $expenses = Expenses::find($id);
@@ -243,8 +243,8 @@ class CheckController extends Controller
     public function destroy($id)
     {
         //
-        if(! \App\Checker::is_permitted('delete check'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('delete check'))
+            return \PermissionChecker::display();
 
         $expense = Expenses::find($id);
         $expense->delete();
@@ -273,12 +273,15 @@ class CheckController extends Controller
      */
     public function print($id) {
 
-        if(! \App\Checker::is_permitted('print check'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('print check'))
+            return \PermissionChecker::display();
 
         $check = \App\Expenses::findOrFail($id);
         $expense = $check;
         $particulars = $expense->particulars;
+
+        if ($expense->getExpenseMeta('type') != 'check')
+            abort(404);
 
         return view('layouts.vouchers.check-voucher', compact('expense', 'particulars'));
     }

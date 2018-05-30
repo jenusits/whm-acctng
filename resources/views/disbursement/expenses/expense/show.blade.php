@@ -101,6 +101,14 @@
                             <label>Approved by:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" value="<?php $apr = \App\User::find($expense->approved_by); echo $apr->name; ?>" disabled>
                             <br>
                             <label>Approved on:</label><input class="form-control" style="border: none; border-bottom: 1px solid #333; background: none; border-radius: 0;" type="text" value="<?php $apr_on = Carbon\Carbon::createFromTimeString($expense->approved_on); echo $apr_on->toDayDateTimeString() ?>" disabled>
+                            
+                            @if($current_user->hasPermissionTo('print expense'))
+                                <div class="mt-3">
+                                    <span data-toggle="tooltip" data-html="true" title="Print Expense">
+                                        <button class="btn btn-success form-control btn-print-modal" expense-type="expenses" expense-id="{{ $expense->id }}" type="button" title="Print Check"><i class="fas fa-print"></i> Print Expense</button>
+                                    </span>
+                                </div>
+                            @endif
                         @endif
                     </div>
                     <div class="" style="margin: 20px;">
@@ -157,5 +165,6 @@
         </b-modal>
     </div>
     
+    @include('layouts.components.printer-modal')
 
 @endsection

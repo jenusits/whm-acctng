@@ -42,10 +42,10 @@
                                     <td>{{ $bank->description }}</td>
                                     <td>{{ $bank->balance }}</td>
                                     <td>
-                                        @if(\App\Checker::is_permitted('update bank'))
+                                        @if(\PermissionChecker::is_permitted('update bank'))
                                             <a style="margin: 5px; font-size: 10px" href="{{ route('bank.edit', $bank->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                         @endif
-                                        @if(\App\Checker::is_permitted('delete bank'))
+                                        @if(\PermissionChecker::is_permitted('delete bank'))
                                             <form id="form-{{ $bank->id }}" action="{{ route('bank.destroy', $bank->id) }}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')

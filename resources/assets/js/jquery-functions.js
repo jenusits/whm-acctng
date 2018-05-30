@@ -19,13 +19,15 @@ jQuery(document).ready(function() {
             jQuery(this).attr('aria-expanded', 'true');
     });
 
-    jQuery('li a[role=button]').click(function() {
+    jQuery('li a[role=button], .dropdown-toggle').click(function() {
         if (jQuery(this).attr('aria-expanded') == 'false') {
             jQuery(this).attr('aria-expanded', 'true');
-            jQuery(this).parent().find('div[aria-labelledby=navbarDropdown]').toggleClass('show');
+            jQuery(this).parent().find('div[aria-labelledby=navbarDropdown]').slideDown(50).toggleClass('show');
+            jQuery(this).parent().find('div.dropdown-menu').slideDown(50).toggleClass('show');
         } else {
             jQuery(this).attr('aria-expanded', 'false');
-            jQuery(this).parent().find('div[aria-labelledby=navbarDropdown]').toggleClass('show');
+            jQuery(this).parent().find('div[aria-labelledby=navbarDropdown]').slideUp(50).toggleClass('show');
+            jQuery(this).parent().find('div.dropdown-menu').slideUp(50).toggleClass('show');
         }
     });
 
@@ -45,6 +47,9 @@ jQuery(document).ready(function() {
 
     // Handles Print
     printModule();
+
+    //Handles Keyboard Shortcuts
+    keyboardShortcutsModule();
 
 });
 
@@ -75,5 +80,12 @@ function printModule() {
         });
 
     });
+}
 
+// Handles Keyboard Shortcuts
+function keyboardShortcutsModule() {
+    jQuery(document).keydown(function(e){
+        if( e.which === 90 && e.altKey && e.shiftKey )
+            jQuery('#menu-toggle').click();        
+    });
 }

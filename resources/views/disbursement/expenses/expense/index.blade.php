@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-2 col-md-offset-1">
                 <div class="btn-group float-left">
-                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-success dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">
                         New Transaction
                     </button>
                     <div class="dropdown-menu">
@@ -75,13 +75,13 @@
                                         @endif
                                     </td>
                                     <td>
-                                    {{-- @if(Auth::id() == $expense->author || \App\Checker::is_permitted('expenses')) --}}
+                                    {{-- @if(Auth::id() == $expense->author || \PermissionChecker::is_permitted('expenses')) --}}
                                         @if($expense->getExpenseMeta('type') == 'expense' && $expense->approved == 1)
                                             <span data-toggle="tooltip" data-html="true" title="Print Expense">
-                                                <a style="margin: 5px; font-size: 10px"  class="btn btn-secondary btn-sm"><i class="fas fa-print"></i></a>
+                                                <a style="margin: 5px; font-size: 10px"  class="btn btn-secondary btn-sm btn-print-modal" expense-type="expenses" expense-id="{{ $expense->id }}"><i class="fas fa-print"></i></a>
                                             </span>
                                         @endif
-                                        @if($expense->getExpenseMeta('type') == 'check' && $expense->approved == 1)
+                                        @if(PermissionChecker::is_permitted('print check') && $expense->getExpenseMeta('type') == 'check' && $expense->approved == 1)
                                             <span data-toggle="tooltip" data-html="true" title="Print Check">
                                                 <a style="margin: 5px; font-size: 10px" class="btn btn-secondary btn-sm btn-print-modal" expense-type="check" expense-id="{{ $expense->id }}"><i class="fas fa-print"></i></a>
                                             </span>
@@ -91,12 +91,12 @@
                                                 <a style="margin: 5px; font-size: 10px" href="{{ route($type . '.edit', $expense->id) }}" class="btn btn-success btn-sm">Pay Bill</a>
                                             </span>
                                         @endif
-                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('update expenses'))
+                                        @if(Auth::id() == $expense->author || \PermissionChecker::is_permitted('update expenses'))
                                             <span data-toggle="tooltip" data-html="true" title="Update transaction">
                                                 <a style="margin: 5px; font-size: 10px" href="{{ route($type . '.edit', $expense->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                             </span>
                                         @endif
-                                        @if(Auth::id() == $expense->author || \App\Checker::is_permitted('delete expenses'))
+                                        @if(Auth::id() == $expense->author || \PermissionChecker::is_permitted('delete expenses'))
                                             <form id="form-{{ $expense->id }}" action="{{ route($type . '.destroy', $expense->id) }}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')

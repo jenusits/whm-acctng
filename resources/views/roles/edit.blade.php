@@ -17,7 +17,7 @@
                         <h3>Permissions</h3>
                         @foreach($permissions as $key => $permission)
                             <div>
-                                @if(\App\Checker::is_role_permitted($role->id, $permission->id))
+                                @if(\PermissionChecker::is_role_permitted($role->id, $permission->id))
                                     <input type="checkbox" checked class="" name="permissions[]" id="{{ $permission->id }}" value="{{ $permission->id }}">
                                 @else
                                     <input type="checkbox" class="" name="permissions[]" id="{{ $permission->id }}" value="{{ $permission->id }}">

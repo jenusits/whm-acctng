@@ -24,8 +24,8 @@ class BillController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('view bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view bill'))
+            return \PermissionChecker::display();
         $expenses = \App\Expenses::getExpenses('bill');
         return view('disbursement.expenses.bill.index', compact('expenses'));
     }
@@ -38,8 +38,8 @@ class BillController extends Controller
     public function create()
     {
         //
-        if(! \App\Checker::is_permitted('create bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create bill'))
+            return \PermissionChecker::display();
 
         $categories = \App\Charts::all();
         $banks = \App\Bank::all();
@@ -63,8 +63,8 @@ class BillController extends Controller
 
         $files = request()->has('attachments') ? request('attachments') : false;
 
-        if(! \App\Checker::is_permitted('create bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create bill'))
+            return \PermissionChecker::display();
 
         $expense = new \App\Expenses();
         $expense->author = \Auth::id();
@@ -120,8 +120,8 @@ class BillController extends Controller
     public function show($id)
     {
         //
-        if(! \App\Checker::is_permitted('view bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view bill'))
+            return \PermissionChecker::display();
 
         $charts = new Charts;
         $expense = Expenses::findOrFail($id);
@@ -147,8 +147,8 @@ class BillController extends Controller
     public function edit($id)
     {
         //
-        if(! \App\Checker::is_permitted('update bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update bill'))
+            return \PermissionChecker::display();
 
         $charts = Charts::all();
         $categories = Charts::all();
@@ -175,8 +175,8 @@ class BillController extends Controller
     public function update(Request $request, $id)
     {
         //
-        if(! \App\Checker::is_permitted('update bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update bill'))
+            return \PermissionChecker::display();
 
         if (null !== $request->get('approved')) {
             $expenses = Expenses::find($id);
@@ -245,8 +245,8 @@ class BillController extends Controller
     public function destroy($id)
     {
         //
-        if(! \App\Checker::is_permitted('delete bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('delete bill'))
+            return \PermissionChecker::display();
 
         $expense = Expenses::find($id);
         $expense->delete();

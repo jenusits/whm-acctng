@@ -37,10 +37,10 @@
                                     <td>{{ $payee->description }}</td>
                                     <td>{{ ucfirst($payee->category) }}</td>
                                     <td>
-                                        @if(\App\Checker::is_permitted('update payee'))
+                                        @if(\PermissionChecker::is_permitted('update payee'))
                                             <a style="margin: 5px; font-size: 10px" href="{{ route('payee.edit', $payee->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                         @endif
-                                        @if(\App\Checker::is_permitted('delete payee'))
+                                        @if(\PermissionChecker::is_permitted('delete payee'))
                                             <form id="form-{{ $payee->id }}" action="{{ route('payee.destroy', $payee->id) }}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')

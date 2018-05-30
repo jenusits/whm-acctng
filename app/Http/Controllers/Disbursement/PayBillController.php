@@ -24,8 +24,8 @@ class PayBillController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('view bill'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view bill'))
+            return \PermissionChecker::display();
         $expenses = \App\Expenses::getExpenses('bill');
 
         return view('disbursement.expenses.pay-bills.index', compact('expenses'));

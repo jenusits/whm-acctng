@@ -66,8 +66,8 @@ class SettingsController extends Controller
     public function edit(Settings $settings)
     {
         //
-        if(! \App\Checker::is_permitted('update settings'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update settings'))
+            return \PermissionChecker::display();
 
         $permissions = \Setting::all();
 

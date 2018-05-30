@@ -60,11 +60,11 @@
                                         @endif
                                     </td>
                                     <td>
-                                    {{-- @if(Auth::id() == $request_fund->author || \App\Checker::is_permitted('request_funds')) --}}
-                                        @if(Auth::id() == $request_fund->author || \App\Checker::is_permitted('update request_funds'))
+                                    {{-- @if(Auth::id() == $request_fund->author || \PermissionChecker::is_permitted('request_funds')) --}}
+                                        @if(Auth::id() == $request_fund->author || \PermissionChecker::is_permitted('update request_funds'))
                                             <a style="margin: 5px; font-size: 10px" href="{{ route('request_funds.edit', $request_fund->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                         @endif
-                                        @if(Auth::id() == $request_fund->author || \App\Checker::is_permitted('delete request_funds'))
+                                        @if(Auth::id() == $request_fund->author || \PermissionChecker::is_permitted('delete request_funds'))
                                             <form id="form-{{ $request_fund->id }}" action="{{ route('request_funds.destroy', $request_fund->id) }}" method="post" class="d-inline-block">
                                                 @csrf
                                                 @method('delete')

@@ -1,12 +1,10 @@
 <?php
 
-namespace App;
-
-use App\Model;
+namespace App\Services;
 
 use Spatie\Permission\Models\Role;
 
-class Checker extends Model
+class PermissionChecker
 {
     //
     public static function is_permitted($permission) {

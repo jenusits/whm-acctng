@@ -19,8 +19,8 @@ class BankController extends Controller
     public function index()
     {
         //
-        if(! \App\Checker::is_permitted('view bank'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('view bank'))
+            return \PermissionChecker::display();
 
         $banks = Bank::all();
         return view('bank.index', compact('banks'));
@@ -46,8 +46,8 @@ class BankController extends Controller
     public function store(Request $request)
     {
         //
-        if(! \App\Checker::is_permitted('create bank'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create bank'))
+            return \PermissionChecker::display();
 
         $this->validate($request, [
             'name' => 'required',
@@ -86,8 +86,8 @@ class BankController extends Controller
     public function edit(Bank $bank)
     {
         //
-        if(! \App\Checker::is_permitted('update bank'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('update bank'))
+            return \PermissionChecker::display();
 
         return view('bank.edit', compact('bank'));
     }
@@ -102,8 +102,8 @@ class BankController extends Controller
     public function update(Request $request, Bank $bank)
     {
         //
-        if(! \App\Checker::is_permitted('create bank'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('create bank'))
+            return \PermissionChecker::display();
 
         $this->validate($request, [
             'name' => 'required',
@@ -128,8 +128,8 @@ class BankController extends Controller
     public function destroy(Bank $bank)
     {
         //
-        if(! \App\Checker::is_permitted('delete bank'))
-            return \App\Checker::display();
+        if(! \PermissionChecker::is_permitted('delete bank'))
+            return \PermissionChecker::display();
 
         $bank->delete();
 
