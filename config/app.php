@@ -213,8 +213,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         //Added
-        'Setting' => '\App\Services\SettingsModule',
         'PermissionChecker' => '\App\Services\PermissionChecker',
+        'Setting' => '\App\Services\SettingsModule',
     ],
 
 ];
