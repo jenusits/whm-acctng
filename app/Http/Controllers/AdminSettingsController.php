@@ -16,7 +16,7 @@ class AdminSettingsController extends Controller
         if(! \PermissionChecker::is_permitted('view settings'))
             return \PermissionChecker::display();
 
-        $settings = \Setting::all();
+        $settings = \App\Settings::all();
 
         return view('admin-settings.index', compact('settings'));
     }
