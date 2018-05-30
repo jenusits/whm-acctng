@@ -75,6 +75,7 @@
                                     </td>
                                     <td style="padding: 5px 20px">
                                         <select id="categories" class="form-control" v-model="row.category" v-bind:name="row._category">
+                                            <option value="">Please select</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->account_name }}</option>
                                             @endforeach

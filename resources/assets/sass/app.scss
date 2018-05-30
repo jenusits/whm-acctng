@@ -188,11 +188,10 @@ button.close {
 .sidebar-nav .dropdown-item.active {
   // background: rgba(255, 255, 255, 0.5);
   background: #FFC551 !important;
-  color: #fff !important;
+  color: #000 !important;
 }
 
 // PRINT
-
 @media print {
   @page { margin: 0; }
   body { margin: 1.6cm; }

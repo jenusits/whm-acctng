@@ -10594,7 +10594,7 @@ button.close {
 
 .sidebar-nav .dropdown-item.active {
   background: #FFC551 !important;
-  color: #fff !important;
+  color: #000 !important;
 }
 
 @media print {

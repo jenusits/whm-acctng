@@ -69,7 +69,8 @@
                                         <input type="number" step="any" class="form-control" id="amount" v-model="row.amount" v-bind:name="row._amount">
                                     </td>
                                     <td style="padding: 5px 20px">
-                                        <select id="categories" class="form-control" v-model="row.category" v-bind:name="row._category">
+                                        <select id="categories" class="form-control" placeholder="Please select . . ." v-model="row.category" v-bind:name="row._category">
+                                            <option value="">Please select</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->account_name }}</option>
                                             @endforeach
