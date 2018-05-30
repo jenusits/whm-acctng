@@ -23,9 +23,9 @@ class CreateSettingsTable extends Migration
             $table->timestamps();
         });
 
-        \Setting::set('company_name', '', 'text', true);
-        \Setting::set('email_address', '', 'text', true);
-        \Setting::set('currency', '', 'text', true);
+        \App\Services\Setting::set('company_name', '', 'text', true);
+        \App\Services\Setting::set('email_address', '', 'text', true);
+        \App\Services\Setting::set('currency', '', 'text', true);
     }
 
     /**
