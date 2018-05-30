@@ -22,54 +22,57 @@ Route::get('/', function() {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->group(function () {
 
-Route::resource('charts','ChartsController');
+    Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::resource('request_funds', 'Disbursement\RequestFunds\RequestFundsController');
-Route::resource('expenses', 'Disbursement\ExpensesController');
-    Route::get('expenses/print/{id}', 'Disbursement\ExpensesController@print');
+    Route::resource('charts','ChartsController');
+    
+    // Route::resource('request_funds', 'Disbursement\RequestFunds\RequestFundsController');
+    Route::resource('expenses', 'Disbursement\ExpensesController');
+        Route::get('expenses/print/{id}', 'Disbursement\ExpensesController@print');
+    
+    Route::get('/api/particulars/{type}/{id}', function($type = 'request_funds', $id) {
+        /* if ($type == 'request_funds')
+            $p = App\Request_funds::find($id);
+        else */ 
+        if ($type == 'expenses')
+            $p = App\Expenses::find($id);
+        else
+            $p = null;
+    
+        if (null !== $p)
+            return response()->json($p->particulars);    
+        else
+            return response()->json(false);
+    });
+    
+    Route::resource('users', 'UserController');
+    Route::resource('roles', 'RolesController')->except(['show']);
+    Route::resource('permissions', 'PermissionsController')->except(['show', 'edit']);
+    Route::resource('bank', 'BankController');
+    Route::resource('payment_method', 'PaymentMethodController');
+    
+    Route::get('/api/banks/{id}', function($id) {
+        return \App\Bank::findOrFail($id);
+    });
+    
+    Route::resource('payee', 'PayeeController');
+    
+    Route::get('samp/{id}', function($id) {
+        $expense = \App\Expenses::findOrFail($id);
+        $particulars = $expense->particulars;
+        return view('layouts.vouchers.voucher', compact('expense', 'particulars'));
+    });
+    
+    Route::resource('check', 'Disbursement\CheckController');
+        Route::get('check/print/{id}', 'Disbursement\CheckController@print');
+    
+    Route::resource('bill', 'Disbursement\BillController');
+    Route::resource('pay-bills', 'Disbursement\PayBillController');
+    
+    Route::get('settings', 'SettingsController@edit')->name('settings.index');
+    Route::put('settings', 'SettingsController@update')->name('settings.update');
 
-Route::get('/api/particulars/{type}/{id}', function($type = 'request_funds', $id) {
-    /* if ($type == 'request_funds')
-        $p = App\Request_funds::find($id);
-    else */ 
-    if ($type == 'expenses')
-        $p = App\Expenses::find($id);
-    else
-        $p = null;
-
-    if (null !== $p)
-        return response()->json($p->particulars);    
-    else
-        return response()->json(false);
+    Route::resource('admin-settings', 'AdminSettingsController');
 });
-
-Route::resource('users', 'UserController');
-Route::resource('roles', 'RolesController')->except(['show']);
-Route::resource('permissions', 'PermissionsController')->except(['show', 'edit']);
-Route::resource('bank', 'BankController');
-Route::resource('payment_method', 'PaymentMethodController');
-
-Route::get('/api/banks/{id}', function($id) {
-    return \App\Bank::findOrFail($id);
-});
-
-Route::resource('payee', 'PayeeController');
-
-Route::get('samp/{id}', function($id) {
-    $expense = \App\Expenses::findOrFail($id);
-    $particulars = $expense->particulars;
-    return view('layouts.vouchers.voucher', compact('expense', 'particulars'));
-});
-
-Route::resource('check', 'Disbursement\CheckController');
-    Route::get('check/print/{id}', 'Disbursement\CheckController@print');
-
-Route::resource('bill', 'Disbursement\BillController');
-Route::resource('pay-bills', 'Disbursement\PayBillController');
-
-Route::get('settings', 'SettingsController@edit')->name('settings.index');
-Route::put('settings', 'SettingsController@update')->name('settings.update');
-
-

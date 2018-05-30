@@ -213,7 +213,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         //Added
-        'Setting' => 'anlutro\LaravelSettings\Facade',
+        'Setting' => '\App\Services\SettingsModule',
         'PermissionChecker' => '\App\Services\PermissionChecker',
     ],
 

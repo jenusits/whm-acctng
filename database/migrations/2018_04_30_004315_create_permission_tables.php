@@ -88,9 +88,9 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'permissions']);
         
         Permission::create(['name' => 'view settings']);
-        // Permission::create(['name' => 'create settings']);
+        Permission::create(['name' => 'create settings']);
         Permission::create(['name' => 'update settings']);
-        // Permission::create(['name' => 'delete settings']);
+        Permission::create(['name' => 'delete settings']);
 
         Permission::create(['name' => 'view charts']);
         Permission::create(['name' => 'create charts']);

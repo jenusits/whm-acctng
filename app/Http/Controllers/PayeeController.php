@@ -9,7 +9,7 @@ class PayeeController extends Controller
 {
     public function __construct() {
         // Resrict this controller to Authenticated users only
-        $this->middleware('auth');
+        ;
     }
     /**
      * Display a listing of the resource.

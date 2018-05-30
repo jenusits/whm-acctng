@@ -13,7 +13,7 @@ class SettingsController extends Controller
 {
     public function __construct() {
         // Resrict this controller to Authenticated users only
-        $this->middleware('auth');
+        ;
     }
     /**
      * Display a listing of the resource.
@@ -69,7 +69,7 @@ class SettingsController extends Controller
         if(! \PermissionChecker::is_permitted('update settings'))
             return \PermissionChecker::display();
 
-        $permissions = \Setting::all();
+        $settings = \Setting::all();
 
         return view('settings.edit', compact('settings'));
     }
@@ -86,9 +86,8 @@ class SettingsController extends Controller
         //
         $settings = $request->except('_token', '_method');
         foreach ($settings as $key => $value) {
-            \Setting::set($key, $value);
+            \Setting::set($key, $value, null, true);
         }
-        \Setting::save();
 
         session()->flash('message', 'Settings has been saved');
         return redirect(route('settings.index' ));
