@@ -10,10 +10,18 @@
                         New Transaction
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('bill.create') }}?multi=2">Bill</a>
-                        <a class="dropdown-item" href="{{ route('expenses.create') }}?multi=2">Expense</a>
-                        <a class="dropdown-item" href="{{ route('check.create') }}?multi=2">Check</a>
-                        <a class="dropdown-item" href="{{ route('purchase_order.create') }}?multi=2">Purchase Order</a>
+                        @if(\PermissionChecker::is_permitted('create bill'))
+                            <a class="dropdown-item" href="{{ route('bill.create') }}?multi=2">Bill</a>
+                        @endif
+                        @if(\PermissionChecker::is_permitted('create expenses'))
+                            <a class="dropdown-item" href="{{ route('expenses.create') }}?multi=2">Expense</a>
+                        @endif
+                        @if(\PermissionChecker::is_permitted('create check'))
+                            <a class="dropdown-item" href="{{ route('check.create') }}?multi=2">Check</a>
+                        @endif
+                        @if(\PermissionChecker::is_permitted('create purchase_order'))
+                            <a class="dropdown-item" href="{{ route('purchase_order.create') }}?multi=2">Purchase Order</a>
+                        @endif
                         {{-- <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('bill.create') }}?multi=2">Separated link</a> --}}
                     </div>

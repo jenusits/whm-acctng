@@ -57,7 +57,7 @@ class PermissionsController extends Controller
             return \PermissionChecker::display();
 
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required|unique:permissions'
         ]);
 
         Permission::create(['name' => $request['name']]);
