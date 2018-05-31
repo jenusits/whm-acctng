@@ -51,7 +51,7 @@
                         <a href="#menu-toggle" class="btn text-dark btn-lg" id="menu-toggle"><i class="fa fa-bars"></i></a>
                     @endauth
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto col-md-2">
+                    <ul class="navbar-nav ml-auto col-md-2" style="width: auto">
                         <!-- Authentication Links -->
                         @guest
                             {{ __("") }}

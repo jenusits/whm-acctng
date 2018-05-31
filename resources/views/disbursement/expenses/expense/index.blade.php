@@ -13,6 +13,7 @@
                         <a class="dropdown-item" href="{{ route('bill.create') }}?multi=2">Bill</a>
                         <a class="dropdown-item" href="{{ route('expenses.create') }}?multi=2">Expense</a>
                         <a class="dropdown-item" href="{{ route('check.create') }}?multi=2">Check</a>
+                        <a class="dropdown-item" href="{{ route('purchase_order.create') }}?multi=2">Purchase Order</a>
                         {{-- <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('bill.create') }}?multi=2">Separated link</a> --}}
                     </div>
@@ -54,7 +55,7 @@
                                         <a class="link" href="{{ route($type . '.show', $expense->id) }}">#{{ $expense->id }}</a>
                                     </td>
                                     <td>
-                                        {{ ucfirst($expense->getExpenseMeta('type')) }}
+                                        {{ ucwords(str_replace(['-', '_'], ' ', $expense->getExpenseMeta('type'))) }}
                                     </td>
                                     <td>
                                         <?php   

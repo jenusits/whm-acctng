@@ -75,4 +75,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('settings', 'SettingsController@update')->name('settings.update');
 
     Route::resource('admin-settings', 'AdminSettingsController');
+
+    Route::resource('purchase_order', 'Disbursement\PurchaseOrderController');
 });

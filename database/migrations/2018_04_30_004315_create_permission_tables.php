@@ -141,6 +141,13 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'delete check']);
         Permission::create(['name' => 'approve check']);
         Permission::create(['name' => 'print check']);
+
+        Permission::create(['name' => 'view purchase_order']);
+        Permission::create(['name' => 'create purchase_order']);
+        Permission::create(['name' => 'update purchase_order']);
+        Permission::create(['name' => 'delete purchase_order']);
+        Permission::create(['name' => 'approve purchase_order']);
+        Permission::create(['name' => 'print purchase_order']);
         
         
         $role = Role::create(['name' => 'super-admin']);
