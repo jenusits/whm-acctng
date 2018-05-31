@@ -85,8 +85,35 @@ class SettingsController extends Controller
     {
         //
         $settings = $request->except('_token', '_method');
-        foreach ($settings as $key => $value) {
-            \Setting::set($key, $value, null, true);
+
+        // dd($settings);
+        // 
+        // $image = request()->has('attachments') ? request('attachments') : false;
+
+        // if ($files) {
+        //     $path = request('my_file')->store('public/storage/');
+        //     // $path = str_replace('public/', '/storage/', $path);
+
+        //     // $file_name = \Storage::disk('logo')->put('expenses/' . $ref_number, $file);
+        //     // $att = new \App\Attachments;
+        //     // $att->filename = $file_name;
+        //     // $att->original_filename = $file->getClientOriginalName();
+        //     // $att->attached_to = 'expenses';
+        //     // $att->reference_id = $ref_number;
+        //     // $att->save();
+        // }
+
+        foreach ($settings as $key => $setting) {
+            if ($setting['data_type'] == 'image') {
+                if (isset($setting['value'])) {
+                    \Storage::disk('public')->delete(\Setting::get($key));
+                    $file_name = \Storage::disk('public')->put('settings/logo', $setting['value']);
+                    \Setting::set($key, $file_name, null, true);
+                }
+            } else {
+                $value = isset($setting['value']) ? $setting['value'] : null;
+                \Setting::set($key, $value, null, true);
+            }
         }
 
         session()->flash('message', 'Settings has been saved');

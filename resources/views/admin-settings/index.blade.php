@@ -40,7 +40,7 @@
                                         @csrf
                                         @method('delete')
                                         {{-- <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button> --}}
-                                        <button @click="focusedID = {{ $setting->id }}; chart_name = '{{ $setting->account_name }}';" style="margin: 5px; font-size: 10px" type="button" class="btn btn-danger" data-toggle="modal" data-target="#app-modal"><i class="fas fa-trash"></i></button> 
+                                        <button @click="focusedID = {{ $setting->id }}; chart_name = '{{ $setting->key }}';" style="margin: 5px; font-size: 10px" type="button" class="btn btn-danger" data-toggle="modal" data-target="#app-modal"><i class="fas fa-trash"></i></button> 
                                     </form>
                                 </td>
                             </tr>

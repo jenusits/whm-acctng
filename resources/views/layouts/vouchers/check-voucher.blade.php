@@ -5,10 +5,51 @@
 </style>
 
 <div id="print-element" class="container">
-    <div class="mt-5 company-information">
-        <h2 class="company-title"><strong>{{ \Setting::get('company_name') }}</strong></h2>
-        <div class="contact-information">
-            <p>{{ \Setting::get('email_address') }}</p>
+    {{-- <div class="row mt-5 company-information align-items-center"> --}}
+        {{-- <table>
+            <tr>
+                <td width="70%"><h2 class="company-title"><strong>{{ \Setting::get('company_name') }}</strong></h2></td>
+                <td width="30%" rowspan="100"> 
+                    @if(\Setting::get('logo'))  
+                    <div class="">
+                        <img style="width: 100%; border: 0;" src="{{ '/storage/' . \Setting::get('logo') }}" alt="..." class="img-thumbnail float-right">
+                    </div>
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <td>{{ \Setting::get('email_address') }}</td>
+            </tr>
+        </table> --}}
+        {{-- <div class="col-md-10">
+            <h2 class="company-title"><strong>{{ \Setting::get('company_name') }}</strong></h2>
+            <div class="contact-information">
+                <p>{{ \Setting::get('email_address') }}</p>
+            </div>
+        </div>
+        <div class="col-md-2">
+            @if(\Setting::get('logo'))  
+            <div class="">
+                <img style="width: 100%; border: 0;" src="{{ '/storage/' . \Setting::get('logo') }}" alt="..." class="img-thumbnail float-right">
+            </div>
+            @endif
+        </div> --}}
+        
+    {{-- </div> --}}
+    
+    <div class="row align-items-center">
+        <div class="col-md-10 float-left" style="width: 80%">
+            <h2 class="company-title"><strong>{{ \Setting::get('company_name') }}</strong></h2>
+            <div class="contact-information">
+                <p>{{ \Setting::get('email_address') }}</p>
+            </div>
+        </div>
+        <div class="col-md-2 float-right" style="width: 20%">
+            @if(\Setting::get('logo'))  
+            <div class="">
+                <img style="width: 100%; border: 0;" src="{{ '/storage/' . \Setting::get('logo') }}" alt="..." class="img-thumbnail float-right">
+            </div>
+            @endif
         </div>
     </div>
     

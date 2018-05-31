@@ -23,6 +23,8 @@ class CreateSettingsTable extends Migration
             $table->timestamps();
         });
 
+        
+        \App\Services\SettingsModule::set('logo', '', 'image', true);
         \App\Services\SettingsModule::set('company_name', '', 'text', true);
         \App\Services\SettingsModule::set('email_address', '', 'text', true);
         \App\Services\SettingsModule::set('currency', '', 'text', true);
