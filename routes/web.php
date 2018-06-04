@@ -77,4 +77,22 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('admin-settings', 'AdminSettingsController');
 
     Route::resource('purchase_order', 'Disbursement\PurchaseOrderController');
+
+    Route::resource('employees', 'Employees\EmployeesController');
+
 });
+        
+Route::get('real-time', function() {
+    return [
+        'date' => \Carbon\Carbon::now()->format('M d, Y'),
+        'time' => \Carbon\Carbon::now()->format('H:i:s'),
+    ];
+});
+
+Route::get('timelog/', function() {
+    return view('timelog.form');
+});
+
+Route::post('employees/check', 'Employees\EmployeesController@check')->name('employees.check');
+Route::post('timelog/login', 'TimeLog\TimelogController@login')->name('timelog.login');
+Route::post('timelog/logoff', 'TimeLog\TimeLogController@logoff')->name('timelog.logoff');

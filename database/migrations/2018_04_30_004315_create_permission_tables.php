@@ -149,6 +149,11 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'approve purchase_order']);
         Permission::create(['name' => 'print purchase_order']);
         
+        Permission::create(['name' => 'view employees']);
+        Permission::create(['name' => 'create employees']);
+        Permission::create(['name' => 'update employees']);
+        Permission::create(['name' => 'delete employees']);
+        
         
         $role = Role::create(['name' => 'super-admin']);
         // Create a User and Set it to Admin

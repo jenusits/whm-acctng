@@ -1,5 +1,12 @@
 #whm-acctng
 
+<h2>June 4, 2018</h2>
+<ul>
+    <li>Integrated Time Log App</li>
+    <li>Added confirmation modals to login logout</li>
+    <li>Changed the time app's timezone to Asia/Manila</li>
+</ul>
+
 <h2>May 31, 2018</h2>
 <ul>
     <li>Modified expense and check voucher template, added logo</li>
@@ -167,7 +174,9 @@
     <li>Added JSWI global object variable in js, for reusable functions.</li>
 </ul>
 
-<h2>April 25, 2018: Merge the Chart of Accounts; Tried adding Request Funds from the Office PC repo</h2>
+<h2>April 25, 2018</h2> 
 <ul>
+    <li>Merge the Chart of Accounts</li>
+    <li>Tried adding Request Funds from the Office PC repo</li>
    <li>Merged the Charts and Request Funds feature</li>
 </ul>

@@ -179,6 +179,31 @@
 </li>
 @endif
 
+{{-- Employees  --}}
+@if(PermissionChecker::is_permitted('view employees'))
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-parent" {{-- data-toggle="collapse" --}} href="#employees-menu-item" role="button" aria-expanded="false" aria-controls="employees-menu-item">
+        Employees <div class="float-right caret-down-icon"><i class="fa fa-caret-down"></i></div>
+    </a>
+    @if(strposa($route, ['employees']))
+        <div class="collapse bg-secondary show" id="employees-menu-item" aria-labelledby="navbarDropdown">
+    @else
+        <div class="collapse bg-secondary" id="employees-menu-item" aria-labelledby="navbarDropdown">
+    @endif
+    @if(PermissionChecker::is_permitted('view employees'))
+        <a class="dropdown-item text-light @if(check_current('employees.index')) active @endif" href="{{ route('employees.index') }}">
+            {{ __('Employees') }}
+        </a>
+    @endif
+    @if(PermissionChecker::is_permitted('create employees'))
+        <a class="dropdown-item text-light @if(check_current('employees.create')) active @endif" href="{{ route('employees.create') }}">
+            {{ __('Add Employee') }}
+        </a>
+    @endif
+    </div>
+</li>
+@endif
+
 {{-- Settings --}}
 @if(PermissionChecker::is_permitted('view settings'))
 <div class="dropdown-divider border-light"></div>

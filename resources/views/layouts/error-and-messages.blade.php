@@ -14,8 +14,8 @@
         <span aria-hidden="true">&times;</span>
     </button>
     </div>
-@elseif(session()->has('message')) 
-    <div class="alert alert-danger">{{session()->get('message')}}
+@elseif(session()->has('warning')) 
+    <div class="alert alert-warning">{{session()->get('warning')}}
     <button type="button" class="close" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
