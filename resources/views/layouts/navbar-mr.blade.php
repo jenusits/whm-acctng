@@ -179,7 +179,7 @@
 </li>
 @endif
 
-{{-- Employees  --}}
+{{-- Employees --}}
 @if(PermissionChecker::is_permitted('view employees'))
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-parent" {{-- data-toggle="collapse" --}} href="#employees-menu-item" role="button" aria-expanded="false" aria-controls="employees-menu-item">
@@ -201,6 +201,15 @@
         </a>
     @endif
     </div>
+</li>
+@endif
+
+{{-- Payroll --}}
+@if(PermissionChecker::is_permitted('view payroll'))
+<li class="nav-item dropdown">
+    <a class="nav-link @if(check_current('payroll.index')) bg-secondary text-white @endif" href="{{ route('payroll.index') }}" role="button">
+        Payroll
+    </a>
 </li>
 @endif
 

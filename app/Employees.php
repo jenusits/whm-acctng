@@ -17,6 +17,10 @@ class Employees extends Model
         return $this->timelogs()->orderby('id', 'desc')->first();        
     }
 
+    public function payrolls() {
+        return $this->hasMany(Payroll::class, 'employee_id')->orderby('id', 'desc');
+    }
+
     public function meta($meta_key = '') {
         if ($meta_key == '') {
             $res = $this->hasMany(EmployeeMeta::class, 'employee_id')->get();

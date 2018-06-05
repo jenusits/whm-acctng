@@ -11,12 +11,12 @@
                     <input id="employee_id" name="employee_id" type="text" required class="form-control" value="{{ $employee->employee_id }}">
                </div>     
                <div class="form-group">
-                    <label for="employee_id">First Name</label>
-                    <input id="employee_id" name="first_name" type="text" required class="form-control" value="{{ $employee->meta('first_name') }}">
+                    <label for="first_name">First Name</label>
+                    <input id="first_name" name="first_name" type="text" required class="form-control" value="{{ $employee->meta('first_name') }}">
                </div>     
                <div class="form-group">
-                    <label for="employee_id">Last Name</label>
-                    <input id="employee_id" name="last_name" type="text" required class="form-control" value="{{ $employee->meta('last_name') }}">
+                    <label for="last_name">Last Name</label>
+                    <input id="last_name" name="last_name" type="text" required class="form-control" value="{{ $employee->meta('last_name') }}">
                </div>
                <button class="btn btn-success">Save</button>
           </form>

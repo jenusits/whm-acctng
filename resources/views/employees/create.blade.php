@@ -11,12 +11,12 @@
                     <input id="employee_id" name="employee_id" type="text" required class="form-control">
                </div>     
                <div class="form-group">
-                    <label for="employee_id">First Name</label>
-                    <input id="employee_id" name="first_name" type="text" required class="form-control">
+                    <label for="first_name">First Name</label>
+                    <input id="first_name" name="first_name" type="text" required class="form-control">
                </div>     
                <div class="form-group">
-                    <label for="employee_id">Last Name</label>
-                    <input id="employee_id" name="last_name" type="text" required class="form-control">
+                    <label for="first_name">Last Name</label>
+                    <input id="first_name" name="last_name" type="text" required class="form-control">
                </div>
                <button class="btn btn-success">Save</button>
           </form>

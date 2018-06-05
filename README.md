@@ -1,5 +1,11 @@
 #whm-acctng
 
+<h2>June 5, 2018</h2>
+<ul>
+    <li>Added Payroll module and it is integrated into Employeed module</li>
+    <li>Payroll module with CRUD</li>
+</ul>
+
 <h2>June 4, 2018</h2>
 <ul>
     <li>Integrated Time Log App</li>

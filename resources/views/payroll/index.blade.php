@@ -32,21 +32,8 @@
                                    @endif
                               </td>
                               <td>
-                                   {{-- <a style="margin: 5px; font-size: 10px" href="{{ route('employees.edit', $employee->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></a>
-                                   <form action="{{ route('employees.destroy', $employee->id) }}" method="POST">
-                                        @csrf @method('delete')
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                   </form> --}}
                                     @if(\PermissionChecker::is_permitted('update expenses'))
-                                        <a style="margin: 5px; font-size: 10px" href="{{ route('employees.edit', $employee->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                    @endif
-                                    @if(\PermissionChecker::is_permitted('delete expenses'))
-                                        <form id="form-{{ $employee->id }}" action="{{ route('employees.destroy', $employee->id) }}" method="post" class="d-inline-block">
-                                            @csrf
-                                            @method('delete')
-                                            {{-- <button style="margin: 5px; font-size: 10px" class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button> --}}
-                                            <button @click="focusedID = {{ $employee->id }}; chart_name = '{{ $employee->meta('first_name') }} {{ $employee->meta('last_name') }} ';" style="margin: 5px; font-size: 10px" type="button" class="btn btn-danger" data-toggle="modal" data-target=".app-modal"><i class="fas fa-trash"></i></button>
-                                        </form>
+                                        <a style="margin: 5px;" href="{{ route('payroll.show', $employee->id) }}" class="btn btn-info btn-sm">Payroll</a>
                                     @endif
                               </td>
                          </tr>

@@ -50,13 +50,22 @@
                     @auth
                         <a href="#menu-toggle" class="btn text-dark btn-lg" id="menu-toggle"><i class="fa fa-bars"></i></a>
                     @endauth
+                    <!-- Left Side Of Navbar -->
+                    @guest
+                    <a class="nav-link container" href="{{ url('/home') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                    @endguest
+                    
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto col-md-2" style="width: auto">
                         <!-- Authentication Links -->
                         @guest
-                            {{ __("") }}
-                            {{-- <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li> --}}
-                            {{-- <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li> --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('timelog') }}">
+                                Time Log
+                            </a>
+                        </li>
                         @else
                             {{-- @include('layouts.navbar-ml') --}}
                             <li class="nav-item dropdown container">

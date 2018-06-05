@@ -80,6 +80,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('employees', 'Employees\EmployeesController');
 
+    // Route::resource('payroll', 'PayrollController');
+    Route::get('/payroll', 'PayrollController@index')->name('payroll.index');
+    Route::get('/payroll/create/{id}', 'PayrollController@create')->name('payroll.create');
+    Route::post('/payroll', 'PayrollController@store')->name('payroll.store');
+    Route::get('/employee/{id}/payroll', 'PayrollController@show')->name('payroll.show');
+    Route::get('/payroll/{payroll}/edit', 'PayrollController@edit')->name('payroll.edit');
+    Route::put('/payroll/{payroll}/update', 'PayrollController@update')->name('payroll.update');
+    Route::delete('/payroll/{payroll}', 'PayrollController@destroy')->name('payroll.destroy');
+
 });
         
 Route::get('real-time', function() {
@@ -91,7 +100,7 @@ Route::get('real-time', function() {
 
 Route::get('timelog/', function() {
     return view('timelog.form');
-});
+})->name('timelog');
 
 Route::post('employees/check', 'Employees\EmployeesController@check')->name('employees.check');
 Route::post('timelog/login', 'TimeLog\TimelogController@login')->name('timelog.login');
