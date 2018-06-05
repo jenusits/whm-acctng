@@ -2,7 +2,7 @@
 
 <h2>June 5, 2018</h2>
 <ul>
-    <li>Added Payroll module and it is integrated into Employeed module</li>
+    <li>Added Payroll module and it is integrated into Employees module</li>
     <li>Payroll module with CRUD</li>
 </ul>
 

@@ -102,6 +102,14 @@ Route::get('timelog/', function() {
     return view('timelog.form');
 })->name('timelog');
 
-Route::post('employees/check', 'Employees\EmployeesController@check')->name('employees.check');
-Route::post('timelog/login', 'TimeLog\TimelogController@login')->name('timelog.login');
+Route::post('employee/check', /* 'Employees\EmployeesController@check' */function() {
+
+    var_dump(request()->all());
+    $id = null !== request('employee_id') ? request('employee_id') : 0;
+    $emp = \App\Employees::where('employee_id', $id);
+
+    echo json_encode($emp);
+})->name('employees.check');
+
+Route::post('timelog/login', 'TimeLog\TimeLogController@login')->name('timelog.login');
 Route::post('timelog/logoff', 'TimeLog\TimeLogController@logoff')->name('timelog.logoff');

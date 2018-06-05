@@ -61,11 +61,18 @@ div.dropdown-menu, div[aria-labelledby=navbarDropdown] {
   width: 0;
   height: 100%;
   overflow-y: auto;
-  background: #D41654;
+  // background-image: linear-gradient(to top, #55051f, #73082c, #920d39, #b21146, #d41654);
+  /* background: #D41654; */
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
+
+  background: #d41654; /* Old Browsers */
+  background: -webkit-linear-gradient(top,#d41654,#4c1e2d); /*Safari 5.1-6*/
+  background: -o-linear-gradient(top,#d41654,#4c1e2d); /*Opera 11.1-12*/
+  background: -moz-linear-gradient(top,#d41654,#4c1e2d); /*Fx 3.6-15*/
+  background: linear-gradient(to bottom, #d41654, #4c1e2d); /*Standard*/
 }
 
 #wrapper.toggled #sidebar-wrapper {

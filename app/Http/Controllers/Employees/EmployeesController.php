@@ -27,7 +27,7 @@ class EmployeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function check(Request $request)
+/*     public function check(Request $request)
     {
         //
         $this->validate($request, [
@@ -43,7 +43,7 @@ class EmployeesController extends Controller
         }
 
         return redirect()->back();
-    }
+    } */
 
     /**
      * Show the form for creating a new resource.
