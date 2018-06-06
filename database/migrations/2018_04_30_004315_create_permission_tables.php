@@ -153,6 +153,11 @@ class CreatePermissionTables extends Migration
         Permission::create(['name' => 'create employees']);
         Permission::create(['name' => 'update employees']);
         Permission::create(['name' => 'delete employees']);
+
+        Permission::create(['name' => 'view payroll']);
+        Permission::create(['name' => 'create payroll']);
+        Permission::create(['name' => 'update payroll']);
+        Permission::create(['name' => 'delete payroll']);
         
         
         $role = Role::create(['name' => 'super-admin']);

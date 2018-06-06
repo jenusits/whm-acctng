@@ -102,14 +102,19 @@ Route::get('timelog/', function() {
     return view('timelog.form');
 })->name('timelog');
 
-Route::post('employee/check', /* 'Employees\EmployeesController@check' */function() {
 
-    var_dump(request()->all());
+Route::get('/employee/check', function() {
     $id = null !== request('employee_id') ? request('employee_id') : 0;
-    $emp = \App\Employees::where('employee_id', $id);
+    $emp = \App\Employees::where('employee_id', '=', $id)->first();
 
-    echo json_encode($emp);
+    if (! $emp)
+        return null;
+
+    return [
+        'login_status' => $emp->meta('login_status')
+    ];
 })->name('employees.check');
 
-Route::post('timelog/login', 'TimeLog\TimeLogController@login')->name('timelog.login');
-Route::post('timelog/logoff', 'TimeLog\TimeLogController@logoff')->name('timelog.logoff');
+Route::post('timelog/login', 'TimeLog\TimeLogApi@login')->name('timelog.login');
+Route::post('timelog/logoff', 'TimeLog\TimeLogApi@logoff')->name('timelog.logoff');
+// Route::post();

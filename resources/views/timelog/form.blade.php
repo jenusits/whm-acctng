@@ -14,9 +14,8 @@
                 </div>
             </div>
 
-         @if(session()->has('employee'))
             <?php $emp = session()->get('employee'); ?>
-            <div class="p-3 mt-3 bg-light text-dark">
+            {{-- <div class="p-3 mt-3 bg-light text-dark">
                 <p>Name: {{ $emp->meta('first_name') }} {{ $emp->meta('last_name') }}</p> 
                 <p>Status: @if($emp->meta('login_status') == 1)<b class="text-success">Logged in</b>. @else <b class="text-danger">Logged off</b>. @endif </p>
                 <p> 
@@ -47,23 +46,42 @@
                         <button @click="focusedID = {{ $emp->id }}; type = 'Log off';" type="button" class="btn btn-danger btn-block mb-4" data-toggle="modal" data-target=".app-modal">Log off</button>
                     @endif
                 </div>
-            </form>
+            </form> --}}
             
-        @else
-            <form action="{{ route('employees.check') }}" method="POST" class="p-4">
+            <form v-on:submit.prevent="checkEmployeeId" action="{{ route('employees.check') }}" method="POST" class="p-4">
                 @csrf
                 <input type="hidden" name="tz" id="tz">
                 <div class="form-group">
-                    <input type="text" class="form-control text-center mb-4" name="employee_id" required placeholder="Enter Employee ID">
-                    <button class="btn btn-success btn-block mb-4">Check</button>
+                    <input v-on:keyup="" v-model="employee_id" type="password" class="form-control text-center mb-4" name="employee_id" required placeholder="Enter Employee ID">
+                    {{-- <button class="btn btn-success btn-block mb-4">Check</button> --}}
+                    {{-- <button type="button" class="btn btn-primary btn-lg " id="load" data-loading-text="<i class='fas fa-circle-o-notch fa-spin'></i> Processing Order">
+                        Submit Order
+                    </button> --}}
                 </div>
             </form>
-        @endif
-
-            <b-modal id="app-modal" ref="requestfunds" @close="focusedID = 0" focusedID="focusedID" @confirm="confirmedAction" title="Confirm Action">
-                Are you sure you want to @{{ type }}?
+            
+            <button id="emp-message" style="display: none;" type="button" data-toggle="modal" data-target="#message"></button> 
+            <b-modal id="message" ref="requestfunds" v-bind:title="message_title">
+               @{{ message }}
             </b-modal>
 
+            <button id="emp-login" style="display: none;" type="button" data-toggle="modal" data-target="#employee-login"></button> 
+            <button id="emp-logoff" style="display: none;" type="button" data-toggle="modal" data-target="#employee-logoff"></button> 
+                                          
+            <b-modal id="employee-login" focusedID="focusedID" @confirm="employeeLogin" @close="employee_id = ''" confirm-text="Clock In" cancel-text="Cancel" title="">
+                Currently logged off.
+            </b-modal>
+            <b-modal id="employee-logoff" focusedID="focusedID" @confirm="employeeLogoff" @close="employee_id = ''" confirm-text="Clock Out" cancel-text="Cancel" title="">
+                Currently logged in.
+            </b-modal>
+
+
+        </div>
+    </div>
+    
+    <div class="overlay">
+        <div class="overlay-content">
+            <div class="loader"></div>
         </div>
     </div>
     <script>
@@ -77,18 +95,147 @@
             data: {
                 focusedID: 0,
                 type: '',
+                employee_id: '',
+                headers: {
+                    'X-CSRF-Token': jQuery('meta[name=csrf-token]').attr('content'),
+                },
+                message: '',
+                message_title: '',
             },
             methods: {
                 confirmedAction: function() {
                     var form = document.querySelector('#form-' + this.focusedID)
                     form.submit();
                     this.focusedID = 0;
+                },
+                checkEmployeeId: function(e) {
+                    // console.log(e);
+                    jQuery('.overlay').toggleClass('show');
+                    $.ajax({ 
+                        url: '/employee/check',
+                        type: 'GET',
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                        },
+                        data: 'employee_id=' + this.employee_id,
+                        success: function(response) {
+                            // console.log(response);
+                            setTimeout(function() { jQuery('.overlay').toggleClass('show'); }, 1000);
+                            if (! response) {
+                                v.message_title = "Employee not Found";
+                                v.message = 'Employee ID does not exists.';
+                                setTimeout(function() { jQuery('#emp-message').click(); }, 1000);
+                            } else if (response.login_status == 0)
+                                setTimeout(function() { jQuery('#emp-login').click(); }, 1000);
+                            else if (response.login_status == 1)
+                                setTimeout(function() { jQuery('#emp-logoff').click(); }, 1000);
+                        }
+                    });
+                },
+                employeeLogin: function() {
+                    jQuery('.overlay').toggleClass('show');
+                    $.ajax({ 
+                        url: '/timelog/login',
+                        type: 'POST',
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                        },
+                        data: 'employee_id=' + this.employee_id,
+                        success: function(response) {
+                            // console.log(response);
+                            v.employee_id = '';
+                            setTimeout(function() { jQuery('.overlay').toggleClass('show'); }, 1000);
+                            if (! response) {
+                                v.message_title = "Error";
+                                v.message = 'Please try again.';
+                                setTimeout(function() { jQuery('#emp-message').click(); }, 1000);
+                            } else {
+                                v.message_title = "Success";
+                                v.message = response.message;
+                                setTimeout(function() { jQuery('#emp-message').click(); }, 1000);
+                            }
+                        }
+                    });
+                },
+                employeeLogoff: function() {
+                    jQuery('.overlay').toggleClass('show');
+                    $.ajax({ 
+                        url: '/timelog/logoff',
+                        type: 'POST',
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                        },
+                        data: 'employee_id=' + this.employee_id,
+                        success: function(response) {
+                            // console.log(response);
+                            v.employee_id = '';
+                            setTimeout(function() { jQuery('.overlay').toggleClass('show'); }, 1000);
+                            if (! response) {
+                                v.message_title = "Error";
+                                v.message = 'Please try again.';
+                                setTimeout(function() { jQuery('#emp-message').click(); }, 1000);
+                            } else {
+                                v.message_title = "Success";
+                                v.message = response.message;
+                                setTimeout(function() { jQuery('#emp-message').click(); }, 1000);
+                            }
+                        }
+                    });
                 }
             }
         });
     </script>
 
     <style>
+        /* The Overlay (background) */
+        .overlay {
+            /* Height & width depends on how you want to reveal the overlay (see JS below) */    
+            height: 100%;
+            width: 0;
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            background-color: rgb(0,0,0); /* Black fallback color */
+            background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+            overflow-x: hidden; /* Disable horizontal scroll */
+            transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+        }
+
+        .overlay.show {
+            width: 100%;
+        }
+
+        /* Position the content inside the overlay */
+        .overlay-content {
+            position: relative;
+            top: 35%; /* 25% from the top */
+            width: 100%; /* 100% width */
+            text-align: center; /* Centered text/links */
+            margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+        }
+
+        .loader {
+            margin: 0 auto;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+        }
+        
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         /*-------------------------
             Simple reset
         --------------------------*/

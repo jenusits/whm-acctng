@@ -6,7 +6,7 @@ class Employees extends Model
 {
     //
     public function metas() {
-        return $this->hasMany(EmployeeMeta::class);
+        return $this->hasMany(EmployeeMeta::class, 'employee_id');
     }
 
     public function timelogs() {

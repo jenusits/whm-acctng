@@ -1,19 +1,27 @@
 #whm-acctng
 
-<h2>June 5, 2018</h2>
+<h3>June 6, 2018</h3>
+<ul>
+    <li>Modified Modal.vue component</li>
+    <li>Added TimeLogApi</li>
+    <li>Changed the TimeLog app's logic</li>
+    <li>TimeLog app is now using ajax calls</li>
+</ul>
+
+<h3>June 5, 2018</h3>
 <ul>
     <li>Added Payroll module and it is integrated into Employees module</li>
     <li>Payroll module with CRUD</li>
 </ul>
 
-<h2>June 4, 2018</h2>
+<h3>June 4, 2018</h3>
 <ul>
     <li>Integrated Time Log App</li>
     <li>Added confirmation modals to login logout</li>
     <li>Changed the time app's timezone to Asia/Manila</li>
 </ul>
 
-<h2>May 31, 2018</h2>
+<h3>May 31, 2018</h3>
 <ul>
     <li>Modified expense and check voucher template, added logo</li>
     <li>Added logo option on settings</li>
@@ -21,7 +29,7 @@
     <li>Added Purchase Module, with approve and reject, CRUD</li>
 </ul>
 
-<h2>May 30, 2018</h2>
+<h3>May 30, 2018</h3>
 <ul>
     <li>Moved printer modal to a includable component</li>
     <li>Changed tooltips text</li>
@@ -36,7 +44,7 @@
     <li>Created a new migration for the new settings module</li>
 </ul>
 
-<h2>May 29, 2018</h2>
+<h3>May 29, 2018</h3>
 <ul>
     <li>Added Settings Module</li>
     <li>Added Print Check</li>
@@ -45,14 +53,14 @@
     <li>Can now print Check</li>
 </ul>
 
-<h2>May 28, 2018</h2>
+<h3>May 28, 2018</h3>
 <ul>
     <li>Added relationships function to models</li>
     <li>Removed request funds</li>
     <li>Fixed styling for mobile</li>
 </ul>
 
-<h2>May 24, 2018</h2>
+<h3>May 24, 2018</h3>
 <ul>
     <li>Fixed layout</li>
     <li>Tried adding Pay Bill module</li>
@@ -60,7 +68,7 @@
     <li>Added styling for sidenav and the content</li>
 </ul>
 
-<h2>May 22, 2018</h2>
+<h3>May 22, 2018</h3>
 <ul>
     <li>Modified and created new structure for expenses, separated old expenses meta into new table called expenses details</li>
     <li>expenses meta will be used only for additional property of an expense; expense details will be used for particulars</li>
@@ -70,7 +78,7 @@
     <li>Added a sample voucher layout</li>
 </ul>
 
-<h2>May 21, 2018</h2>
+<h3>May 21, 2018</h3>
 <ul>
     <li>Added where clause for attachment method on Expenses model</li>
     <li>Added a ajax to display balance of a bank account when choosing a bank account (on Expense form)</li>
@@ -80,7 +88,7 @@
     <li>Added a manipulation for expenses table (migration file)</li>
 </ul>
 
-<h2>May 18, 2018</h2>
+<h3>May 18, 2018</h3>
 <ul>
     <li>Added permissions</li>
     <li>Can now delete files attached to an expense</li>
@@ -89,7 +97,7 @@
     <li>Unauthenticated users can't access modules (Added on banks, payment method, and expenses)</li>
 </ul>
 
-<h2>May 17, 2018</h2>
+<h3>May 17, 2018</h3>
 <ul>
     <li>Added file attachment on Expense form</li>
     <li>Edited banks table</li>
@@ -97,7 +105,7 @@
     <li>Each expense can now have attached file</li>
 </ul>
 
-<h2>May 16, 2018</h2>
+<h3>May 16, 2018</h3>
 <ul>
     <li>Added Expenses, to record (can now be used)</li>
     <li>Integrated the functionalities of Request Funds into Expenses</li>
@@ -106,7 +114,7 @@
     <li>Fixed migration for permissions and Expenses</li>
 </ul>
 
-<h2>May 15, 2018</h2>
+<h3>May 15, 2018</h3>
 <ul>
     <li>Fixed issues on Save and Update for Users module</li>
     <li>Fixed not storing description of bank upon creating</li>
@@ -120,7 +128,7 @@
 </ul>
 
 
-<h2>May 9, 2018</h2>
+<h3>May 9, 2018</h3>
 <ul>
     <li>Applied the coding convention for Vue JS + Laravel</li>
     <li>Fixed issues when trying to apply coding conventions</li>
@@ -134,7 +142,7 @@
     <li>Fixed fatal issues in both multi-create view and edit for Request Funds when trying to apply the coding conventions</li>
 </ul>
 
-<h2>May 4, 2018</h2>
+<h3>May 4, 2018</h3>
 <ul>
     <li>Changed the datatype of approved column to integer</li>
     <li>Added a dashboard content</li>
@@ -142,7 +150,7 @@
     <li>Moved the other controllers into a subfolder called Disbursement to make it more organized</li>
 </ul>
 
-<h2>May 2, 2018</h2>
+<h3>May 2, 2018</h3>
 <ul>
     <li>Added a modal global component into Vue JS called b-modal</li>
     <li>Added a confirmation message to every delete function, uses modal</li>
@@ -152,7 +160,7 @@
     <li>Removed Role dropdown if a current user role is permitted to see it</li>
 </ul>
 
-<h2>April 30, 2018</h2>
+<h3>April 30, 2018</h3>
 <ul>
     <li>Added Users, able to add new users</li>
     <li>Added user roles with permissions</li>
@@ -164,7 +172,7 @@
     <li>Fixed issues regarding php artisan migrate & migrate:*</li>
 </ul>
 
-<h2>April 27, 2018</h2>
+<h3>April 27, 2018</h3>
 <ul>
     <li>Moved the Add new row button, from top now its in each row.</li>
     <li>Changed the default view of Create Request Funds to Multiple</li>
@@ -174,13 +182,13 @@
     <li>Syncs properly when manipulating a Request Fund</li>
 </ul>
 
-<h2>April 28, 2017</h2>
+<h3>April 28, 2017</h3>
 <ul>
     <li>Added Multi fields on create Request Funds</li>
     <li>Added JSWI global object variable in js, for reusable functions.</li>
 </ul>
 
-<h2>April 25, 2018</h2> 
+<h3>April 25, 2018</h3> 
 <ul>
     <li>Merge the Chart of Accounts</li>
     <li>Tried adding Request Funds from the Office PC repo</li>

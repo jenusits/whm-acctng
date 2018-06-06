@@ -63663,7 +63663,16 @@ module.exports = {
         return {};
     },
 
-    props: ['title', 'id']
+    props: {
+        'title': '',
+        'id': '',
+        'confirmText': {
+            default: 'OK'
+        },
+        'cancelText': {
+            default: 'Close'
+        }
+    }
 };
 
 /***/ }),
@@ -63676,7 +63685,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "modal fade app-modal", attrs: { id: _vm.id } },
+    {
+      staticClass: "modal fade app-modal",
+      attrs: { id: _vm.id, "data-backdrop": "static" }
+    },
     [
       _c("div", { staticClass: "modal-dialog modal-dialog-centered" }, [
         _c("div", { staticClass: "modal-content" }, [
@@ -63689,7 +63701,12 @@ var render = function() {
               "button",
               {
                 staticClass: "close",
-                attrs: { type: "button", "data-dismiss": "modal" }
+                attrs: { type: "button", "data-dismiss": "modal" },
+                on: {
+                  click: function($event) {
+                    _vm.$emit("close")
+                  }
+                }
               },
               [_vm._v("×")]
             )
@@ -63709,7 +63726,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("OK")]
+              [_vm._v(_vm._s(_vm.confirmText))]
             ),
             _vm._v(" "),
             _c(
@@ -63723,7 +63740,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Close")]
+              [_vm._v(_vm._s(_vm.cancelText))]
             )
           ])
         ])
